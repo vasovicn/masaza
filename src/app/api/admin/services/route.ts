@@ -21,7 +21,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, slug, description, image, categoryId, durations, active, sequence } = body;
+    const { name, slug, description, image, categoryId, durations, active, popular, sequence } = body;
 
     if (!name || !slug || !description || !categoryId) {
       return NextResponse.json({ error: "Naziv, slug, opis i kategorija su obavezni" }, { status: 400 });
@@ -39,6 +39,7 @@ export async function POST(request: NextRequest) {
         image: image || null,
         categoryId,
         active: active !== undefined ? active : true,
+        popular: popular !== undefined ? popular : false,
         sequence: sequence || 0,
         durations: {
           create: durations.map((d: { minutes: number; price: number }) => ({

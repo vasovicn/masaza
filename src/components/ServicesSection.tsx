@@ -1,7 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
+
+import { Clock, ArrowRight, Calendar, Sparkles } from "lucide-react";
+=======
 import { Clock, ArrowRight, Calendar } from "lucide-react";
 import { prisma } from "@/lib/prisma";
+
 
 interface ServiceDuration {
   id: string;
@@ -15,6 +19,7 @@ interface Service {
   slug: string;
   description: string;
   image: string | null;
+  popular: boolean;
   category: { id: string; name: string };
   durations: ServiceDuration[];
 }
@@ -79,10 +84,16 @@ export default async function ServicesSection() {
                       <span className="text-6xl opacity-30">💆</span>
                     </div>
                   )}
-                  <div className="absolute top-3 left-3">
+                  <div className="absolute top-3 left-3 flex items-center gap-2">
                     <span className="px-2.5 py-1 rounded-full text-xs font-medium text-white" style={{ backgroundColor: "rgba(0,0,0,0.4)" }}>
                       {service.category.name}
                     </span>
+                    {service.popular && (
+                      <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: "#4da070" }}>
+                        <Sparkles className="w-3 h-3" />
+                        Popularno
+                      </span>
+                    )}
                   </div>
                 </div>
 

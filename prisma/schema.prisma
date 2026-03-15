@@ -59,6 +59,7 @@ model Service {
   durations   ServiceDuration[]
   bookings    Booking[]
   active      Boolean           @default(true)
+  popular     Boolean           @default(false)
   sequence    Int               @default(0)
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
