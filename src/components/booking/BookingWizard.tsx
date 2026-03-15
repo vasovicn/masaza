@@ -33,8 +33,6 @@ interface BookingState {
   date: string;
   time: string;
   endTime: string;
-  staffId: string;
-  staffName: string;
   contact: {
     firstName: string;
     lastName: string;
@@ -62,8 +60,6 @@ export default function BookingWizard() {
     date: "",
     time: "",
     endTime: "",
-    staffId: "",
-    staffName: "",
     contact: null,
   });
 
@@ -116,13 +112,13 @@ export default function BookingWizard() {
   };
 
   const handleDateSelect = (date: string) => {
-    setState((prev) => ({ ...prev, date, time: "", staffId: "", staffName: "" }));
+    setState((prev) => ({ ...prev, date, time: "" }));
     setStep(3);
   };
 
-  const handleTimeSelect = (time: string, staffId: string, staffName: string) => {
+  const handleTimeSelect = (time: string) => {
     const endTime = state.duration ? addMinutes(time, state.duration.minutes) : "";
-    setState((prev) => ({ ...prev, time, staffId, staffName, endTime }));
+    setState((prev) => ({ ...prev, time, endTime }));
     setStep(4);
   };
 
@@ -141,7 +137,6 @@ export default function BookingWizard() {
           serviceDurationId: state.duration.id,
           date: state.date,
           startTime: state.time,
-          staffUserId: state.staffId || undefined,
           customerName: `${contact.firstName} ${contact.lastName}`,
           customerPhone: contact.phone,
           customerEmail: contact.email || undefined,
@@ -168,8 +163,6 @@ export default function BookingWizard() {
       date: "",
       time: "",
       endTime: "",
-      staffId: "",
-      staffName: "",
       contact: null,
     });
     setStep(0);
@@ -285,7 +278,6 @@ export default function BookingWizard() {
               date: state.date,
               time: state.time,
               endTime: state.endTime,
-              staffName: state.staffName,
               contact: state.contact,
             }}
             isLoggedIn={!!user}

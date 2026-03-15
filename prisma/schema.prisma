@@ -27,7 +27,8 @@ model StaffUser {
 model ClientUser {
   id        String    @id @default(cuid())
   email     String    @unique
-  password  String
+  password  String?
+  googleId  String?   @unique
   firstName String
   lastName  String
   phone     String?
