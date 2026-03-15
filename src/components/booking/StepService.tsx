@@ -50,7 +50,7 @@ export default function StepService({ services, onSelect }: Props) {
               ? "text-white"
               : "bg-gray-100 text-gray-600 hover:bg-gray-200"
           }`}
-          style={activeCategory === "sve" ? { backgroundColor: "#9dceb1" } : {}}
+          style={activeCategory === "sve" ? { backgroundColor: "#5a9e78" } : {}}
         >
           Sve
         </button>
@@ -63,7 +63,7 @@ export default function StepService({ services, onSelect }: Props) {
                 ? "text-white"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200"
             }`}
-            style={activeCategory === cat ? { backgroundColor: "#9dceb1" } : {}}
+            style={activeCategory === cat ? { backgroundColor: "#5a9e78" } : {}}
           >
             {cat}
           </button>

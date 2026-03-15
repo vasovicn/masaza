@@ -64,7 +64,7 @@ export default function ClientDashboard({ user, upcomingBookings, pastBookings }
     <div className="py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
       {/* Welcome */}
       <div className="mb-8 flex items-center gap-4">
-        <div className="w-14 h-14 rounded-full flex items-center justify-center text-white text-xl font-bold" style={{ backgroundColor: "#9dceb1" }}>
+        <div className="w-14 h-14 rounded-full flex items-center justify-center text-white text-xl font-bold" style={{ backgroundColor: "#5a9e78" }}>
           {user.firstName[0]}{user.lastName[0]}
         </div>
         <div>
@@ -95,7 +95,7 @@ export default function ClientDashboard({ user, upcomingBookings, pastBookings }
         <Link
           href="/zakazivanje"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold text-sm"
-          style={{ backgroundColor: "#9dceb1" }}
+          style={{ backgroundColor: "#5a9e78" }}
         >
           <Calendar className="w-4 h-4" />
           Zakazi novi termin

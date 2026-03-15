@@ -72,7 +72,7 @@ export default function GalleryManager({ images, onRefresh }: Props) {
         <button
           onClick={() => setShowForm(!showForm)}
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90"
-          style={{ backgroundColor: "#9dceb1" }}
+          style={{ backgroundColor: "#5a9e78" }}
         >
           <Plus className="w-4 h-4" />
           Dodaj sliku
@@ -124,7 +124,7 @@ export default function GalleryManager({ images, onRefresh }: Props) {
                 type="submit"
                 disabled={loading}
                 className="flex items-center gap-2 px-6 py-2 rounded-xl text-white text-sm font-medium disabled:opacity-60"
-                style={{ backgroundColor: "#9dceb1" }}
+                style={{ backgroundColor: "#5a9e78" }}
               >
                 {loading ? <Loader className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
                 Dodaj

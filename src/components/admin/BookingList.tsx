@@ -152,7 +152,7 @@ export default function BookingList({ staff }: Props) {
           <button
             onClick={fetchBookings}
             className="px-4 py-2 rounded-lg text-white text-sm font-medium"
-            style={{ backgroundColor: "#9dceb1" }}
+            style={{ backgroundColor: "#5a9e78" }}
           >
             Primeni
           </button>

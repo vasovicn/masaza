@@ -101,7 +101,7 @@ export default function StaffList({ staff, onRefresh }: Props) {
         <button
           onClick={() => setShowForm(true)}
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90"
-          style={{ backgroundColor: "#9dceb1" }}
+          style={{ backgroundColor: "#5a9e78" }}
         >
           <Plus className="w-4 h-4" />
           Novi maser
@@ -126,7 +126,7 @@ export default function StaffList({ staff, onRefresh }: Props) {
               <tr key={member.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0" style={{ backgroundColor: "#9dceb1" }}>
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0" style={{ backgroundColor: "#5a9e78" }}>
                       {member.firstName[0]}{member.lastName[0]}
                     </div>
                     <span className="font-medium text-gray-900">{member.firstName} {member.lastName}</span>
@@ -140,7 +140,7 @@ export default function StaffList({ staff, onRefresh }: Props) {
                 </td>
                 <td className="px-4 py-3 hidden lg:table-cell text-gray-600">{member.phone || "-"}</td>
                 <td className="px-4 py-3 text-center hidden sm:table-cell">
-                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold text-white" style={{ backgroundColor: "#9dceb1" }}>
+                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold text-white" style={{ backgroundColor: "#5a9e78" }}>
                     {member.sequence}
                   </span>
                 </td>

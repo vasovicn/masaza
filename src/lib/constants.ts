@@ -12,4 +12,4 @@ export const WORKING_HOURS = {
 };
 
 export const SLOT_INTERVAL = 30; // minutes
-export const BRAND_COLOR = "#9dceb1";
+export const BRAND_COLOR = "#5a9e78";

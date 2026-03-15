@@ -10,7 +10,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "#9dceb1" }}>
+              <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "#5a9e78" }}>
                 <Leaf className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>

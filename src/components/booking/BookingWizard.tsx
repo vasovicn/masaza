@@ -218,7 +218,7 @@ export default function BookingWizard() {
             <div
               className="h-full rounded-full transition-all duration-500"
               style={{
-                backgroundColor: "#9dceb1",
+                backgroundColor: "#5a9e78",
                 width: `${(step / 4) * 100}%`,
               }}
             />

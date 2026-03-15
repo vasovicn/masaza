@@ -101,7 +101,7 @@ export default async function ServicePage({ params }: Props) {
             <Link
               href={`/zakazivanje?service=${service.id}`}
               className="flex items-center justify-center gap-2 w-full py-4 rounded-full text-white text-base font-semibold shadow-lg hover:shadow-xl hover:opacity-95 transition-all"
-              style={{ backgroundColor: "#9dceb1" }}
+              style={{ backgroundColor: "#5a9e78" }}
             >
               <Calendar className="w-5 h-5" />
               Zakazi termin – od {minPrice.toLocaleString("sr-RS")} RSD

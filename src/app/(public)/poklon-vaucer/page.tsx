@@ -151,7 +151,7 @@ export default function PouklonVaucerPage() {
               },
             ].map((item) => (
               <div key={item.step} className="flex gap-4">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-white font-bold" style={{ backgroundColor: "#9dceb1" }}>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 text-white font-bold" style={{ backgroundColor: "#5a9e78" }}>
                   {item.step}
                 </div>
                 <div>
@@ -176,7 +176,7 @@ export default function PouklonVaucerPage() {
             <a
               href={`tel:${SALON_PHONE}`}
               className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-white font-semibold text-sm transition-all hover:opacity-90 shadow-md"
-              style={{ backgroundColor: "#9dceb1" }}
+              style={{ backgroundColor: "#5a9e78" }}
             >
               <Phone className="w-4 h-4" />
               {SALON_PHONE}

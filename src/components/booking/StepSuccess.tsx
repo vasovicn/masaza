@@ -95,7 +95,7 @@ export default function StepSuccess({ booking, isLoggedIn, onNewBooking }: Props
         <Link
           href="/"
           className="flex-1 flex items-center justify-center gap-2 py-3 rounded-full text-white font-semibold transition-all hover:opacity-90 text-sm"
-          style={{ backgroundColor: "#9dceb1" }}
+          style={{ backgroundColor: "#5a9e78" }}
         >
           <Home className="w-4 h-4" />
           Pocetna

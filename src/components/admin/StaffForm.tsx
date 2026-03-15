@@ -216,7 +216,7 @@ export default function StaffForm({ initial, isNew, onSave, onCancel, loading }:
           type="submit"
           disabled={loading}
           className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 disabled:opacity-60"
-          style={{ backgroundColor: "#9dceb1" }}
+          style={{ backgroundColor: "#5a9e78" }}
         >
           {loading ? (
             <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />

@@ -97,77 +97,59 @@ export default async function CenovnikPage() {
                 {/* Services list */}
                 <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden divide-y divide-gray-50">
                   {categoryServices.map((service) => {
-                    const minPrice = Math.min(...service.durations.map((d) => d.price));
-                    const maxPrice = Math.max(...service.durations.map((d) => d.price));
-                    const priceRange =
-                      minPrice === maxPrice
-                        ? `${minPrice.toLocaleString("sr-RS")} RSD`
-                        : `${minPrice.toLocaleString("sr-RS")} – ${maxPrice.toLocaleString("sr-RS")} RSD`;
-
                     return (
                       <div
                         key={service.id}
-                        className="flex flex-col sm:flex-row sm:items-start gap-4 p-5 hover:bg-gray-50 transition-colors group"
+                        className="p-5 hover:bg-gray-50 transition-colors group"
                       >
-                        {/* Left: name + description */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
+                        {/* Top row: name + actions */}
+                        <div className="flex items-start justify-between gap-3 mb-2">
+                          <div className="min-w-0">
                             <h3
                               className="text-base font-bold text-gray-900 group-hover:text-[#3a8059] transition-colors"
                               style={{ fontFamily: "'Playfair Display', serif" }}
                             >
                               {service.name}
                             </h3>
-                            <span
-                              className="hidden sm:inline text-xs font-semibold px-2 py-0.5 rounded-full"
-                              style={{ backgroundColor: "#f0f9f4", color: "#3a8059" }}
-                            >
-                              od {minPrice.toLocaleString("sr-RS")} RSD
-                            </span>
+                            <p className="text-sm text-gray-500 leading-relaxed line-clamp-2 mt-0.5">
+                              {service.description}
+                            </p>
                           </div>
-                          <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
-                            {service.description}
-                          </p>
-                          {/* Mobile price range */}
-                          <p className="sm:hidden mt-1 text-sm font-semibold" style={{ color: "#3a8059" }}>
-                            {priceRange}
-                          </p>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <Link
+                              href={`/zakazivanje?service=${service.id}`}
+                              className="flex items-center gap-1.5 px-4 py-2 rounded-full text-white text-sm font-medium transition-all hover:opacity-90 hover:shadow-md whitespace-nowrap"
+                              style={{ backgroundColor: "#5a9e78" }}
+                            >
+                              <Calendar className="w-3.5 h-3.5" />
+                              <span className="hidden sm:inline">Zakazi</span>
+                              <span className="sm:hidden">Zakazi</span>
+                            </Link>
+                            <Link
+                              href={`/usluge/${service.slug}`}
+                              className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-200 text-gray-400 hover:border-[#9dceb1] hover:text-[#3a8059] transition-colors shrink-0"
+                              title="Vise informacija"
+                            >
+                              <ArrowRight className="w-4 h-4" />
+                            </Link>
+                          </div>
                         </div>
 
-                        {/* Middle: duration + price chips */}
-                        <div className="flex flex-wrap gap-2 sm:justify-end sm:min-w-[200px]">
+                        {/* Bottom row: duration + price chips */}
+                        <div className="flex flex-wrap gap-2 mt-3">
                           {service.durations.map((dur) => (
                             <div
                               key={dur.id}
-                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-100 bg-gray-50 text-sm"
+                              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-100 bg-gray-50"
                             >
                               <Clock className="w-3.5 h-3.5 text-[#9dceb1] shrink-0" />
-                              <span className="text-gray-600">{dur.minutes} min</span>
-                              <span className="font-bold text-gray-900">
+                              <span className="text-xs text-gray-500">{dur.minutes} min</span>
+                              <span className="text-xs font-bold text-gray-900">
                                 {dur.price.toLocaleString("sr-RS")}
-                                <span className="text-xs font-normal text-gray-400 ml-0.5">RSD</span>
+                                <span className="font-normal text-gray-400 ml-0.5">RSD</span>
                               </span>
                             </div>
                           ))}
-                        </div>
-
-                        {/* Right: actions */}
-                        <div className="flex items-center gap-2 sm:shrink-0">
-                          <Link
-                            href={`/zakazivanje?service=${service.id}`}
-                            className="flex items-center gap-1.5 px-4 py-2 rounded-full text-white text-sm font-medium transition-all hover:opacity-90 hover:shadow-md"
-                            style={{ backgroundColor: "#9dceb1" }}
-                          >
-                            <Calendar className="w-3.5 h-3.5" />
-                            Zakazi
-                          </Link>
-                          <Link
-                            href={`/usluge/${service.slug}`}
-                            className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-200 text-gray-400 hover:border-[#9dceb1] hover:text-[#3a8059] transition-colors"
-                            title="Vise informacija"
-                          >
-                            <ArrowRight className="w-4 h-4" />
-                          </Link>
                         </div>
                       </div>
                     );

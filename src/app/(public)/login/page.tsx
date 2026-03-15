@@ -53,7 +53,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: "#9dceb1" }}>
+            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: "#5a9e78" }}>
               <Leaf className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -71,24 +71,6 @@ export default function LoginPage() {
               {error}
             </div>
           )}
-
-          {/* Google button */}
-          <a
-            href="/api/auth/google"
-            className="flex items-center justify-center gap-3 w-full py-3 rounded-xl border border-gray-200 text-gray-700 font-medium text-sm hover:bg-gray-50 hover:border-gray-300 transition-all mb-5"
-          >
-            <GoogleIcon />
-            Prijavi se sa Google nalogom
-          </a>
-
-          <div className="relative mb-5">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-200" />
-            </div>
-            <div className="relative flex justify-center text-xs text-gray-400 bg-white px-3">
-              ili putem email-a
-            </div>
-          </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -128,7 +110,7 @@ export default function LoginPage() {
               type="submit"
               disabled={loading}
               className="w-full flex items-center justify-center gap-2 py-3 rounded-full text-white font-semibold transition-all hover:opacity-90 disabled:opacity-60"
-              style={{ backgroundColor: "#9dceb1" }}
+              style={{ backgroundColor: "#5a9e78" }}
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -140,6 +122,24 @@ export default function LoginPage() {
               )}
             </button>
           </form>
+
+          <div className="relative my-5">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-200" />
+            </div>
+            <div className="relative flex justify-center text-xs text-gray-400 bg-white px-3">
+              ili putem Google naloga
+            </div>
+          </div>
+
+          {/* Google button */}
+          <a
+            href="/api/auth/google"
+            className="flex items-center justify-center gap-3 w-full py-3 rounded-xl border border-gray-200 text-gray-700 font-medium text-sm hover:bg-gray-50 hover:border-gray-300 transition-all"
+          >
+            <GoogleIcon />
+            Prijavi se sa Google nalogom
+          </a>
 
           <p className="text-center text-sm text-gray-500 mt-6">
             Nemate nalog?{" "}

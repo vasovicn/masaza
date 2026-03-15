@@ -2,8 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { Clock, ArrowRight, Calendar, Sparkles } from "lucide-react";
-import { prisma } from "@/lib/prisma";
-
 
 interface ServiceDuration {
   id: string;
@@ -24,14 +22,11 @@ interface Service {
 
 async function getServices(): Promise<Service[]> {
   try {
-    return await prisma.service.findMany({
-      where: { active: true },
-      include: {
-        category: true,
-        durations: { orderBy: { minutes: "asc" } },
-      },
-      orderBy: [{ category: { sequence: "asc" } }, { sequence: "asc" }],
-    });
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const res = await fetch(`${baseUrl}/api/services`, { next: { revalidate: 300 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.services || [];
   } catch {
     return [];
   }
@@ -121,7 +116,7 @@ export default async function ServicesSection() {
                     <Link
                       href={`/zakazivanje?service=${service.id}`}
                       className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full text-white text-sm font-medium transition-all hover:opacity-90"
-                      style={{ backgroundColor: "#9dceb1" }}
+                      style={{ backgroundColor: "#5a9e78" }}
                     >
                       <Calendar className="w-4 h-4" />
                       Zakazi

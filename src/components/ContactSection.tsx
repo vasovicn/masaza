@@ -133,7 +133,7 @@ export default function ContactSection() {
                 <button
                   onClick={() => setSuccess(false)}
                   className="px-6 py-2.5 rounded-full text-white text-sm font-medium"
-                  style={{ backgroundColor: "#9dceb1" }}
+                  style={{ backgroundColor: "#5a9e78" }}
                 >
                   Posalji novu poruku
                 </button>
@@ -204,7 +204,7 @@ export default function ContactSection() {
                     type="submit"
                     disabled={loading}
                     className="w-full flex items-center justify-center gap-2 py-3 rounded-full text-white font-semibold transition-all hover:opacity-90 disabled:opacity-60"
-                    style={{ backgroundColor: "#9dceb1" }}
+                    style={{ backgroundColor: "#5a9e78" }}
                   >
                     {loading ? (
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

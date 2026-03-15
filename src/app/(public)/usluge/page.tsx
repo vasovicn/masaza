@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { Clock, ArrowRight, Calendar, Sparkles } from "lucide-react";
-import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
   title: "Nase usluge - Somatic Balans",
@@ -30,14 +29,11 @@ interface Service {
 
 async function getServices(): Promise<Service[]> {
   try {
-    return await prisma.service.findMany({
-      where: { active: true },
-      include: {
-        category: true,
-        durations: { orderBy: { minutes: "asc" } },
-      },
-      orderBy: [{ category: { sequence: "asc" } }, { sequence: "asc" }],
-    });
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const res = await fetch(`${baseUrl}/api/services`, { next: { revalidate: 300 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.services || [];
   } catch {
     return [];
   }
@@ -80,7 +76,7 @@ export default async function UsluiePage() {
                   return (
                     <div
                       key={service.id}
-                      className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1"
+                      className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1 flex flex-col"
                     >
                       <div className="relative h-48 overflow-hidden" style={{ background: "linear-gradient(135deg, #d9f0e4, #9dceb1)" }}>
                         {service.image ? (
@@ -97,7 +93,7 @@ export default async function UsluiePage() {
                           </div>
                         )}
                       </div>
-                      <div className="p-5">
+                      <div className="p-5 flex flex-col flex-1">
                         <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
                           {service.name}
                         </h3>
@@ -120,11 +116,11 @@ export default async function UsluiePage() {
                           ))}
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 mt-auto">
                           <Link
                             href={`/zakazivanje?service=${service.id}`}
                             className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full text-white text-sm font-medium transition-all hover:opacity-90"
-                            style={{ backgroundColor: "#9dceb1" }}
+                            style={{ backgroundColor: "#5a9e78" }}
                           >
                             <Calendar className="w-4 h-4" />
                             Zakazi

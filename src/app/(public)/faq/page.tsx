@@ -46,7 +46,7 @@ export default function FaqPage() {
             <Link
               href="/zakazivanje"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-white font-semibold transition-all hover:opacity-90 text-sm"
-              style={{ backgroundColor: "#9dceb1" }}
+              style={{ backgroundColor: "#5a9e78" }}
             >
               <Calendar className="w-4 h-4" />
               Zakažite termin

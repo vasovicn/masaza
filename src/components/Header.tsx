@@ -58,7 +58,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "#9dceb1" }}>
+            <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "#5a9e78" }}>
               <Leaf className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -91,7 +91,7 @@ export default function Header() {
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
                 >
-                  <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold" style={{ backgroundColor: "#9dceb1" }}>
+                  <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold" style={{ backgroundColor: "#5a9e78" }}>
                     {user.firstName[0]}{user.lastName[0]}
                   </div>
                   <span>{user.firstName}</span>
@@ -129,7 +129,7 @@ export default function Header() {
             <Link
               href="/zakazivanje"
               className="flex items-center gap-2 px-4 py-2 rounded-full text-white text-sm font-semibold transition-all hover:opacity-90 hover:shadow-md"
-              style={{ backgroundColor: "#9dceb1" }}
+              style={{ backgroundColor: "#5a9e78" }}
             >
               <Calendar className="w-4 h-4" />
               Zakazi termin
@@ -196,7 +196,7 @@ export default function Header() {
             <Link
               href="/zakazivanje"
               className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-full text-white text-sm font-semibold"
-              style={{ backgroundColor: "#9dceb1" }}
+              style={{ backgroundColor: "#5a9e78" }}
               onClick={() => setMobileOpen(false)}
             >
               <Calendar className="w-4 h-4" />

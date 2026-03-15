@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: "#9dceb1" }}>
+            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: "#5a9e78" }}>
               <Leaf className="w-6 h-6 text-white" />
             </div>
             <span className="text-2xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -98,7 +98,7 @@ export default function AdminLoginPage() {
               type="submit"
               disabled={loading}
               className="w-full flex items-center justify-center gap-2 py-3 rounded-full text-white font-semibold transition-all hover:opacity-90 disabled:opacity-60"
-              style={{ backgroundColor: "#9dceb1" }}
+              style={{ backgroundColor: "#5a9e78" }}
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

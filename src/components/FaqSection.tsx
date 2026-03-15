@@ -116,7 +116,7 @@ export default function FaqSection() {
       {faqs.map((group) => (
         <div key={group.category}>
           <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-            <span className="w-1 h-5 rounded-full inline-block" style={{ backgroundColor: "#9dceb1" }} />
+            <span className="w-1 h-5 rounded-full inline-block" style={{ backgroundColor: "#5a9e78" }} />
             {group.category}
           </h2>
           <div className="space-y-2">

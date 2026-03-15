@@ -91,7 +91,7 @@ export default async function ONamaPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {staff.map((member) => (
                 <div key={member.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all text-center p-6">
-                  <div className="w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4" style={{ backgroundColor: "#9dceb1" }}>
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4" style={{ backgroundColor: "#5a9e78" }}>
                     {member.firstName[0]}{member.lastName[0]}
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>

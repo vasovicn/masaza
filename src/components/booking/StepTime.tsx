@@ -78,7 +78,7 @@ export default function StepTime({ date, durationId, durationMinutes, onSelect, 
                 className={`py-2.5 rounded-xl text-sm font-medium transition-all hover:scale-105 ${
                   isSelected ? "text-white shadow-md" : "bg-gray-50 text-gray-700 hover:bg-[#f0f9f4] hover:text-[#3a8059] border border-gray-100"
                 }`}
-                style={isSelected ? { backgroundColor: "#9dceb1" } : {}}
+                style={isSelected ? { backgroundColor: "#5a9e78" } : {}}
               >
                 {slot}
               </button>

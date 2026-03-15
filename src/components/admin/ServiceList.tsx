@@ -114,7 +114,7 @@ export default function ServiceList({ services, categories, onRefresh }: Props) 
         <button
           onClick={() => setShowForm(true)}
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90"
-          style={{ backgroundColor: "#9dceb1" }}
+          style={{ backgroundColor: "#5a9e78" }}
         >
           <Plus className="w-4 h-4" />
           Nova usluga

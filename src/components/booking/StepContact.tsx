@@ -143,7 +143,7 @@ export default function StepContact({ onSubmit, onBack, loading, prefill }: Prop
             type="submit"
             disabled={loading}
             className="flex-2 flex items-center justify-center gap-2 px-8 py-3 rounded-full text-white font-semibold transition-all hover:opacity-90 disabled:opacity-60"
-            style={{ backgroundColor: "#9dceb1", flex: 2 }}
+            style={{ backgroundColor: "#5a9e78", flex: 2 }}
           >
             {loading ? (
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

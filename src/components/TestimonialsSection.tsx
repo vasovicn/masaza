@@ -64,7 +64,7 @@ export default function TestimonialsSection() {
               <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold"
-                  style={{ backgroundColor: "#9dceb1" }}
+                  style={{ backgroundColor: "#5a9e78" }}
                 >
                   {testimonial.initials}
                 </div>

@@ -40,7 +40,7 @@ export default function HeroSection() {
             <Link
               href="/zakazivanje"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-white text-base font-semibold shadow-lg transition-all hover:shadow-xl hover:scale-105"
-              style={{ backgroundColor: "#9dceb1" }}
+              style={{ backgroundColor: "#5a9e78" }}
             >
               <Calendar className="w-5 h-5" />
               Zakazi termin
