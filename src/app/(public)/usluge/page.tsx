@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { Clock, ArrowRight, Calendar } from "lucide-react";
+import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
   title: "Nase usluge - Somatic Balans",
@@ -27,11 +28,14 @@ interface Service {
 
 async function getServices(): Promise<Service[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/services`, { next: { revalidate: 300 } });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.services || [];
+    return await prisma.service.findMany({
+      where: { active: true },
+      include: {
+        category: true,
+        durations: { orderBy: { minutes: "asc" } },
+      },
+      orderBy: [{ category: { sequence: "asc" } }, { sequence: "asc" }],
+    });
   } catch {
     return [];
   }
