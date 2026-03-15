@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { Clock, ArrowRight, Calendar } from "lucide-react";
+import { Clock, ArrowRight, Calendar, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Nase usluge - Somatic Balans",
@@ -21,6 +21,7 @@ interface Service {
   slug: string;
   description: string;
   image: string | null;
+  popular: boolean;
   category: { id: string; name: string };
   durations: ServiceDuration[];
 }
@@ -81,6 +82,14 @@ export default async function UsluiePage() {
                           <Image src={service.image} alt={service.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                         ) : (
                           <div className="absolute inset-0 flex items-center justify-center text-5xl opacity-30">💆</div>
+                        )}
+                        {service.popular && (
+                          <div className="absolute top-3 left-3">
+                            <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: "#4da070" }}>
+                              <Sparkles className="w-3 h-3" />
+                              Popularno
+                            </span>
+                          </div>
                         )}
                       </div>
                       <div className="p-5">

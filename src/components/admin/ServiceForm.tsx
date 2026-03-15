@@ -31,6 +31,7 @@ interface ServiceData {
   image: string;
   categoryId: string;
   active: boolean;
+  popular: boolean;
   sequence: number;
   durations: Duration[];
 }
@@ -51,6 +52,7 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
     image: initial?.image || "",
     categoryId: initial?.categoryId || (categories[0]?.id || ""),
     active: initial?.active !== undefined ? initial.active : true,
+    popular: initial?.popular !== undefined ? initial.popular : false,
     sequence: initial?.sequence || 0,
     durations: initial?.durations || [{ minutes: 60, price: 3000 }],
   });
@@ -207,6 +209,19 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#9dceb1]"></div>
           </label>
           <span className="text-sm text-gray-700">Aktivna usluga</span>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              checked={form.popular}
+              onChange={(e) => setForm({ ...form, popular: e.target.checked })}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#4da070]"></div>
+          </label>
+          <span className="text-sm text-gray-700">Popularna usluga <span className="text-gray-400 text-xs">(prikazuje se badge)</span></span>
         </div>
       </div>
 

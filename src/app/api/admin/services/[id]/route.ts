@@ -33,7 +33,7 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { name, slug, description, image, categoryId, durations, active, sequence } = body;
+    const { name, slug, description, image, categoryId, durations, active, popular, sequence } = body;
 
     const existing = await prisma.service.findUnique({ where: { id } });
     if (!existing) {
@@ -50,6 +50,7 @@ export async function PUT(
         ...(image !== undefined && { image }),
         ...(categoryId !== undefined && { categoryId }),
         ...(active !== undefined && { active }),
+        ...(popular !== undefined && { popular }),
         ...(sequence !== undefined && { sequence }),
       },
     });

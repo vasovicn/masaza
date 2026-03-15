@@ -41,6 +41,8 @@ export default function Header() {
     { href: "/usluge", label: "Usluge" },
     { href: "/o-nama", label: "O nama" },
     { href: "/galerija", label: "Galerija" },
+    { href: "/faq", label: "FAQ" },
+    { href: "/poklon-vaucer", label: "Poklon vaučer" },
     { href: "/kontakt", label: "Kontakt" },
   ];
 

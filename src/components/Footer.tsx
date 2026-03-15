@@ -40,7 +40,9 @@ export default function Footer() {
                 { href: "/o-nama", label: "O nama" },
                 { href: "/galerija", label: "Galerija" },
                 { href: "/kontakt", label: "Kontakt" },
-                { href: "/zakazivanje", label: "Zakazi termin" },
+                { href: "/faq", label: "Česta pitanja" },
+                { href: "/poklon-vaucer", label: "Poklon vaučer" },
+                { href: "/zakazivanje", label: "Zakaži termin" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link
