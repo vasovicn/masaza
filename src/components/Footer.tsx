@@ -37,6 +37,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               {[
                 { href: "/usluge", label: "Usluge" },
+                { href: "/cenovnik", label: "Cenovnik" },
                 { href: "/o-nama", label: "O nama" },
                 { href: "/galerija", label: "Galerija" },
                 { href: "/kontakt", label: "Kontakt" },

@@ -39,6 +39,7 @@ export default function Header() {
   const navLinks = [
     { href: "/", label: "Pocetna" },
     { href: "/usluge", label: "Usluge" },
+    { href: "/cenovnik", label: "Cenovnik" },
     { href: "/o-nama", label: "O nama" },
     { href: "/galerija", label: "Galerija" },
     { href: "/kontakt", label: "Kontakt" },
