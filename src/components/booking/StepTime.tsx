@@ -1,27 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { User, Clock } from "lucide-react";
-
-interface Slot {
-  staffId: string;
-  staffName: string;
-  slots: string[];
-}
+import { Clock } from "lucide-react";
 
 interface Props {
   date: string;
   durationId: string;
   durationMinutes: number;
-  onSelect: (time: string, staffId: string, staffName: string) => void;
+  onSelect: (time: string) => void;
   onBack: () => void;
 }
 
 export default function StepTime({ date, durationId, durationMinutes, onSelect, onBack }: Props) {
-  const [data, setData] = useState<Slot[]>([]);
+  const [slots, setSlots] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selected, setSelected] = useState<{ time: string; staffId: string } | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -30,7 +24,7 @@ export default function StepTime({ date, durationId, durationMinutes, onSelect, 
       .then((r) => r.json())
       .then((d) => {
         if (d.error) throw new Error(d.error);
-        setData(d.slots || []);
+        setSlots(d.slots || []);
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
@@ -62,7 +56,7 @@ export default function StepTime({ date, durationId, durationMinutes, onSelect, 
         <div className="p-4 rounded-xl bg-red-50 text-red-700 text-sm">{error}</div>
       )}
 
-      {!loading && !error && data.length === 0 && (
+      {!loading && !error && slots.length === 0 && (
         <div className="text-center py-12 bg-gray-50 rounded-2xl">
           <Clock className="w-12 h-12 mx-auto mb-3 text-gray-300" />
           <p className="text-gray-600 font-medium">Nema dostupnih termina za ovaj datum</p>
@@ -70,41 +64,26 @@ export default function StepTime({ date, durationId, durationMinutes, onSelect, 
         </div>
       )}
 
-      {!loading && data.length > 0 && (
-        <div className="space-y-6">
-          {data.map((staffSlot) => (
-            <div key={staffSlot.staffId}>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style={{ backgroundColor: "#9dceb1" }}>
-                  {staffSlot.staffName.split(" ").map((n) => n[0]).join("")}
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <User className="w-4 h-4 text-gray-400" />
-                  <span className="font-medium text-gray-900 text-sm">{staffSlot.staffName}</span>
-                </div>
-              </div>
-              <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
-                {staffSlot.slots.map((slot) => {
-                  const isSelected = selected?.time === slot && selected?.staffId === staffSlot.staffId;
-                  return (
-                    <button
-                      key={slot}
-                      onClick={() => {
-                        setSelected({ time: slot, staffId: staffSlot.staffId });
-                        onSelect(slot, staffSlot.staffId, staffSlot.staffName);
-                      }}
-                      className={`py-2.5 rounded-xl text-sm font-medium transition-all hover:scale-105 ${
-                        isSelected ? "text-white shadow-md" : "bg-gray-50 text-gray-700 hover:bg-[#f0f9f4] hover:text-[#3a8059] border border-gray-100"
-                      }`}
-                      style={isSelected ? { backgroundColor: "#9dceb1" } : {}}
-                    >
-                      {slot}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+      {!loading && slots.length > 0 && (
+        <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+          {slots.map((slot) => {
+            const isSelected = selected === slot;
+            return (
+              <button
+                key={slot}
+                onClick={() => {
+                  setSelected(slot);
+                  onSelect(slot);
+                }}
+                className={`py-2.5 rounded-xl text-sm font-medium transition-all hover:scale-105 ${
+                  isSelected ? "text-white shadow-md" : "bg-gray-50 text-gray-700 hover:bg-[#f0f9f4] hover:text-[#3a8059] border border-gray-100"
+                }`}
+                style={isSelected ? { backgroundColor: "#9dceb1" } : {}}
+              >
+                {slot}
+              </button>
+            );
+          })}
         </div>
       )}
 

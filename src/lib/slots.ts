@@ -83,3 +83,18 @@ export async function getAvailableSlots(
 
   return result.filter((s) => s.slots.length > 0);
 }
+
+// Returns unique time slots where at least one therapist is available
+export async function getAvailableTimeSlotsAggregated(
+  date: string,
+  durationMinutes: number
+): Promise<string[]> {
+  const perStaff = await getAvailableSlots(date, durationMinutes);
+  const slotSet = new Set<string>();
+  for (const staffSlot of perStaff) {
+    for (const slot of staffSlot.slots) {
+      slotSet.add(slot);
+    }
+  }
+  return Array.from(slotSet).sort();
+}
