@@ -1,0 +1,111 @@
+import { Heart, Shield, Sparkles, Users, Award, Leaf } from "lucide-react";
+
+const benefits = [
+  {
+    icon: Heart,
+    title: "Holisticki pristup",
+    description: "Tretiramo celog cloveka - telo i um zajedno, za dugorocne rezultate.",
+  },
+  {
+    icon: Shield,
+    title: "Strucni terapeuti",
+    description: "Svi nasi masazni terapeuti su sertifikovani i imaju vise godina iskustva.",
+  },
+  {
+    icon: Sparkles,
+    title: "Premium proizvodi",
+    description: "Koristimo samo prirodna etericna ulja i premium masazne kreme.",
+  },
+  {
+    icon: Users,
+    title: "Individualni tretman",
+    description: "Svaki tretman prilagodjavamo vasim specificnim potrebama i zdravstvenom stanju.",
+  },
+  {
+    icon: Award,
+    title: "Proverena kvaliteta",
+    description: "Vise od 500 zadovoljnih klijenata koji nam se redovno vracaju.",
+  },
+  {
+    icon: Leaf,
+    title: "Opustajuca atmosfera",
+    description: "Nasmijani kabineti su opremljeni za maksimalan komfor i privatnost.",
+  },
+];
+
+export default function AboutSection() {
+  return (
+    <section className="py-20" style={{ background: "linear-gradient(to bottom, #f0f9f4, white)" }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Left - Text */}
+          <div>
+            <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: "#f0f9f4", color: "#3a8059" }}>
+              Ko smo mi
+            </span>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Somatic Balans – <br />
+              <span style={{ color: "#4da070" }}>Vasa oaza mira u Beogradu</span>
+            </h2>
+            <div className="space-y-4 text-gray-600 leading-relaxed">
+              <p>
+                Somatic Balans je premium salon masaze posvecen holom pristupu zdravlju i blagostanju. Verujemo da ravnoteza izmedju tela i uma nije luksuz - vec neophodnost modernog zivota.
+              </p>
+              <p>
+                Nasim klijentima nudimo siru lepezu profesionalnih masaznih tehnika, od noznih relaksacionih masaza do intenzivnih terapeutskih tretmana. Svaki terapeut u nasem timu prolazi strogi program sertifikacije i kontinuiranog usavrsavanja.
+              </p>
+              <p>
+                Nase opustajuce okruzenje, uz proverene masazne tehnike i premium prirodne preparate, stvara iskustvo koje obnavlja energiju i vraca unutrasnji mir.
+              </p>
+            </div>
+          </div>
+
+          {/* Right - Visual */}
+          <div className="relative">
+            <div className="rounded-3xl overflow-hidden shadow-2xl" style={{ background: "linear-gradient(135deg, #9dceb1, #4da070)" }}>
+              <div className="p-12 text-center text-white">
+                <div className="text-8xl mb-6">🌿</div>
+                <h3 className="text-2xl font-bold mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Vise od masaze
+                </h3>
+                <p className="opacity-90 text-lg">
+                  Dozivite potpuno ozivljavanje tela i duha kroz nasu strucnu njegu
+                </p>
+              </div>
+            </div>
+            {/* Floating card */}
+            <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-5 shadow-xl border border-gray-100">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: "#f0f9f4" }}>
+                  <Award className="w-6 h-6" style={{ color: "#4da070" }} />
+                </div>
+                <div>
+                  <div className="font-bold text-gray-900">500+ klijenata</div>
+                  <div className="text-sm text-gray-500">Zadovoljnih korisnika</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Benefits grid */}
+        <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {benefits.map((benefit) => (
+            <div
+              key={benefit.title}
+              className="flex items-start gap-4 p-6 bg-white rounded-2xl border border-gray-100 hover:border-[#9dceb1] hover:shadow-md transition-all"
+            >
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: "#f0f9f4" }}>
+                <benefit.icon className="w-6 h-6" style={{ color: "#4da070" }} />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-1">{benefit.title}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">{benefit.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

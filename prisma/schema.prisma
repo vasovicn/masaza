@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model StaffUser {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  password  String
+  firstName String
+  lastName  String
+  phone     String?
+  role      String    @default("maser")
+  bio       String?
+  image     String?
+  active    Boolean   @default(true)
+  sequence  Int       @default(0)
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model ClientUser {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  password  String
+  firstName String
+  lastName  String
+  phone     String?
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model ServiceCategory {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  sequence    Int       @default(0)
+  active      Boolean   @default(true)
+  services    Service[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Service {
+  id          String            @id @default(cuid())
+  name        String
+  slug        String            @unique
+  description String
+  image       String?
+  categoryId  String
+  category    ServiceCategory   @relation(fields: [categoryId], references: [id])
+  durations   ServiceDuration[]
+  bookings    Booking[]
+  active      Boolean           @default(true)
+  sequence    Int               @default(0)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+model ServiceDuration {
+  id        String    @id @default(cuid())
+  serviceId String
+  service   Service   @relation(fields: [serviceId], references: [id])
+  minutes   Int
+  price     Int
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  sequence  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Booking {
+  id                String           @id @default(cuid())
+  customerName      String
+  customerPhone     String
+  customerEmail     String?
+  clientUserId      String?
+  clientUser        ClientUser?      @relation(fields: [clientUserId], references: [id])
+  serviceId         String
+  service           Service          @relation(fields: [serviceId], references: [id])
+  serviceDurationId String
+  serviceDuration   ServiceDuration  @relation(fields: [serviceDurationId], references: [id])
+  date              String
+  startTime         String
+  endTime           String
+  staffUserId       String
+  staffUser         StaffUser        @relation(fields: [staffUserId], references: [id])
+  status            String           @default("confirmed")
+  notes             String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  @@index([date])
+  @@index([staffUserId, date])
+  @@index([clientUserId])
+}
