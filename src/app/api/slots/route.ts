@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getAvailableSlots } from "@/lib/slots";
+import { getAvailableTimeSlotsAggregated } from "@/lib/slots";
 
 export async function GET(request: NextRequest) {
   try {
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Trajanje nije pronadjeno" }, { status: 404 });
     }
 
-    const slots = await getAvailableSlots(date, duration.minutes);
+    const slots = await getAvailableTimeSlotsAggregated(date, duration.minutes);
     return NextResponse.json({ slots });
   } catch (error) {
     console.error("Slots error:", error);

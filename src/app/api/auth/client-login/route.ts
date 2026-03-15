@@ -15,6 +15,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Pogresni podaci za prijavu" }, { status: 401 });
     }
 
+    if (!client.password) {
+      return NextResponse.json({ error: "Ovaj nalog koristi Google prijavu" }, { status: 401 });
+    }
+
     const valid = await verifyPassword(password, client.password);
     if (!valid) {
       return NextResponse.json({ error: "Pogresni podaci za prijavu" }, { status: 401 });

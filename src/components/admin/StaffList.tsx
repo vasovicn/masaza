@@ -116,6 +116,7 @@ export default function StaffList({ staff, onRefresh }: Props) {
               <th className="text-left px-4 py-3 font-medium text-gray-600 hidden md:table-cell">Email</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600 hidden sm:table-cell">Uloga</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600 hidden lg:table-cell">Telefon</th>
+              <th className="text-center px-4 py-3 font-medium text-gray-600 hidden sm:table-cell" title="Redosled dodeljivanja rezervacija">Redosled</th>
               <th className="text-center px-4 py-3 font-medium text-gray-600">Status</th>
               <th className="text-right px-4 py-3 font-medium text-gray-600">Akcije</th>
             </tr>
@@ -138,6 +139,11 @@ export default function StaffList({ staff, onRefresh }: Props) {
                   </span>
                 </td>
                 <td className="px-4 py-3 hidden lg:table-cell text-gray-600">{member.phone || "-"}</td>
+                <td className="px-4 py-3 text-center hidden sm:table-cell">
+                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold text-white" style={{ backgroundColor: "#9dceb1" }}>
+                    {member.sequence}
+                  </span>
+                </td>
                 <td className="px-4 py-3 text-center">
                   <button
                     onClick={() => handleToggle(member)}
@@ -165,7 +171,7 @@ export default function StaffList({ staff, onRefresh }: Props) {
             ))}
             {staff.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-12 text-center text-gray-400">
+                <td colSpan={7} className="px-4 py-12 text-center text-gray-400">
                   Nema clanova osoblja.
                 </td>
               </tr>

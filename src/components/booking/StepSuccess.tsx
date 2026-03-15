@@ -9,7 +9,6 @@ interface BookingData {
   date: string;
   time: string;
   endTime: string;
-  staffName: string;
   contact: {
     firstName: string;
     lastName: string;
@@ -63,7 +62,6 @@ export default function StepSuccess({ booking, isLoggedIn, onNewBooking }: Props
             { label: "Cena", value: `${booking.duration.price.toLocaleString("sr-RS")} RSD` },
             { label: "Datum", value: displayDate },
             { label: "Vreme", value: `${booking.time} – ${booking.endTime}` },
-            { label: "Maser", value: booking.staffName },
             { label: "Ime", value: `${booking.contact.firstName} ${booking.contact.lastName}` },
             { label: "Telefon", value: booking.contact.phone },
           ].map((row) => (
