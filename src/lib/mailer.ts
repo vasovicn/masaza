@@ -1,3 +1,4 @@
+// @ts-ignore
 import nodemailer from "nodemailer";
 import { SALON_NAME, SALON_EMAIL, ADMIN_EMAIL } from "./constants";
 
