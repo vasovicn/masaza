@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(node:*)",
+      "Bash(taskkill:*)",
+      "Bash(npx tsx:*)",
+      "Bash(npm install:*)",
+      "Bash(where sqlite3:*)",
+      "Bash(grep -E \"\\\\.\\(tsx?|jsx?\\)$\")",
+      "Bash(npx prisma:*)",
+      "Bash(npx next:*)",
+      "Bash(sqlite3 prisma/dev.db \".schema ClientUser\")",
+      "Bash(curl:*)",
+      "Bash(for dir:*)",
+      "Bash(do mv:*)",
+      "Bash(done)",
+      "Bash(ls \"C:/Users/nikola/Desktop/masaza/src/app/admin/\\(dashboard\\)/\")",
+      "Bash(ls \"C:/Users/nikola/Desktop/masaza/src/app/admin/\\(auth\\)/\")",
+      "Bash(ls:*)",
+      "Bash(find /c/Users/nikola/Desktop/masaza/src/app/api/booking -type f -name *.ts -o -name *.tsx)",
+      "Bash(npx vitest:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git reset:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(grep:*)",
+      "Bash(xargs sed:*)"
+    ]
+  }
+}
