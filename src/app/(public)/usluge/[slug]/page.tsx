@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const service = await getService(slug);
   if (!service) return { title: "Usluga nije pronadjena" };
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
   const url = `${baseUrl}/usluge/${service.slug}`;
 
   return {
@@ -66,7 +66,7 @@ export default async function ServicePage({ params }: Props) {
 
   if (!service) notFound();
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
   const hasDurations = service.durations.length > 0;
   const minPrice = hasDurations ? Math.min(...service.durations.map((d) => d.price)) : 0;
   const maxPrice = hasDurations ? Math.max(...service.durations.map((d) => d.price)) : 0;

@@ -15,7 +15,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),

@@ -26,7 +26,7 @@ async function main() {
   const adminPassword = await bcrypt.hash("admin123", 12);
   await prisma.staffUser.create({
     data: {
-      email: "olivera73@gmail.com",
+      email: "info@masazabalans.rs",
       password: adminPassword,
       firstName: "Admin",
       lastName: "Somatic",
@@ -41,7 +41,7 @@ async function main() {
 
   const ana = await prisma.staffUser.create({
     data: {
-      email: "ana@somaticbalans.rs",
+      email: "ana@masazabalans.rs",
       password: maserPassword,
       firstName: "Ana",
       lastName: "Jovanovic",
@@ -55,7 +55,7 @@ async function main() {
 
   const marko = await prisma.staffUser.create({
     data: {
-      email: "marko@somaticbalans.rs",
+      email: "marko@masazabalans.rs",
       password: maserPassword,
       firstName: "Marko",
       lastName: "Petrovic",
@@ -223,8 +223,8 @@ async function main() {
 
   console.log("\nDatabase seeded successfully!");
   console.log("Admin login: admin@admin.rs / admin123");
-  console.log("Maser Ana: ana@somaticbalans.rs / maser123");
-  console.log("Maser Marko: marko@somaticbalans.rs / maser123");
+  console.log("Maser Ana: ana@masazabalans.rs / maser123");
+  console.log("Maser Marko: marko@masazabalans.rs / maser123");
   console.log("\nStaff IDs:");
   console.log("Ana Jovanovic:", ana.id);
   console.log("Marko Petrovic:", marko.id);

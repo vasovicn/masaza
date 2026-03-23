@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Clock, Calendar, ArrowRight, Tag } from "lucide-react";
 import { SALON_NAME } from "@/lib/constants";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
 
 export const metadata: Metadata = {
   title: "Cenovnik usluga",

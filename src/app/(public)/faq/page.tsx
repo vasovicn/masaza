@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Calendar } from "lucide-react";
 import { SALON_NAME } from "@/lib/constants";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
 
 export const metadata: Metadata = {
   title: "Često postavljana pitanja",

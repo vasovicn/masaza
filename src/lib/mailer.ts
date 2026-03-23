@@ -79,7 +79,7 @@ export async function sendBookingConfirmation(booking: {
 
 export async function sendVerificationEmail(email: string, token: string) {
   const transporter = getTransporter();
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
   const verifyUrl = `${baseUrl}/api/auth/verify?token=${token}`;
 
   const html = `
@@ -114,7 +114,7 @@ export async function sendVerificationEmail(email: string, token: string) {
 
 export async function sendResetPasswordEmail(email: string, token: string) {
   const transporter = getTransporter();
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
   const resetUrl = `${baseUrl}/reset-lozinka?token=${token}`;
 
   const html = `

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ContactSection from "@/components/ContactSection";
 import { SALON_NAME } from "@/lib/constants";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
 
 export const metadata: Metadata = {
   title: "Kontakt",

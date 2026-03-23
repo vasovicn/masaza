@@ -6,7 +6,7 @@ export async function GET() {
     return NextResponse.json({ error: "Google OAuth nije konfigurisan" }, { status: 500 });
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
   const redirectUri = `${baseUrl}/api/auth/google/callback`;
 
   const params = new URLSearchParams({

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Gift, Phone, Mail, Heart, Star, Sparkles } from "lucide-react";
 import { SALON_PHONE, SALON_EMAIL, SALON_NAME } from "@/lib/constants";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
 
 export const metadata: Metadata = {
   title: "Poklon vaučer",
