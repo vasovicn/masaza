@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { verifyAdminToken } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Calendar, Users, TrendingUp, Clock } from "lucide-react";
 
 export const metadata = {
@@ -36,6 +37,10 @@ export default async function AdminDashboard() {
   const cookieStore = await cookies();
   const token = cookieStore.get("staff_token")?.value;
   const payload = token ? await verifyAdminToken(token) : null;
+
+  if (payload && payload.isAdmin !== true) {
+    redirect("/admin/rezervacije");
+  }
 
   const { todayCount, weekCount, totalCount, todayBookings } = await getStats();
 

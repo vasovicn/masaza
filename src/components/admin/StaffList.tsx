@@ -11,6 +11,7 @@ interface Staff {
   lastName: string;
   phone: string | null;
   role: string;
+  isAdmin: boolean;
   bio: string | null;
   image: string | null;
   active: boolean;
@@ -84,6 +85,7 @@ export default function StaffList({ staff, onRefresh }: Props) {
             image: editing.image || "",
             sequence: editing.sequence,
             active: editing.active,
+            isAdmin: editing.isAdmin,
           } : undefined}
           isNew={!editing}
           onSave={handleSave}
@@ -115,6 +117,7 @@ export default function StaffList({ staff, onRefresh }: Props) {
               <th className="text-left px-4 py-3 font-medium text-gray-600">Ime i prezime</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600 hidden md:table-cell">Email</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600 hidden sm:table-cell">Uloga</th>
+              <th className="text-center px-4 py-3 font-medium text-gray-600">Admin</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600 hidden lg:table-cell">Telefon</th>
               <th className="text-center px-4 py-3 font-medium text-gray-600 hidden sm:table-cell" title="Redosled dodeljivanja rezervacija">Redosled</th>
               <th className="text-center px-4 py-3 font-medium text-gray-600">Status</th>
@@ -136,6 +139,11 @@ export default function StaffList({ staff, onRefresh }: Props) {
                 <td className="px-4 py-3 hidden sm:table-cell">
                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${member.role === "admin" ? "bg-purple-100 text-purple-700" : "bg-blue-100 text-blue-700"}`}>
                     {member.role}
+                  </span>
+                </td>
+                <td className="px-4 py-3 text-center">
+                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${member.isAdmin ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-400"}`}>
+                    {member.isAdmin ? "Da" : "Ne"}
                   </span>
                 </td>
                 <td className="px-4 py-3 hidden lg:table-cell text-gray-600">{member.phone || "-"}</td>

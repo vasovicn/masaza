@@ -19,17 +19,17 @@ import {
 } from "lucide-react";
 
 interface Props {
-  user: { firstName: string; lastName: string; email: string; role: string };
+  user: { id: string; firstName: string; lastName: string; email: string; role: string; isAdmin: boolean };
 }
 
 const navItems = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true, adminOnly: true },
   { href: "/admin/rezervacije", label: "Rezervacije", icon: Calendar },
-  { href: "/admin/maseri", label: "Maseri", icon: Users },
-  { href: "/admin/usluge", label: "Usluge", icon: Sparkles },
-  { href: "/admin/kategorije", label: "Kategorije", icon: Tag },
-  { href: "/admin/galerija", label: "Galerija", icon: Image },
-  { href: "/admin/korisnici", label: "Korisnici", icon: UserCog },
+  { href: "/admin/maseri", label: "Maseri", icon: Users, adminOnly: true },
+  { href: "/admin/usluge", label: "Usluge", icon: Sparkles, adminOnly: true },
+  { href: "/admin/kategorije", label: "Kategorije", icon: Tag, adminOnly: true },
+  { href: "/admin/galerija", label: "Galerija", icon: Image, adminOnly: true },
+  { href: "/admin/korisnici", label: "Korisnici", icon: UserCog, adminOnly: true },
 ];
 
 export default function AdminSidebar({ user }: Props) {
@@ -65,7 +65,7 @@ export default function AdminSidebar({ user }: Props) {
     <>
       {/* Logo */}
       <div className="p-4 lg:p-6 border-b border-gray-800">
-        <Link href="/admin" className="flex items-center gap-2" onClick={() => setOpen(false)}>
+        <Link href={user.isAdmin ? "/admin" : "/admin/rezervacije"} className="flex items-center gap-2" onClick={() => setOpen(false)}>
           <NextImage src="/logo.png" alt="Somatic Balans" width={36} height={36} className="rounded-full" />
           <div>
             <div className="font-bold text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -78,7 +78,8 @@ export default function AdminSidebar({ user }: Props) {
 
       {/* Navigation */}
       <nav className="flex-1 p-3 lg:p-4 space-y-1 overflow-y-auto">
-        {navItems.map(({ href, label, icon: Icon, exact }) => {
+        {navItems.map(({ href, label, icon: Icon, exact, adminOnly }) => {
+          if (adminOnly && !user.isAdmin) return null;
           const active = isActive(href, exact);
           return (
             <Link
@@ -126,7 +127,7 @@ export default function AdminSidebar({ user }: Props) {
     <>
       {/* Mobile top bar */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-gray-900 flex items-center justify-between px-4 h-14">
-        <Link href="/admin" className="flex items-center gap-2">
+        <Link href={user.isAdmin ? "/admin" : "/admin/rezervacije"} className="flex items-center gap-2">
           <NextImage src="/logo.png" alt="Somatic Balans" width={28} height={28} className="rounded-full" />
           <span className="font-bold text-sm text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
             Somatic Balans

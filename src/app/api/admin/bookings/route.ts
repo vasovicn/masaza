@@ -1,15 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { addMinutes, createBookingSafe } from "@/lib/slots";
+import { verifyAdminToken } from "@/lib/auth";
+import { cookies } from "next/headers";
 
 export async function GET(request: NextRequest) {
   try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("staff_token")?.value;
+    const payload = token ? await verifyAdminToken(token) : null;
+
+    if (!payload) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const date = searchParams.get("date");
     const dateFrom = searchParams.get("dateFrom");
     const dateTo = searchParams.get("dateTo");
     const status = searchParams.get("status");
-    const staffId = searchParams.get("staffId");
+    let staffId = searchParams.get("staffId");
+
+    // Enforce staff filter for non-admins
+    if (payload.isAdmin !== true) {
+      staffId = payload.id as string;
+    }
 
     const where: Record<string, unknown> = {};
 

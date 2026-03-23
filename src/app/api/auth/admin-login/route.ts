@@ -24,6 +24,7 @@ export async function POST(request: NextRequest) {
       id: staff.id,
       email: staff.email,
       role: staff.role,
+      isAdmin: staff.isAdmin,
       firstName: staff.firstName,
       lastName: staff.lastName,
     });
@@ -35,6 +36,7 @@ export async function POST(request: NextRequest) {
         firstName: staff.firstName,
         lastName: staff.lastName,
         role: staff.role,
+        isAdmin: staff.isAdmin,
       },
     });
 

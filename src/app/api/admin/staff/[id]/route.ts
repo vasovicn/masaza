@@ -9,7 +9,7 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { email, password, firstName, lastName, phone, role, bio, image, active, sequence } = body;
+    const { email, password, firstName, lastName, phone, role, isAdmin, bio, image, active, sequence } = body;
 
     const existing = await prisma.staffUser.findUnique({ where: { id } });
     if (!existing) {
@@ -22,6 +22,7 @@ export async function PUT(
     if (lastName !== undefined) updateData.lastName = lastName;
     if (phone !== undefined) updateData.phone = phone;
     if (role !== undefined) updateData.role = role;
+    if (isAdmin !== undefined) updateData.isAdmin = isAdmin;
     if (bio !== undefined) updateData.bio = bio;
     if (image !== undefined) updateData.image = image;
     if (active !== undefined) updateData.active = active;
@@ -41,6 +42,7 @@ export async function PUT(
         lastName: true,
         phone: true,
         role: true,
+        isAdmin: true,
         bio: true,
         image: true,
         active: true,

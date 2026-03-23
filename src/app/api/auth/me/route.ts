@@ -15,6 +15,7 @@ export async function GET(request: NextRequest) {
           firstName: payload.firstName,
           lastName: payload.lastName,
           role: payload.role,
+          isAdmin: payload.isAdmin,
           type: "staff",
         },
       });

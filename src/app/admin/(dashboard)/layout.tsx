@@ -13,10 +13,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!payload) redirect("/admin/login");
 
   const user = {
+    id: payload.id as string,
     firstName: payload.firstName as string,
     lastName: payload.lastName as string,
     email: payload.email as string,
     role: payload.role as string,
+    isAdmin: payload.isAdmin as boolean,
   };
 
   return (

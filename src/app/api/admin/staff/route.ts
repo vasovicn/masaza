@@ -13,6 +13,7 @@ export async function GET() {
         lastName: true,
         phone: true,
         role: true,
+        isAdmin: true,
         bio: true,
         image: true,
         active: true,
@@ -31,7 +32,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, password, firstName, lastName, phone, role, bio, image, sequence } = body;
+    const { email, password, firstName, lastName, phone, role, isAdmin, bio, image, sequence } = body;
 
     if (!email || !password || !firstName || !lastName) {
       return NextResponse.json({ error: "Email, lozinka, ime i prezime su obavezni" }, { status: 400 });
@@ -52,6 +53,7 @@ export async function POST(request: NextRequest) {
         lastName,
         phone: phone || null,
         role: role || "maser",
+        isAdmin: isAdmin || false,
         bio: bio || null,
         image: image || null,
         sequence: sequence || 0,
@@ -64,6 +66,7 @@ export async function POST(request: NextRequest) {
         lastName: true,
         phone: true,
         role: true,
+        isAdmin: true,
         bio: true,
         image: true,
         active: true,

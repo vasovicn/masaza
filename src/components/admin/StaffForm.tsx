@@ -15,6 +15,7 @@ interface StaffData {
   image: string;
   sequence: number;
   active: boolean;
+  isAdmin: boolean;
 }
 
 interface Props {
@@ -37,6 +38,7 @@ export default function StaffForm({ initial, isNew, onSave, onCancel, loading }:
     image: initial?.image || "",
     sequence: initial?.sequence || 0,
     active: initial?.active !== undefined ? initial.active : true,
+    isAdmin: initial?.isAdmin || false,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -200,6 +202,18 @@ export default function StaffForm({ initial, isNew, onSave, onCancel, loading }:
             <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#9dceb1]"></div>
           </label>
           <span className="text-sm text-gray-700">Aktivan</span>
+        </div>
+        <div className="flex items-center gap-3 pt-6">
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              checked={form.isAdmin}
+              onChange={(e) => setForm({ ...form, isAdmin: e.target.checked })}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-400"></div>
+          </label>
+          <span className="text-sm text-gray-700">Admin prava</span>
         </div>
       </div>
 
