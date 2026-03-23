@@ -103,7 +103,9 @@ export default function Footer() {
 
         <div className="mt-10 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
           <p>&copy; {new Date().getFullYear()} {SALON_NAME}. Sva prava zadrzana.</p>
-          <p>Salon masaze u Beogradu</p>
+          <Link href="/politika-privatnosti" className="hover:text-[#9dceb1] transition-colors">
+            Politika privatnosti
+          </Link>
         </div>
       </div>
     </footer>
