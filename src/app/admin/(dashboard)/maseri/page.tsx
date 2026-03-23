@@ -15,6 +15,7 @@ export default async function AdminMaseriPage() {
       lastName: true,
       phone: true,
       role: true,
+      isAdmin: true,
       bio: true,
       image: true,
       active: true,

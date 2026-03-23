@@ -10,6 +10,7 @@ interface Staff {
   lastName: string;
   phone: string | null;
   role: string;
+  isAdmin: boolean;
   bio: string | null;
   image: string | null;
   active: boolean;
