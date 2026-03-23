@@ -77,6 +77,76 @@ export async function sendBookingConfirmation(booking: {
   }
 }
 
+export async function sendVerificationEmail(email: string, token: string) {
+  const transporter = getTransporter();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const verifyUrl = `${baseUrl}/api/auth/verify?token=${token}`;
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background-color: #9dceb1; padding: 20px; text-align: center;">
+        <h1 style="color: white; margin: 0;">${SALON_NAME}</h1>
+        <p style="color: white; margin: 5px 0;">Potvrda email adrese</p>
+      </div>
+      <div style="padding: 30px; background: #f9f9f9; text-align: center;">
+        <h2 style="color: #333;">Dobrodošli u ${SALON_NAME}!</h2>
+        <p style="color: #666;">Kliknite na dugme ispod da potvrdite vašu email adresu i aktivirate nalog.</p>
+        <a href="${verifyUrl}" style="display: inline-block; background-color: #5a9e78; color: white; padding: 14px 32px; border-radius: 30px; text-decoration: none; font-weight: bold; margin: 20px 0;">
+          Potvrdi email
+        </a>
+        <p style="color: #999; font-size: 12px; margin-top: 20px;">Ako niste kreirali nalog, ignorišite ovaj email.</p>
+      </div>
+    </div>
+  `;
+
+  try {
+    await transporter.sendMail({
+      from: `"${SALON_NAME}" <${process.env.SMTP_USER || SALON_EMAIL}>`,
+      to: email,
+      subject: `Potvrdite email adresu - ${SALON_NAME}`,
+      html,
+    });
+  } catch (e) {
+    console.error("Failed to send verification email:", e);
+    throw e;
+  }
+}
+
+export async function sendResetPasswordEmail(email: string, token: string) {
+  const transporter = getTransporter();
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const resetUrl = `${baseUrl}/reset-lozinka?token=${token}`;
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background-color: #9dceb1; padding: 20px; text-align: center;">
+        <h1 style="color: white; margin: 0;">${SALON_NAME}</h1>
+        <p style="color: white; margin: 5px 0;">Resetovanje lozinke</p>
+      </div>
+      <div style="padding: 30px; background: #f9f9f9; text-align: center;">
+        <h2 style="color: #333;">Zaboravili ste lozinku?</h2>
+        <p style="color: #666;">Kliknite na dugme ispod da postavite novu lozinku. Link važi 1 sat.</p>
+        <a href="${resetUrl}" style="display: inline-block; background-color: #5a9e78; color: white; padding: 14px 32px; border-radius: 30px; text-decoration: none; font-weight: bold; margin: 20px 0;">
+          Nova lozinka
+        </a>
+        <p style="color: #999; font-size: 12px; margin-top: 20px;">Ako niste tražili resetovanje lozinke, ignorišite ovaj email.</p>
+      </div>
+    </div>
+  `;
+
+  try {
+    await transporter.sendMail({
+      from: `"${SALON_NAME}" <${process.env.SMTP_USER || SALON_EMAIL}>`,
+      to: email,
+      subject: `Resetovanje lozinke - ${SALON_NAME}`,
+      html,
+    });
+  } catch (e) {
+    console.error("Failed to send reset password email:", e);
+    throw e;
+  }
+}
+
 export async function sendContactEmail(data: {
   name: string;
   email: string;

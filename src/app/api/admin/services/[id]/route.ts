@@ -33,7 +33,7 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { name, slug, description, image, categoryId, durations, active, popular, sequence } = body;
+    const { name, slug, description, image, categoryId, durations, active, popular, bookableOnline, sequence } = body;
 
     const existing = await prisma.service.findUnique({ where: { id } });
     if (!existing) {
@@ -51,6 +51,7 @@ export async function PUT(
         ...(categoryId !== undefined && { categoryId }),
         ...(active !== undefined && { active }),
         ...(popular !== undefined && { popular }),
+        ...(bookableOnline !== undefined && { bookableOnline }),
         ...(sequence !== undefined && { sequence }),
       },
     });
@@ -59,10 +60,11 @@ export async function PUT(
     if (durations && durations.length > 0) {
       await prisma.serviceDuration.deleteMany({ where: { serviceId: id } });
       await prisma.serviceDuration.createMany({
-        data: durations.map((d: { minutes: number; price: number }) => ({
+        data: durations.map((d: { minutes: number; price: number; packageCount?: number }) => ({
           serviceId: id,
           minutes: Number(d.minutes),
           price: Number(d.price),
+          packageCount: Number(d.packageCount || 1),
         })),
       });
     }

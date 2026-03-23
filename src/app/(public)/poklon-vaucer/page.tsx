@@ -1,11 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Gift, Phone, Mail, Heart, Star, Sparkles } from "lucide-react";
-import { SALON_PHONE, SALON_EMAIL } from "@/lib/constants";
+import { SALON_PHONE, SALON_EMAIL, SALON_NAME } from "@/lib/constants";
+
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
-  title: "Poklon vaučer - Somatic Balans",
+  title: "Poklon vaučer",
   description: "Poklonite iskustvo opuštanja. Poklon vaučeri salona Somatic Balans — savršen poklon za svaku priliku.",
+  alternates: { canonical: `${baseUrl}/poklon-vaucer` },
+  openGraph: {
+    title: `Poklon vaučer | ${SALON_NAME}`,
+    description: "Poklonite nekome masažu — savršen poklon za svaku priliku.",
+    url: `${baseUrl}/poklon-vaucer`,
+    type: "website",
+    siteName: SALON_NAME,
+    locale: "sr_RS",
+  },
 };
 
 const voucherOptions = [
@@ -41,21 +52,22 @@ const occasions = [
 
 export default function PouklonVaucerPage() {
   return (
-    <div className="py-12">
-      {/* Hero */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
-          <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: "#f0f9f4", color: "#3a8059" }}>
-            Savršen poklon
-          </span>
+    <div>
+      <div
+        className="py-16 text-center"
+        style={{ background: "linear-gradient(135deg, #f0f9f4 0%, #d9f0e4 60%, #b5e2cc 100%)" }}
+      >
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
             Poklon vaučer
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Poklonite nekome iskustvo dubokog opuštanja i brige o sebi. Poklon vaučer za masažu — nešto što će zaista ceniti.
+          <p className="text-lg text-gray-600 max-w-xl mx-auto">
+            Poklonite nekome iskustvo dubokog opuštanja i brige o sebi.
           </p>
         </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         {/* Gift box visual */}
         <div className="relative max-w-2xl mx-auto mb-16">
           <div className="rounded-3xl p-10 text-center" style={{ background: "linear-gradient(135deg, #d9f0e4, #9dceb1)" }}>

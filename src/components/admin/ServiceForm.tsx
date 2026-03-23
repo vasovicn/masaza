@@ -21,6 +21,7 @@ interface Duration {
   id?: string;
   minutes: number;
   price: number;
+  packageCount: number;
 }
 
 interface ServiceData {
@@ -32,6 +33,7 @@ interface ServiceData {
   categoryId: string;
   active: boolean;
   popular: boolean;
+  bookableOnline: boolean;
   sequence: number;
   durations: Duration[];
 }
@@ -53,8 +55,9 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
     categoryId: initial?.categoryId || (categories[0]?.id || ""),
     active: initial?.active !== undefined ? initial.active : true,
     popular: initial?.popular !== undefined ? initial.popular : false,
+    bookableOnline: initial?.bookableOnline !== undefined ? initial.bookableOnline : true,
     sequence: initial?.sequence || 0,
-    durations: initial?.durations || [{ minutes: 60, price: 3000 }],
+    durations: initial?.durations || [{ minutes: 60, price: 3000, packageCount: 1 }],
   });
   const [error, setError] = useState("");
 
@@ -70,7 +73,7 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
   const addDuration = () => {
     setForm((prev) => ({
       ...prev,
-      durations: [...prev.durations, { minutes: 60, price: 3000 }],
+      durations: [...prev.durations, { minutes: 60, price: 3000, packageCount: 1 }],
     }));
   };
 
@@ -82,7 +85,7 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
     }));
   };
 
-  const updateDuration = (index: number, field: "minutes" | "price", value: number) => {
+  const updateDuration = (index: number, field: "minutes" | "price" | "packageCount", value: number) => {
     setForm((prev) => ({
       ...prev,
       durations: prev.durations.map((d, i) => (i === index ? { ...d, [field]: value } : d)),
@@ -97,8 +100,8 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
       setError("Naziv, slug, opis i kategorija su obavezni");
       return;
     }
-    if (form.durations.length === 0) {
-      setError("Potrebno je dodati najmanje jedno trajanje");
+    if (form.bookableOnline && form.durations.length === 0) {
+      setError("Potrebno je dodati najmanje jedno trajanje za usluge koje se zakazuju online");
       return;
     }
 
@@ -185,6 +188,16 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
             className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#9dceb1] text-sm"
             placeholder="https://..."
           />
+          {form.image && (
+            <div className="mt-2 relative w-full max-w-xs">
+              <img
+                src={form.image}
+                alt="Preview slike"
+                className="w-full h-40 object-cover rounded-xl border border-gray-200"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+              />
+            </div>
+          )}
         </div>
 
         <div>
@@ -223,10 +236,23 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
           </label>
           <span className="text-sm text-gray-700">Popularna usluga <span className="text-gray-400 text-xs">(prikazuje se badge)</span></span>
         </div>
+
+        <div className="flex items-center gap-3">
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              checked={form.bookableOnline}
+              onChange={(e) => setForm({ ...form, bookableOnline: e.target.checked })}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#4da070]"></div>
+          </label>
+          <span className="text-sm text-gray-700">Online zakazivanje <span className="text-gray-400 text-xs">(prikazuje dugme za zakazivanje)</span></span>
+        </div>
       </div>
 
       {/* Durations */}
-      <div>
+      {form.bookableOnline && <div>
         <div className="flex items-center justify-between mb-3">
           <label className="text-sm font-medium text-gray-700">
             Trajanja i cene <span className="text-red-500">*</span>
@@ -266,6 +292,16 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
                   step={100}
                 />
               </div>
+              <div className="w-20">
+                <label className="text-xs text-gray-500 mb-1 block">Paket (kom)</label>
+                <input
+                  type="number"
+                  value={dur.packageCount}
+                  onChange={(e) => updateDuration(index, "packageCount", Number(e.target.value))}
+                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#9dceb1]"
+                  min={1}
+                />
+              </div>
               <button
                 type="button"
                 onClick={() => removeDuration(index)}
@@ -277,7 +313,7 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
             </div>
           ))}
         </div>
-      </div>
+      </div>}
 
       {/* Actions */}
       <div className="flex gap-3 pt-2">

@@ -27,6 +27,7 @@ export default function RegistracijaPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -48,6 +49,11 @@ export default function RegistracijaPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Greska pri registraciji");
 
+      if (data.needsVerification) {
+        setSuccess(true);
+        return;
+      }
+
       router.push("/moj-nalog");
       router.refresh();
     } catch (err) {
@@ -62,20 +68,31 @@ export default function RegistracijaPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: "#5a9e78" }}>
-              <Leaf className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-2xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Somatic Balans
-            </span>
-          </div>
           <h1 className="text-2xl font-bold text-gray-900">Kreirajte nalog</h1>
           <p className="text-gray-500 mt-1">Registrujte se za lako zakazivanje</p>
         </div>
 
         {/* Form */}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+          {success ? (
+            <div className="text-center py-6">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: "#f0f9f4" }}>
+                <svg className="w-8 h-8" style={{ color: "#4da070" }} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-gray-900 mb-2">Proverite vaš email</h2>
+              <p className="text-gray-600 text-sm mb-4">
+                Poslali smo vam email sa linkom za potvrdu naloga. Kliknite na link u emailu da biste aktivirali vaš nalog.
+              </p>
+              <p className="text-xs text-gray-400">
+                Ako ne vidite email, proverite spam folder.
+              </p>
+              <Link href="/login" className="inline-block mt-6 text-sm font-semibold" style={{ color: "#3a8059" }}>
+                Nazad na prijavu →
+              </Link>
+            </div>
+          ) : (<>
           {error && (
             <div className="mb-5 p-3 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm">
               {error}
@@ -121,9 +138,10 @@ export default function RegistracijaPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Telefon</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">Telefon *</label>
               <input
                 type="tel"
+                required
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#9dceb1] text-sm"
@@ -192,6 +210,7 @@ export default function RegistracijaPage() {
               Prijavite se
             </Link>
           </p>
+          </>)}
         </div>
       </div>
     </div>

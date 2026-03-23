@@ -29,6 +29,11 @@ export function timeToMinutes(time: string): number {
   return h * 60 + m;
 }
 
+/** Round up minutes to next 30-min boundary (e.g. 14:40 → 15:00, 14:30 → 14:30) */
+export function roundUpToSlot(minutes: number): number {
+  return Math.ceil(minutes / SLOT_INTERVAL) * SLOT_INTERVAL;
+}
+
 export async function getAvailableSlots(
   date: string,
   durationMinutes: number
@@ -70,7 +75,9 @@ export async function getAvailableSlots(
       return staffBookings.every((booking) => {
         const bookingStart = timeToMinutes(booking.startTime);
         const bookingEnd = timeToMinutes(booking.endTime);
-        return slotEnd <= bookingStart || slotStart >= bookingEnd;
+        // Round up booking end to next 30-min slot boundary
+        const bookingEndRounded = roundUpToSlot(bookingEnd);
+        return slotEnd <= bookingStart || slotStart >= bookingEndRounded;
       });
     });
 
@@ -82,6 +89,71 @@ export async function getAvailableSlots(
   });
 
   return result.filter((s) => s.slots.length > 0);
+}
+
+/**
+ * Atomically check for overlap and create a booking inside a transaction.
+ * Prevents race conditions where two users book the same slot simultaneously.
+ */
+export async function createBookingSafe(data: {
+  staffUserId: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  serviceId: string;
+  serviceDurationId: string;
+  customerName: string;
+  customerPhone: string;
+  customerEmail?: string | null;
+  clientUserId?: string | null;
+  notes?: string | null;
+  status?: string;
+}) {
+  const newStart = timeToMinutes(data.startTime);
+  const newEndRounded = roundUpToSlot(timeToMinutes(data.endTime));
+
+  return await prisma.$transaction(async (tx) => {
+    // Re-check for conflicts inside the transaction
+    const existing = await tx.booking.findMany({
+      where: {
+        staffUserId: data.staffUserId,
+        date: data.date,
+        status: "confirmed",
+      },
+    });
+
+    const conflict = existing.some((b) => {
+      const bStart = timeToMinutes(b.startTime);
+      const bEndRounded = roundUpToSlot(timeToMinutes(b.endTime));
+      return newStart < bEndRounded && newEndRounded > bStart;
+    });
+
+    if (conflict) {
+      throw new Error("SLOT_TAKEN");
+    }
+
+    return await tx.booking.create({
+      data: {
+        customerName: data.customerName,
+        customerPhone: data.customerPhone,
+        customerEmail: data.customerEmail || null,
+        clientUserId: data.clientUserId || null,
+        serviceId: data.serviceId,
+        serviceDurationId: data.serviceDurationId,
+        date: data.date,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        staffUserId: data.staffUserId,
+        notes: data.notes || null,
+        status: data.status || "confirmed",
+      },
+      include: {
+        service: true,
+        serviceDuration: true,
+        staffUser: true,
+      },
+    });
+  });
 }
 
 // Returns unique time slots where at least one therapist is available

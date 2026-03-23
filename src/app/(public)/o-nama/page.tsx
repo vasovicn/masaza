@@ -1,39 +1,37 @@
 import type { Metadata } from "next";
-import { Heart, Shield, Sparkles, Award, Star } from "lucide-react";
-import { prisma } from "@/lib/prisma";
+import { Heart, Shield, Sparkles, Award } from "lucide-react";
+import { SALON_NAME } from "@/lib/constants";
+
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
-  title: "O nama - Somatic Balans",
-  description: "Upoznajte tim Somatic Balans salona masaze u Beogradu. Nasi strucni maseri su tu da vam pruze nezaboravno iskustvo.",
+  title: "O nama",
+  description: "Upoznajte tim Somatic Balans salona za masažu u Beogradu. Naši stručni maseri su tu da vam pruže nezaboravno iskustvo.",
+  alternates: { canonical: `${baseUrl}/o-nama` },
+  openGraph: {
+    title: `O nama | ${SALON_NAME}`,
+    description: "Upoznajte naš tim i našu priču.",
+    url: `${baseUrl}/o-nama`,
+    type: "website",
+    siteName: SALON_NAME,
+    locale: "sr_RS",
+  },
 };
 
-async function getStaff() {
-  try {
-    return await prisma.staffUser.findMany({
-      where: { active: true, role: "maser" },
-      orderBy: { sequence: "asc" },
-    });
-  } catch {
-    return [];
-  }
-}
-
-export default async function ONamaPage() {
-  const staff = await getStaff();
+export default function ONamaPage() {
 
   return (
-    <div className="py-12">
-      {/* Hero section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: "#f0f9f4", color: "#3a8059" }}>
-            Ko smo mi
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
-            O salonu Somatic Balans
+    <div>
+      <div
+        className="py-16 text-center"
+        style={{ background: "linear-gradient(135deg, #f0f9f4 0%, #d9f0e4 60%, #b5e2cc 100%)" }}
+      >
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+            O nama
           </h1>
-          <p className="text-lg text-gray-600 leading-relaxed">
-            Somatic Balans je osnovan sa jednom vizijom: da svakom klijentu pruzi savrseno prilagodjeni tretman koji obnavlja telo i um.
+          <p className="text-lg text-gray-600 max-w-xl mx-auto">
+            Upoznajte Somatic Balans i našu priču.
           </p>
         </div>
       </div>
@@ -48,13 +46,16 @@ export default async function ONamaPage() {
               </h2>
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
-                  Somatic Balans je nastao iz duboke strasti prema holistickom zdravlju i blagostanju. Nasi osnivaci su verovali da profesionalna masaza nije luksuz - vec esencijalna potreba modernog coveka koji se suocava sa svakodnevnim stresom i fizickim naprezanjima.
+                  Moj život se deli na period pre i posle prve obuke za masažu. Pre nego što me je masaža privukla bavila sam se administracijom a najveći deo socijalnih veština sam upravo tada izbrusila.
                 </p>
                 <p>
-                  Naziv &quot;Somatic Balans&quot; dolazi od grcke reci &quot;soma&quot; (telo) i latinskog &quot;balans&quot; (ravnoteza). Ova filozofija prozdire sve sto radimo - trazimo ravnotezu izmedju tela i uma, izmedju napetosti i opustanja, izmedju bola i komfora.
+                  Masaža mi je pomogla da razvijem intuiciju i zahvaljujući njoj prepustim se pozivu duše. Slušajući šta mi srce ište upisujem obuku za telesnog psihoterapeuta u IPD centru i uporedo sa tim i edukaciju Somatic experiencing Pitera Levina. Moj put učenja će trajati dok sam živa jer planiram i studije tradicionalne kineske medicine.
                 </p>
                 <p>
-                  Danas, sa timom iskusnih terapeuta i savremeno opremljenim kabinetima, nastavljamo da gradimo nasu reputaciju kao jedno od vodecih mesta za masazu u Beogradu.
+                  Puno je puteva do istine koja je jedna i uvek ista - čovek je izvanredno biće, a priroda je svakom od nas dala potencijale da to i dostignemo.
+                </p>
+                <p>
+                  Moje nastojanje je da drugome budem podrška u tom procesu na sve, meni dostupne, načine.
                 </p>
               </div>
             </div>
@@ -75,42 +76,6 @@ export default async function ONamaPage() {
           </div>
         </div>
       </div>
-
-      {/* Team */}
-      {staff.length > 0 && (
-        <div className="py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: "#f0f9f4", color: "#3a8059" }}>
-                Nas tim
-              </span>
-              <h2 className="text-3xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Upoznajte nase terapeute
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {staff.map((member) => (
-                <div key={member.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all text-center p-6">
-                  <div className="w-20 h-20 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4" style={{ backgroundColor: "#5a9e78" }}>
-                    {member.firstName[0]}{member.lastName[0]}
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>
-                    {member.firstName} {member.lastName}
-                  </h3>
-                  <div className="flex items-center justify-center gap-1 mb-3">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <Star key={i} className="w-4 h-4 fill-current" style={{ color: "#f59e0b" }} />
-                    ))}
-                  </div>
-                  {member.bio && (
-                    <p className="text-sm text-gray-600 leading-relaxed">{member.bio}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Values */}
       <div className="py-16" style={{ background: "linear-gradient(135deg, #f0f9f4, #d9f0e4)" }}>

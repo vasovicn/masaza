@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Phone, Mail, MapPin, Clock, Instagram, Leaf } from "lucide-react";
+import Image from "next/image";
+import { Phone, Mail, MapPin, Clock, Instagram } from "lucide-react";
 import { SALON_NAME, SALON_PHONE, SALON_EMAIL, SALON_ADDRESS, SALON_INSTAGRAM } from "@/lib/constants";
 
 export default function Footer() {
@@ -10,9 +11,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "#5a9e78" }}>
-                <Leaf className="w-5 h-5 text-white" />
-              </div>
+              <Image src="/logo.png" alt={SALON_NAME} width={36} height={36} className="rounded-full" />
               <span className="text-xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
                 {SALON_NAME}
               </span>
@@ -27,7 +26,7 @@ export default function Footer() {
               className="inline-flex items-center gap-2 text-sm hover:text-[#9dceb1] transition-colors"
             >
               <Instagram className="w-4 h-4" />
-              @somaticbalans
+              @masaza_balans
             </a>
           </div>
 

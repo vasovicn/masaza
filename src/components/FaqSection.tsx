@@ -3,7 +3,28 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
-const faqs = [
+export const faqs = [
+  {
+    category: "Masaže i tretmani",
+    items: [
+      {
+        question: "Da li sme da se radi masaža tokom trudnoće i dok dojim?",
+        answer: "Da, od prvog dana trudnoće sme da se radi masaža jer je prilagođena vašem stanju i bezbedna za plod i vas.",
+      },
+      {
+        question: "Koliko često sme da se ide na masažu?",
+        answer: "Onoliko često koliko vama prija! Ako ste stalno izloženi stresu čak svakodnevno opuštanje pomaže da se oslobodite nakupljene tenzije. Ipak, optimalno je bar jednom nedeljno ili u dve nedelje opustiti svoj nervni sistem a time i mišiće i fasciju.",
+      },
+      {
+        question: "Koja je razlika između relaks i antistres masaže?",
+        answer: "Relaks je blaga i opuštajuća masaža dok je antistres dubljih hvatova, a opet ne toliko jakih da bi bilo prejako.",
+      },
+      {
+        question: "Da li anticelulit masaža stvarno pomaže da se smanji efekat \"pomorandžine kore\"?",
+        answer: "Apsolutno, ali nije dovoljno samo masiranje. Mora se povesti računa o ishrani i uvesti bar šetnja. Naravno, od stanja potkožnog tkiva zavisi i broj tretmana pa ako se tkivo redovno tretira u dovoljnom broju moguće je \"ispeglati\" kožu, tj. razgraditi celulit i dobiti željeni glatki(ji) izgled kože.",
+      },
+    ],
+  },
   {
     category: "Zakazivanje",
     items: [
@@ -21,32 +42,7 @@ const faqs = [
       },
       {
         question: "Koliko unapred treba da zakažem?",
-        answer: "Preporučujemo zakazivanje 2-3 dana unapred, posebno vikendom. Za hitne termine, pokušajte nas kontaktirati telefonom — često imamo slobodnih mesta.",
-      },
-    ],
-  },
-  {
-    category: "Masaže i tretmani",
-    items: [
-      {
-        question: "Koliko traje masaža?",
-        answer: "Tretmani traju 30, 60 ili 90 minuta, u zavisnosti od vrste masaže i vašeg izbora. Preporučujemo 60-minutni tretman za potpuno iskustvo opuštanja.",
-      },
-      {
-        question: "Koja masaža je prava za mene?",
-        answer: "Ako niste sigurni, naši terapeuti će vam pomoći pri izboru. Relaksaciona masaža je idealna za opuštanje i stres, sportska masaža za oporavak mišića, a duboka tkivna za hronične napetosti.",
-      },
-      {
-        question: "Da li je masaža bolna?",
-        answer: "Masaža ne bi trebalo da bude bolna. Pritisak uvek prilagođavamo vašim potrebama i toleranciji. Tokom tretmana slobodno recite terapeutu ako vam je neprijatno.",
-      },
-      {
-        question: "Treba li mi posebna priprema pre masaže?",
-        answer: "Dođite odmorno i nemojte jesti obilno sat vremena pre tretmana. Preporučujemo da pijete dosta vode dan pre i posle masaže. Sve ostalo prepustite našim terapeutima.",
-      },
-      {
-        question: "Mogu li da biram terapeuta?",
-        answer: "Da, pri zakazivanju možete odabrati željenog terapeuta. Ako nemate preferenciju, naš sistem automatski dodeljuje dostupnog terapeuta.",
+        answer: "Preporučujemo zakazivanje 2-3 dana unapred, posebno vikendom.",
       },
     ],
   },
@@ -72,7 +68,7 @@ const faqs = [
     items: [
       {
         question: "Gde se nalazite?",
-        answer: "Nalazimo se u Beogradu. Tačnu adresu i uputstvo za dolazak možete pronaći na stranici Kontakt.",
+        answer: "Nalazimo se u Zemunu. Tačnu adresu i uputstvo za dolazak možete pronaći na stranici Kontakt.",
       },
       {
         question: "Kada ste otvoreni?",
@@ -80,7 +76,7 @@ const faqs = [
       },
       {
         question: "Da li ima parking?",
-        answer: "Da, u blizini salona postoje parking mesta. Detaljnije informacije potražite na stranici Kontakt.",
+        answer: "Da, u blizini salona postoje parking mesta.",
       },
     ],
   },

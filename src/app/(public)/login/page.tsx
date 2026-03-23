@@ -52,14 +52,6 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: "#5a9e78" }}>
-              <Leaf className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-2xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Somatic Balans
-            </span>
-          </div>
           <h1 className="text-2xl font-bold text-gray-900">Dobrodosli nazad</h1>
           <p className="text-gray-500 mt-1">Prijavite se na vas nalog</p>
         </div>
@@ -103,6 +95,11 @@ export default function LoginPage() {
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
+              </div>
+              <div className="text-right mt-1">
+                <Link href="/zaboravljena-lozinka" className="text-xs hover:underline" style={{ color: "#3a8059" }}>
+                  Zaboravljena lozinka?
+                </Link>
               </div>
             </div>
 

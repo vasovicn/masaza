@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus, Pencil, ToggleLeft, ToggleRight, Loader } from "lucide-react";
 import ServiceForm from "./ServiceForm";
 
@@ -20,6 +20,7 @@ interface Service {
   category: { id: string; name: string };
   durations: ServiceDurationItem[];
   active: boolean;
+  bookableOnline: boolean;
   sequence: number;
 }
 
@@ -39,6 +40,16 @@ export default function ServiceList({ services, categories, onRefresh }: Props) 
   const [editing, setEditing] = useState<Service | null>(null);
   const [loading, setLoading] = useState(false);
   const [togglingId, setTogglingId] = useState<string | null>(null);
+
+  // Reset form/editing when sidebar link is clicked
+  useEffect(() => {
+    const handler = () => {
+      setShowForm(false);
+      setEditing(null);
+    };
+    window.addEventListener("admin-nav-reset", handler);
+    return () => window.removeEventListener("admin-nav-reset", handler);
+  }, []);
 
   const handleSave = async (data: Omit<Service, "id" | "category">) => {
     setLoading(true);
@@ -94,6 +105,8 @@ export default function ServiceList({ services, categories, onRefresh }: Props) 
             image: editing.image || "",
             categoryId: editing.categoryId,
             active: editing.active,
+            popular: false,
+            bookableOnline: editing.bookableOnline,
             sequence: editing.sequence,
             durations: editing.durations,
           } : undefined}

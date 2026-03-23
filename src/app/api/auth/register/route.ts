@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { hashPassword, signClientToken } from "@/lib/auth";
+import { hashPassword } from "@/lib/auth";
+import { sendVerificationEmail } from "@/lib/mailer";
+import { randomBytes } from "crypto";
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,42 +22,30 @@ export async function POST(request: NextRequest) {
     }
 
     const hashedPassword = await hashPassword(password);
+    const verifyToken = randomBytes(32).toString("hex");
 
-    const client = await prisma.clientUser.create({
+    await prisma.clientUser.create({
       data: {
         email,
         password: hashedPassword,
         firstName,
         lastName,
         phone: phone || null,
+        emailVerified: false,
+        verifyToken,
       },
     });
 
-    const token = await signClientToken({
-      id: client.id,
-      email: client.email,
-      firstName: client.firstName,
-      lastName: client.lastName,
-    });
+    try {
+      await sendVerificationEmail(email, verifyToken);
+    } catch {
+      // Email sending failed but user is created
+    }
 
-    const response = NextResponse.json({
-      user: {
-        id: client.id,
-        email: client.email,
-        firstName: client.firstName,
-        lastName: client.lastName,
-      },
+    return NextResponse.json({
+      message: "Registracija uspešna! Proverite email za potvrdu naloga.",
+      needsVerification: true,
     });
-
-    response.cookies.set("client_token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 7,
-      path: "/",
-    });
-
-    return response;
   } catch (error) {
     console.error("Register error:", error);
     return NextResponse.json({ error: "Greska pri registraciji" }, { status: 500 });

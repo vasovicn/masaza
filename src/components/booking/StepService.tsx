@@ -73,6 +73,7 @@ export default function StepService({ services, onSelect }: Props) {
       {/* Service cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {filtered.map((service) => {
+          if (service.durations.length === 0) return null;
           const minPrice = Math.min(...service.durations.map((d) => d.price));
           const minDuration = Math.min(...service.durations.map((d) => d.minutes));
 

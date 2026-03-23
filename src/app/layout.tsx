@@ -15,53 +15,107 @@ const inter = Inter({
   display: "swap",
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: {
-    default: `${SALON_NAME} - Profesionalni salon masaze u Beogradu`,
+    default: `${SALON_NAME} - Salon za masažu u Zemunu, Beograd`,
     template: `%s | ${SALON_NAME}`,
   },
   description:
-    "Somatic Balans je premium salon masaze u Beogradu koji nudi sirok spektar relaksacionih i terapeutskih masaza. Zakazite termin online i osetite razliku profesionalne masaze.",
+    "Somatic Balans je premium salon za masažu u Zemunu, Beograd. Širok spektar relaksacionih i terapeutskih masaža. Zakažite termin online i osetite razliku profesionalne masaže.",
   keywords: [
-    "masaza",
-    "relaksacija",
-    "masazni salon",
-    "Beograd",
-    "sportska masaza",
-    "terapeutska masaza",
-    "aromaterapija",
-    "hot stone masaza",
-    "limfna draza",
+    "masaža",
+    "masaža Beograd",
+    "masaža Zemun",
+    "masažni salon",
+    "masažni salon Zemun",
+    "masažni salon Beograd",
+    "salon za masažu Zemun",
+    "salon za masažu Beograd",
     "Somatic Balans",
-    "wellness",
-    "opustanje",
+    "Somatic Balans masaža",
+    "Somatic Balans Zemun",
+    "Somatic masaža",
+    "relaksacija",
+    "relaks masaža",
+    "relaks masaža Zemun",
+    "sportska masaža",
+    "sportska masaža Zemun",
+    "terapeutska masaža",
+    "terapeutska masaža Zemun",
+    "aromaterapija",
+    "hot stone masaža",
+    "limfna drenaža",
+    "anticelulit masaža",
+    "masaža za trudnice",
+    "wellness Zemun",
+    "opuštanje",
   ],
   authors: [{ name: SALON_NAME }],
+  alternates: { canonical: baseUrl },
   openGraph: {
     type: "website",
     locale: "sr_RS",
-    url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+    url: baseUrl,
     siteName: SALON_NAME,
-    title: `${SALON_NAME} - Profesionalni salon masaze u Beogradu`,
+    title: `${SALON_NAME} - Salon za masažu u Zemunu, Beograd`,
     description:
-      "Premium salon masaze u Beogradu. Relaksacione i terapeutske masaze prilagodjene vasim potrebama. Zakazite termin online.",
+      "Salon za masažu u Zemunu, Beograd. Relaksacione i terapeutske masaže prilagođene vašim potrebama. Zakažite termin online.",
+    images: [
+      {
+        url: `${baseUrl}/logo.png`,
+        width: 512,
+        height: 512,
+        alt: SALON_NAME,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: `${SALON_NAME} - Salon za masažu u Beogradu`,
+    description: "Relaksacione i terapeutske masaže. Zakažite termin online.",
+    images: [`${baseUrl}/logo.png`],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    // Google Search Console verification - replace with actual value
+    // google: "your-verification-code",
   },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "HealthAndBeautyBusiness",
+  "@id": `${baseUrl}/#business`,
   name: SALON_NAME,
-  description: "Profesionalni salon masaze u Beogradu",
+  description: "Profesionalni salon za masažu u Zemunu, Beograd. Relaksacione, terapeutske i specijalizovane masaže.",
+  url: baseUrl,
+  logo: `${baseUrl}/logo.png`,
+  image: `${baseUrl}/logo.png`,
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Beograd",
-    addressCountry: "RS",
     streetAddress: SALON_ADDRESS,
+    addressLocality: "Beograd",
+    addressRegion: "Zemun",
+    postalCode: "11080",
+    addressCountry: "RS",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 44.8456,
+    longitude: 20.4013,
   },
   telephone: SALON_PHONE,
   email: SALON_EMAIL,
@@ -73,7 +127,16 @@ const jsonLd = {
       closes: "22:00",
     },
   ],
-  priceRange: "2500-8500 RSD",
+  priceRange: "$$",
+  currenciesAccepted: "RSD",
+  paymentAccepted: "Cash, Credit Card",
+  areaServed: {
+    "@type": "City",
+    name: "Beograd",
+  },
+  sameAs: [
+    "https://www.instagram.com/masaza_balans/",
+  ],
 };
 
 export default function RootLayout({

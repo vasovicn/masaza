@@ -21,14 +21,10 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, slug, description, image, categoryId, durations, active, popular, sequence } = body;
+    const { name, slug, description, image, categoryId, durations, active, popular, bookableOnline, sequence } = body;
 
     if (!name || !slug || !description || !categoryId) {
       return NextResponse.json({ error: "Naziv, slug, opis i kategorija su obavezni" }, { status: 400 });
-    }
-
-    if (!durations || durations.length === 0) {
-      return NextResponse.json({ error: "Potrebno je dodati najmanje jedno trajanje" }, { status: 400 });
     }
 
     const service = await prisma.service.create({
@@ -40,13 +36,19 @@ export async function POST(request: NextRequest) {
         categoryId,
         active: active !== undefined ? active : true,
         popular: popular !== undefined ? popular : false,
+        bookableOnline: bookableOnline !== undefined ? bookableOnline : true,
         sequence: sequence || 0,
-        durations: {
-          create: durations.map((d: { minutes: number; price: number }) => ({
-            minutes: Number(d.minutes),
-            price: Number(d.price),
-          })),
-        },
+        ...(durations && durations.length > 0
+          ? {
+              durations: {
+                create: durations.map((d: { minutes: number; price: number; packageCount?: number }) => ({
+                  minutes: Number(d.minutes),
+                  price: Number(d.price),
+                  packageCount: Number(d.packageCount || 1),
+                })),
+              },
+            }
+          : {}),
       },
       include: {
         category: true,

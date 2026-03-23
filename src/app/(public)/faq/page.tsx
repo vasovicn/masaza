@@ -1,30 +1,62 @@
 import type { Metadata } from "next";
-import FaqSection from "@/components/FaqSection";
+import FaqSection, { faqs } from "@/components/FaqSection";
 import Link from "next/link";
 import { Calendar } from "lucide-react";
+import { SALON_NAME } from "@/lib/constants";
+
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
-  title: "Često postavljana pitanja - Somatic Balans",
+  title: "Često postavljana pitanja",
   description: "Pronađite odgovore na najčešća pitanja o masažama, zakazivanju, cenama i uslugama salona Somatic Balans.",
+  alternates: { canonical: `${baseUrl}/faq` },
+  openGraph: {
+    title: `Često postavljana pitanja | ${SALON_NAME}`,
+    description: "Odgovori na najčešća pitanja o masažama, zakazivanju i cenama.",
+    url: `${baseUrl}/faq`,
+    type: "website",
+    siteName: SALON_NAME,
+    locale: "sr_RS",
+  },
 };
 
 export default function FaqPage() {
+  const allQuestions = faqs.flatMap((group) => group.items);
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: allQuestions.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
   return (
-    <div className="py-12">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: "#f0f9f4", color: "#3a8059" }}>
-            Pitanja i odgovori
-          </span>
+    <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <div
+        className="py-16 text-center"
+        style={{ background: "linear-gradient(135deg, #f0f9f4 0%, #d9f0e4 60%, #b5e2cc 100%)" }}
+      >
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
             Česta pitanja
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-600 max-w-xl mx-auto">
             Odgovori na sve što vas zanima pre prvog termina.
           </p>
         </div>
+      </div>
 
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <FaqSection />
 
         {/* CTA */}

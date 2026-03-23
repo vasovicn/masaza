@@ -1,11 +1,12 @@
 "use client";
 
-import { Clock, DollarSign } from "lucide-react";
+import { Clock } from "lucide-react";
 
 interface ServiceDuration {
   id: string;
   minutes: number;
   price: number;
+  packageCount?: number;
 }
 
 interface Props {
@@ -37,22 +38,11 @@ export default function StepDuration({ serviceName, durations, onSelect, onBack 
                 <Clock className="w-6 h-6" style={{ color: "#4da070" }} />
               </div>
               <div>
-                <div className="font-bold text-gray-900 text-lg">{duration.minutes} minuta</div>
-                <div className="text-sm text-gray-500">
-                  {duration.minutes < 60
-                    ? `${duration.minutes} min`
-                    : duration.minutes === 60
-                    ? "1 sat"
-                    : `${Math.floor(duration.minutes / 60)}h ${duration.minutes % 60}min`}
-                </div>
+                <div className="font-bold text-gray-900 text-lg">{duration.packageCount && duration.packageCount > 1 ? `${duration.packageCount} x ${duration.minutes} minuta` : `${duration.minutes} minuta`}</div>
               </div>
             </div>
-            <div className="text-right">
-              <div className="flex items-center gap-1 font-bold text-xl" style={{ color: "#3a8059" }}>
-                <DollarSign className="w-5 h-5 opacity-60" />
-                {duration.price.toLocaleString("sr-RS")}
-              </div>
-              <div className="text-sm text-gray-400">RSD</div>
+            <div className="font-bold text-xl" style={{ color: "#3a8059" }}>
+              {duration.price.toLocaleString("sr-RS")} RSD
             </div>
           </button>
         ))}

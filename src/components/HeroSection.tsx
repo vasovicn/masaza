@@ -3,7 +3,7 @@ import { Calendar, ChevronRight, Leaf } from "lucide-react";
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden min-h-[90vh] flex items-center">
+    <section className="relative overflow-hidden min-h-[calc(100vh-5rem)] flex items-center">
       {/* Background */}
       <div
         className="absolute inset-0 z-0"
@@ -20,7 +20,7 @@ export default function HeroSection() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6" style={{ backgroundColor: "rgba(157,206,177,0.3)", color: "#2e6345" }}>
             <Leaf className="w-4 h-4" />
-            Profesionalni salon masaze u Beogradu
+            Profesionalna masaža u Beogradu
           </div>
 
           {/* Headline */}
@@ -58,7 +58,7 @@ export default function HeroSection() {
           <div className="mt-12 grid grid-cols-3 gap-6 max-w-sm">
             {[
               { value: "500+", label: "Zadovoljnih klijenata" },
-              { value: "6+", label: "Vrsta masaza" },
+              { value: "10+", label: "Vrsta masaza" },
               { value: "5+", label: "God. iskustva" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">

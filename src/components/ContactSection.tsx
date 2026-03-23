@@ -39,19 +39,6 @@ export default function ContactSection() {
   return (
     <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: "#f0f9f4", color: "#3a8059" }}>
-            Kontaktirajte nas
-          </span>
-          <h2 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Ostanite u kontaktu
-          </h2>
-          <p className="text-lg text-gray-600">
-            Imate pitanja? Kontaktirajte nas i odgovoriti cemo sto pre.
-          </p>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left - Contact info */}
           <div className="space-y-6">
@@ -110,7 +97,7 @@ export default function ContactSection() {
             {/* Map placeholder */}
             <div className="rounded-2xl overflow-hidden h-48 bg-gray-200 relative">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d90903.17555259843!2d20.32817!3d44.8176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a7aa3d7b3db57%3A0x41e45bf57eb52c1b!2sBelgrade!5e0!3m2!1sen!2srs!4v1699900000000!5m2!1sen!2srs"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2831.5!2d20.3708!3d44.8048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a6f21c3e738a5%3A0x1!2sLaze%20Jovanovi%C4%87a%20Porcija%207a%2C%20Belgrade%2011080!5e0!3m2!1sen!2srs!4v1699900000000!5m2!1sen!2srs"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

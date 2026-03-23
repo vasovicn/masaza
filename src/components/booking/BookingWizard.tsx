@@ -15,6 +15,7 @@ interface ServiceDuration {
   id: string;
   minutes: number;
   price: number;
+  packageCount?: number;
 }
 
 interface Service {
@@ -64,11 +65,13 @@ export default function BookingWizard() {
   });
 
   useEffect(() => {
-    // Load services
+    // Load services (only bookable online)
     fetch("/api/services")
       .then((r) => r.json())
       .then((d) => {
-        setServices(d.services || []);
+        const allServices: Service[] = d.services || [];
+        const bookable = allServices.filter((s) => s.durations.length > 0);
+        setServices(bookable);
         // Pre-select service from query param
         const serviceId = searchParams.get("service");
         if (serviceId) {

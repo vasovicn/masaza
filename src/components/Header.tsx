@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { Menu, X, Leaf, ChevronDown, User, LogOut, Calendar } from "lucide-react";
+import Image from "next/image";
+import { Menu, X, ChevronDown, User, LogOut, Calendar } from "lucide-react";
 
 interface UserInfo {
   id: string;
@@ -17,9 +18,17 @@ interface UserInfo {
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState<UserInfo | null>(null);
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -53,14 +62,15 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm">
+    <header
+      className="sticky top-0 z-50 transition-all duration-300"
+      style={{ background: "linear-gradient(135deg, #f0f9f4 0%, #d9f0e4 60%, #b5e2cc 100%)", boxShadow: scrolled ? "0 1px 3px rgba(0,0,0,0.1)" : "none" }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: "#5a9e78" }}>
-              <Leaf className="w-5 h-5 text-white" />
-            </div>
+            <Image src="/logo.png" alt="Somatic Balans" width={40} height={40} className="rounded-full" />
             <span className="text-xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
               Somatic Balans
             </span>

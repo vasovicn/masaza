@@ -24,6 +24,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Pogresni podaci za prijavu" }, { status: 401 });
     }
 
+    if (!client.emailVerified) {
+      return NextResponse.json({ error: "Email adresa nije potvrđena. Proverite inbox." }, { status: 403 });
+    }
+
     const token = await signClientToken({
       id: client.id,
       email: client.email,

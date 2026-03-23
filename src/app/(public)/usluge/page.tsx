@@ -3,17 +3,30 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { Clock, ArrowRight, Calendar, Sparkles } from "lucide-react";
+import { SALON_NAME } from "@/lib/constants";
+
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
-  title: "Nase usluge - Somatic Balans",
+  title: "Naše usluge",
   description:
-    "Pogledajte sve masazne usluge koje nudimo: relaksacione, terapeutske i specijalizovane masaze u Beogradu.",
+    "Pogledajte sve masažne usluge koje nudimo: relaksacione, terapeutske i specijalizovane masaže u Beogradu.",
+  alternates: { canonical: `${baseUrl}/usluge` },
+  openGraph: {
+    title: `Naše usluge | ${SALON_NAME}`,
+    description: "Relaksacione, terapeutske i specijalizovane masaže u Beogradu.",
+    url: `${baseUrl}/usluge`,
+    type: "website",
+    siteName: SALON_NAME,
+    locale: "sr_RS",
+  },
 };
 
 interface ServiceDuration {
   id: string;
   minutes: number;
   price: number;
+  packageCount: number;
 }
 
 interface Service {
@@ -23,17 +36,24 @@ interface Service {
   description: string;
   image: string | null;
   popular: boolean;
+  bookableOnline: boolean;
   category: { id: string; name: string };
   durations: ServiceDuration[];
 }
 
+import { prisma } from "@/lib/prisma";
+
 async function getServices(): Promise<Service[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/services`, { next: { revalidate: 300 } });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.services || [];
+    const services = await prisma.service.findMany({
+      where: { active: true },
+      include: {
+        category: true,
+        durations: { orderBy: { minutes: "asc" } },
+      },
+      orderBy: [{ category: { sequence: "asc" } }, { sequence: "asc" }],
+    });
+    return services as unknown as Service[];
   } catch {
     return [];
   }
@@ -46,22 +66,40 @@ export default async function UsluiePage() {
     new Map(services.map((s) => [s.category.id, s.category])).values()
   );
 
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Masažne usluge",
+    numberOfItems: services.length,
+    itemListElement: services.map((service, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: `${baseUrl}/usluge/${service.slug}`,
+      name: service.name,
+    })),
+  };
+
   return (
-    <div className="py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: "#f0f9f4", color: "#3a8059" }}>
-            Nase usluge
-          </span>
+    <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
+      <div
+        className="py-16 text-center"
+        style={{ background: "linear-gradient(135deg, #f0f9f4 0%, #d9f0e4 60%, #b5e2cc 100%)" }}
+      >
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Masazne usluge
+            Naše Usluge
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-xl mx-auto">
             Biramo iz bogatog spektra masaznih tehnika za opustanje, terapiju i oporavak.
           </p>
         </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         {/* Categories */}
         {categories.map((category) => {
           const categoryServices = services.filter((s) => s.category.id === category.id);
@@ -97,34 +135,42 @@ export default async function UsluiePage() {
                         <h3 className="text-xl font-bold text-gray-900 mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
                           {service.name}
                         </h3>
-                        <p className="text-sm text-gray-600 mb-4 line-clamp-3 leading-relaxed">
+                        <p className="text-sm text-gray-600 mb-4 line-clamp-3 leading-relaxed min-h-[3.75rem]">
                           {service.description}
                         </p>
 
                         {/* Duration options */}
-                        <div className="space-y-1.5 mb-4">
-                          {service.durations.map((dur) => (
-                            <div key={dur.id} className="flex justify-between items-center text-sm">
-                              <span className="flex items-center gap-1.5 text-gray-500">
-                                <Clock className="w-3.5 h-3.5 text-[#9dceb1]" />
-                                {dur.minutes} min
-                              </span>
-                              <span className="font-semibold" style={{ color: "#3a8059" }}>
-                                {dur.price.toLocaleString("sr-RS")} RSD
-                              </span>
-                            </div>
-                          ))}
-                        </div>
+                        {service.durations.length > 0 && (
+                          <div className="space-y-1.5 mb-4">
+                            {service.durations.map((dur) => (
+                              <div key={dur.id} className="flex justify-between items-center text-sm">
+                                <span className="flex items-center gap-1.5 text-gray-500">
+                                  <Clock className="w-3.5 h-3.5 text-[#9dceb1]" />
+                                  {dur.packageCount > 1 ? `${dur.packageCount} x ${dur.minutes} min` : `${dur.minutes} min`}
+                                </span>
+                                <span className="font-semibold" style={{ color: "#3a8059" }}>
+                                  {dur.price.toLocaleString("sr-RS")} RSD
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
 
                         <div className="flex items-center gap-2 mt-auto">
-                          <Link
-                            href={`/zakazivanje?service=${service.id}`}
-                            className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full text-white text-sm font-medium transition-all hover:opacity-90"
-                            style={{ backgroundColor: "#5a9e78" }}
-                          >
-                            <Calendar className="w-4 h-4" />
-                            Zakazi
-                          </Link>
+                          {service.bookableOnline ? (
+                            <Link
+                              href={`/zakazivanje?service=${service.id}`}
+                              className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full text-white text-sm font-medium transition-all hover:opacity-90"
+                              style={{ backgroundColor: "#5a9e78" }}
+                            >
+                              <Calendar className="w-4 h-4" />
+                              Zakazi
+                            </Link>
+                          ) : (
+                            <span className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full text-sm font-medium border border-gray-200 text-gray-500">
+                              Kontaktirajte nas za info
+                            </span>
+                          )}
                           <Link
                             href={`/usluge/${service.slug}`}
                             className="flex items-center justify-center gap-1 px-3 py-2 rounded-full border border-gray-200 text-gray-600 hover:border-[#9dceb1] hover:text-[#3a8059] text-sm transition-colors"

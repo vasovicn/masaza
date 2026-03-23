@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { addMinutes, timeToMinutes } from "@/lib/slots";
+import { addMinutes, timeToMinutes, roundUpToSlot, createBookingSafe } from "@/lib/slots";
 import { sendBookingConfirmation } from "@/lib/mailer";
 import { verifyClientToken } from "@/lib/auth";
 import { WORKING_HOURS } from "@/lib/constants";
@@ -51,54 +51,27 @@ export async function POST(request: NextRequest) {
     let selectedStaffId = staffUserId;
 
     if (!selectedStaffId) {
-      // Auto-assign least busy staff
+      // Auto-assign: find first available staff
       const allStaff = await prisma.staffUser.findMany({
         where: { active: true, role: "maser" },
         orderBy: { sequence: "asc" },
       });
 
-      const bookingCounts = await prisma.booking.groupBy({
-        by: ["staffUserId"],
+      const allBookings = await prisma.booking.findMany({
         where: { date, status: "confirmed" },
-        _count: { id: true },
       });
 
-      const countMap: Record<string, number> = {};
-      bookingCounts.forEach((b) => {
-        countMap[b.staffUserId] = b._count.id;
-      });
+      const newStart = timeToMinutes(startTime);
+      const newEndRounded = roundUpToSlot(timeToMinutes(endTime));
 
-      // Find available staff
       for (const staff of allStaff) {
-        const conflicts = await prisma.booking.findFirst({
-          where: {
-            staffUserId: staff.id,
-            date,
-            status: "confirmed",
-            OR: [
-              {
-                AND: [
-                  { startTime: { lte: startTime } },
-                  { endTime: { gt: startTime } },
-                ],
-              },
-              {
-                AND: [
-                  { startTime: { lt: endTime } },
-                  { endTime: { gte: endTime } },
-                ],
-              },
-              {
-                AND: [
-                  { startTime: { gte: startTime } },
-                  { endTime: { lte: endTime } },
-                ],
-              },
-            ],
-          },
+        const staffBookings = allBookings.filter((b) => b.staffUserId === staff.id);
+        const overlap = staffBookings.some((b) => {
+          const bStart = timeToMinutes(b.startTime);
+          const bEndRounded = roundUpToSlot(timeToMinutes(b.endTime));
+          return newStart < bEndRounded && newEndRounded > bStart;
         });
-
-        if (!conflicts) {
+        if (!overlap) {
           selectedStaffId = staff.id;
           break;
         }
@@ -106,39 +79,6 @@ export async function POST(request: NextRequest) {
 
       if (!selectedStaffId) {
         return NextResponse.json({ error: "Nema dostupnih masera za izabrani termin" }, { status: 409 });
-      }
-    } else {
-      // Verify selected staff is available
-      const conflict = await prisma.booking.findFirst({
-        where: {
-          staffUserId: selectedStaffId,
-          date,
-          status: "confirmed",
-          OR: [
-            {
-              AND: [
-                { startTime: { lte: startTime } },
-                { endTime: { gt: startTime } },
-              ],
-            },
-            {
-              AND: [
-                { startTime: { lt: endTime } },
-                { endTime: { gte: endTime } },
-              ],
-            },
-            {
-              AND: [
-                { startTime: { gte: startTime } },
-                { endTime: { lte: endTime } },
-              ],
-            },
-          ],
-        },
-      });
-
-      if (conflict) {
-        return NextResponse.json({ error: "Izabrani termin je zauzet" }, { status: 409 });
       }
     }
 
@@ -149,31 +89,48 @@ export async function POST(request: NextRequest) {
       const payload = await verifyClientToken(clientToken);
       if (payload) {
         clientUserId = payload.id as string;
+
+        // Save phone number to profile if the user doesn't have one yet
+        if (customerPhone) {
+          const client = await prisma.clientUser.findUnique({
+            where: { id: clientUserId },
+            select: { phone: true },
+          });
+          if (client && !client.phone) {
+            await prisma.clientUser.update({
+              where: { id: clientUserId },
+              data: { phone: customerPhone },
+            });
+          }
+        }
       }
     }
 
-    // Create booking
-    const booking = await prisma.booking.create({
-      data: {
+    // Atomically check + create inside transaction to prevent race conditions
+    let booking;
+    try {
+      booking = await createBookingSafe({
+        staffUserId: selectedStaffId,
+        date,
+        startTime,
+        endTime,
+        serviceId,
+        serviceDurationId,
         customerName,
         customerPhone,
         customerEmail: customerEmail || null,
         clientUserId,
-        serviceId,
-        serviceDurationId,
-        date,
-        startTime,
-        endTime,
-        staffUserId: selectedStaffId,
         notes: notes || null,
-        status: "confirmed",
-      },
-      include: {
-        service: true,
-        serviceDuration: true,
-        staffUser: true,
-      },
-    });
+      });
+    } catch (err) {
+      if (err instanceof Error && err.message === "SLOT_TAKEN") {
+        return NextResponse.json(
+          { error: "Izabrani termin je upravo zauzet. Molimo izaberite drugi termin." },
+          { status: 409 }
+        );
+      }
+      throw err;
+    }
 
     // Send email notification (non-blocking)
     sendBookingConfirmation({

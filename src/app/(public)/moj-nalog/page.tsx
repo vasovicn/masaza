@@ -19,6 +19,11 @@ export default async function MojNalogPage() {
 
   const userId = payload.id as string;
 
+  const clientUser = await prisma.clientUser.findUnique({
+    where: { id: userId },
+    select: { phone: true },
+  });
+
   const bookings = await prisma.booking.findMany({
     where: { clientUserId: userId },
     include: {
@@ -40,6 +45,7 @@ export default async function MojNalogPage() {
         email: payload.email as string,
         firstName: payload.firstName as string,
         lastName: payload.lastName as string,
+        phone: clientUser?.phone || undefined,
       }}
       upcomingBookings={upcoming}
       pastBookings={past}

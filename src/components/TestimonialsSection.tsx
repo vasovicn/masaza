@@ -4,21 +4,21 @@ const testimonials = [
   {
     name: "Milica Stankovic",
     role: "Marketing menadzer",
-    text: "Neverovatno iskustvo! Aromaterapijska masaza u Somatic Balansu je potpuno promenila moj pogled na relaksaciju. Dolazim svake dve nedelje i ne mogu zamisliti zivot bez toga.",
+    text: "Neverovatno iskustvo! Relaks masaza u Somatic Balansu je potpuno promenila moj pogled na relaksaciju. Dolazim svake dve nedelje i ne mogu zamisliti zivot bez toga.",
     rating: 5,
     initials: "MS",
   },
   {
     name: "Stefan Nikolic",
     role: "Sportista",
-    text: "Kao aktivni sportista, redovno koristim sportsku masazu. Marko je pravi strucnjak - tacno zna gde je problem i kako da pomogne. Oporavak posle treninga je sada duplo brzi.",
+    text: "Kao aktivni sportista, redovno koristim terapeutsku masazu. Olja je pravi strucnjak - tacno zna gde je problem i kako da pomogne. Oporavak posle treninga je sada duplo brzi.",
     rating: 5,
     initials: "SN",
   },
   {
     name: "Jelena Popovic",
     role: "IT inzenjer",
-    text: "Dolazim na duboku tkivnu masazu zbog bolova u ledjima od sedenja za kompjuterom. Ana je fantasticna - nakon samo 3 tretmana bolovi su se znacajno smanjili. Toplo preporucujem!",
+    text: "Antistres masaža me potpuno resetuje nakon naporne radne nedelje. Posle svakog tretmana osećam se kao nova osoba - nestanu napetost i glavobolje od stresa. Ovo je postala moja obavezna rutina!",
     rating: 5,
     initials: "JP",
   },
@@ -46,7 +46,7 @@ export default function TestimonialsSection() {
           {testimonials.map((testimonial) => (
             <div
               key={testimonial.name}
-              className="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-[#9dceb1] hover:shadow-md transition-all"
+              className="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:border-[#9dceb1] hover:shadow-md transition-all flex flex-col"
             >
               {/* Stars */}
               <div className="flex gap-1 mb-4">
@@ -61,7 +61,7 @@ export default function TestimonialsSection() {
               </p>
 
               {/* Author */}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 mt-auto">
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold"
                   style={{ backgroundColor: "#5a9e78" }}

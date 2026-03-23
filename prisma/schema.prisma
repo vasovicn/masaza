@@ -25,16 +25,20 @@ model StaffUser {
 }
 
 model ClientUser {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  password  String?
-  googleId  String?   @unique
-  firstName String
-  lastName  String
-  phone     String?
-  bookings  Booking[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String?
+  googleId      String?   @unique
+  firstName     String
+  lastName      String
+  phone         String?
+  emailVerified  Boolean   @default(false)
+  verifyToken    String?   @unique
+  resetToken     String?   @unique
+  resetTokenExp  DateTime?
+  bookings       Booking[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
 model ServiceCategory {
@@ -58,22 +62,24 @@ model Service {
   category    ServiceCategory   @relation(fields: [categoryId], references: [id])
   durations   ServiceDuration[]
   bookings    Booking[]
-  active      Boolean           @default(true)
-  popular     Boolean           @default(false)
-  sequence    Int               @default(0)
+  active          Boolean           @default(true)
+  popular         Boolean           @default(false)
+  bookableOnline  Boolean           @default(true)
+  sequence        Int               @default(0)
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
 }
 
 model ServiceDuration {
-  id        String    @id @default(cuid())
-  serviceId String
-  service   Service   @relation(fields: [serviceId], references: [id])
-  minutes   Int
-  price     Int
-  bookings  Booking[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id           String    @id @default(cuid())
+  serviceId    String
+  service      Service   @relation(fields: [serviceId], references: [id])
+  minutes      Int
+  price        Int
+  packageCount Int       @default(1)
+  bookings     Booking[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 }
 
 model GalleryImage {

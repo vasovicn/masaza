@@ -1,17 +1,30 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Clock, Calendar, ArrowRight, Tag } from "lucide-react";
+import { SALON_NAME } from "@/lib/constants";
+
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
-  title: "Cenovnik - Somatic Balans",
+  title: "Cenovnik usluga",
   description:
-    "Pogledajte cenovnik svih masaznih usluga u salonu Somatic Balans u Beogradu. Relaksacione, terapeutske i specijalizovane masaze.",
+    "Pogledajte cenovnik svih masažnih usluga u salonu Somatic Balans u Beogradu. Relaksacione, terapeutske i specijalizovane masaže.",
+  alternates: { canonical: `${baseUrl}/cenovnik` },
+  openGraph: {
+    title: `Cenovnik usluga | ${SALON_NAME}`,
+    description: "Cene svih masažnih usluga na jednom mestu. Bez skrivenih troškova.",
+    url: `${baseUrl}/cenovnik`,
+    type: "website",
+    siteName: SALON_NAME,
+    locale: "sr_RS",
+  },
 };
 
 interface ServiceDuration {
   id: string;
   minutes: number;
   price: number;
+  packageCount: number;
 }
 
 interface Service {
@@ -20,17 +33,24 @@ interface Service {
   slug: string;
   description: string;
   image: string | null;
+  bookableOnline: boolean;
   category: { id: string; name: string };
   durations: ServiceDuration[];
 }
 
+import { prisma } from "@/lib/prisma";
+
 async function getServices(): Promise<Service[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/services`, { next: { revalidate: 300 } });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.services || [];
+    const services = await prisma.service.findMany({
+      where: { active: true },
+      include: {
+        category: true,
+        durations: { orderBy: { minutes: "asc" } },
+      },
+      orderBy: [{ category: { sequence: "asc" } }, { sequence: "asc" }],
+    });
+    return services as unknown as Service[];
   } catch {
     return [];
   }
@@ -43,26 +63,55 @@ export default async function CenovnikPage() {
     new Map(services.map((s) => [s.category.id, s.category])).values()
   );
 
+  const allPrices = services.flatMap((s) => s.durations.map((d) => d.price));
+  const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
+  const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 0;
+
+  const priceListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "OfferCatalog",
+    name: `Cenovnik - ${SALON_NAME}`,
+    description: "Cene svih masažnih usluga",
+    provider: {
+      "@type": "HealthAndBeautyBusiness",
+      name: SALON_NAME,
+    },
+    itemListElement: services.map((service) => ({
+      "@type": "OfferCatalog",
+      name: service.name,
+      itemListElement: service.durations.map((dur) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: service.name,
+          description: dur.packageCount > 1
+            ? `${dur.packageCount} x ${dur.minutes} minuta`
+            : `${dur.minutes} minuta`,
+        },
+        price: dur.price,
+        priceCurrency: "RSD",
+        availability: "https://schema.org/InStock",
+      })),
+    })),
+  };
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(priceListJsonLd) }}
+      />
       {/* Hero */}
       <div
         className="py-16 text-center"
         style={{ background: "linear-gradient(135deg, #f0f9f4 0%, #d9f0e4 60%, #b5e2cc 100%)" }}
       >
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-medium mb-5"
-            style={{ backgroundColor: "rgba(255,255,255,0.7)", color: "#3a8059" }}
-          >
-            <Tag className="w-3.5 h-3.5" />
-            Cenovnik usluga
-          </span>
           <h1
             className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            Transparentne cene
+            Cenovnik usluga
           </h1>
           <p className="text-lg text-gray-600 max-w-xl mx-auto">
             Sve cene masaznih usluga na jednom mestu. Bez skrivenih troskova.
@@ -116,15 +165,20 @@ export default async function CenovnikPage() {
                             </p>
                           </div>
                           <div className="flex items-center gap-2 shrink-0">
-                            <Link
-                              href={`/zakazivanje?service=${service.id}`}
-                              className="flex items-center gap-1.5 px-4 py-2 rounded-full text-white text-sm font-medium transition-all hover:opacity-90 hover:shadow-md whitespace-nowrap"
-                              style={{ backgroundColor: "#5a9e78" }}
-                            >
-                              <Calendar className="w-3.5 h-3.5" />
-                              <span className="hidden sm:inline">Zakazi</span>
-                              <span className="sm:hidden">Zakazi</span>
-                            </Link>
+                            {service.bookableOnline ? (
+                              <Link
+                                href={`/zakazivanje?service=${service.id}`}
+                                className="flex items-center gap-1.5 px-4 py-2 rounded-full text-white text-sm font-medium transition-all hover:opacity-90 hover:shadow-md whitespace-nowrap"
+                                style={{ backgroundColor: "#5a9e78" }}
+                              >
+                                <Calendar className="w-3.5 h-3.5" />
+                                Zakazi
+                              </Link>
+                            ) : (
+                              <span className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-200 text-gray-500 whitespace-nowrap">
+                                Kontaktirajte nas
+                              </span>
+                            )}
                             <Link
                               href={`/usluge/${service.slug}`}
                               className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-200 text-gray-400 hover:border-[#9dceb1] hover:text-[#3a8059] transition-colors shrink-0"
@@ -143,7 +197,7 @@ export default async function CenovnikPage() {
                               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-100 bg-gray-50"
                             >
                               <Clock className="w-3.5 h-3.5 text-[#9dceb1] shrink-0" />
-                              <span className="text-xs text-gray-500">{dur.minutes} min</span>
+                              <span className="text-xs text-gray-500">{dur.packageCount > 1 ? `${dur.packageCount} x ${dur.minutes} min` : `${dur.minutes} min`}</span>
                               <span className="text-xs font-bold text-gray-900">
                                 {dur.price.toLocaleString("sr-RS")}
                                 <span className="font-normal text-gray-400 ml-0.5">RSD</span>

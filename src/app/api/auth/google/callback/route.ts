@@ -89,13 +89,13 @@ export async function GET(request: NextRequest) {
     });
 
     if (existingByEmail) {
-      // Link Google account to existing email account
+      // Link Google account to existing email account and mark as verified
       client = await prisma.clientUser.update({
         where: { id: existingByEmail.id },
-        data: { googleId: googleUser.id },
+        data: { googleId: googleUser.id, emailVerified: true },
       });
     } else {
-      // Create new account
+      // Create new account – Google-verified, so mark active immediately
       client = await prisma.clientUser.create({
         data: {
           email: googleUser.email,
@@ -103,6 +103,7 @@ export async function GET(request: NextRequest) {
           firstName: googleUser.given_name || googleUser.email.split("@")[0],
           lastName: googleUser.family_name || "",
           password: null,
+          emailVerified: true,
         },
       });
     }

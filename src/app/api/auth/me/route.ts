@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAdminToken, verifyClientToken } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(request: NextRequest) {
   // Check staff token first
@@ -25,12 +26,17 @@ export async function GET(request: NextRequest) {
   if (clientToken) {
     const payload = await verifyClientToken(clientToken);
     if (payload) {
+      const client = await prisma.clientUser.findUnique({
+        where: { id: payload.id as string },
+        select: { phone: true },
+      });
       return NextResponse.json({
         user: {
           id: payload.id,
           email: payload.email,
           firstName: payload.firstName,
           lastName: payload.lastName,
+          phone: client?.phone || undefined,
           type: "client",
         },
       });

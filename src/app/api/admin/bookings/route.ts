@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { addMinutes } from "@/lib/slots";
+import { addMinutes, createBookingSafe } from "@/lib/slots";
 
 export async function GET(request: NextRequest) {
   try {
@@ -67,26 +67,31 @@ export async function POST(request: NextRequest) {
 
     const endTime = addMinutes(startTime, duration.minutes);
 
-    const booking = await prisma.booking.create({
-      data: {
-        customerName,
-        customerPhone,
-        customerEmail: customerEmail || null,
-        serviceId,
-        serviceDurationId,
+    // Atomically check + create inside transaction to prevent race conditions
+    let booking;
+    try {
+      booking = await createBookingSafe({
+        staffUserId,
         date,
         startTime,
         endTime,
-        staffUserId,
+        serviceId,
+        serviceDurationId,
+        customerName,
+        customerPhone,
+        customerEmail: customerEmail || null,
         notes: notes || null,
         status,
-      },
-      include: {
-        service: true,
-        serviceDuration: true,
-        staffUser: { select: { id: true, firstName: true, lastName: true } },
-      },
-    });
+      });
+    } catch (err) {
+      if (err instanceof Error && err.message === "SLOT_TAKEN") {
+        return NextResponse.json(
+          { error: "Izabrani termin se preklapa sa postojećom rezervacijom" },
+          { status: 409 }
+        );
+      }
+      throw err;
+    }
 
     return NextResponse.json({ booking }, { status: 201 });
   } catch (error) {

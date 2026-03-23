@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Calendar, Clock, User, Phone, Loader, CheckCircle, XCircle } from "lucide-react";
+import { Calendar, Clock, Banknote, Loader, CheckCircle, XCircle, Save, Edit2 } from "lucide-react";
 
 interface Booking {
   id: string;
@@ -18,7 +18,7 @@ interface Booking {
 }
 
 interface Props {
-  user: { id: string; email: string; firstName: string; lastName: string };
+  user: { id: string; email: string; firstName: string; lastName: string; phone?: string };
   upcomingBookings: Booking[];
   pastBookings: Booking[];
 }
@@ -26,10 +26,48 @@ interface Props {
 export default function ClientDashboard({ user, upcomingBookings, pastBookings }: Props) {
   const [upcoming, setUpcoming] = useState(upcomingBookings);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
+  const [confirmCancelId, setConfirmCancelId] = useState<string | null>(null);
+  const [editing, setEditing] = useState(false);
+  const [profileForm, setProfileForm] = useState({
+    firstName: user.firstName,
+    lastName: user.lastName,
+    phone: user.phone || "",
+  });
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileSuccess, setProfileSuccess] = useState(false);
+  const [profileError, setProfileError] = useState("");
+
+  const handleProfileSave = async () => {
+    if (!profileForm.firstName || !profileForm.lastName) {
+      setProfileError("Ime i prezime su obavezni");
+      return;
+    }
+    setProfileLoading(true);
+    setProfileError("");
+    setProfileSuccess(false);
+    try {
+      const res = await fetch("/api/client/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profileForm),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Greška");
+      }
+      setProfileSuccess(true);
+      setEditing(false);
+      setTimeout(() => setProfileSuccess(false), 3000);
+    } catch (err) {
+      setProfileError(err instanceof Error ? err.message : "Greška");
+    } finally {
+      setProfileLoading(false);
+    }
+  };
 
   const handleCancel = async (id: string) => {
-    if (!confirm("Da li zelite da otkazete ovu rezervaciju?")) return;
     setCancellingId(id);
+    setConfirmCancelId(null);
     try {
       const res = await fetch(`/api/client/bookings/${id}/cancel`, { method: "POST" });
       if (res.ok) {
@@ -90,6 +128,124 @@ export default function ClientDashboard({ user, upcomingBookings, pastBookings }
         ))}
       </div>
 
+      {/* Profile edit */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-6 mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Moji podaci
+          </h2>
+          {!editing && (
+            <button
+              onClick={() => setEditing(true)}
+              className="flex items-center gap-1.5 text-sm font-medium px-3 py-1.5 rounded-lg transition-colors"
+              style={{ backgroundColor: "#f0f9f4", color: "#3a8059" }}
+            >
+              <Edit2 className="w-3.5 h-3.5" />
+              Izmeni
+            </button>
+          )}
+        </div>
+
+        {profileSuccess && (
+          <div className="mb-4 p-3 rounded-xl bg-green-50 border border-green-100 text-green-700 text-sm">
+            Podaci su uspešno ažurirani.
+          </div>
+        )}
+        {profileError && (
+          <div className="mb-4 p-3 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm">
+            {profileError}
+          </div>
+        )}
+
+        {editing ? (
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs text-gray-500 mb-1">Ime</label>
+                <input
+                  type="text"
+                  value={profileForm.firstName}
+                  onChange={(e) => setProfileForm({ ...profileForm, firstName: e.target.value })}
+                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#9dceb1] text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 mb-1">Prezime</label>
+                <input
+                  type="text"
+                  value={profileForm.lastName}
+                  onChange={(e) => setProfileForm({ ...profileForm, lastName: e.target.value })}
+                  className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#9dceb1] text-sm"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">Telefon</label>
+              <input
+                type="tel"
+                value={profileForm.phone}
+                onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#9dceb1] text-sm"
+                placeholder="+381 ..."
+              />
+            </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">Email</label>
+              <input
+                type="email"
+                value={user.email}
+                disabled
+                className="w-full px-3 py-2.5 rounded-xl border border-gray-100 bg-gray-50 text-sm text-gray-400"
+              />
+            </div>
+            <div className="flex gap-2 pt-1">
+              <button
+                onClick={handleProfileSave}
+                disabled={profileLoading}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 disabled:opacity-60"
+                style={{ backgroundColor: "#5a9e78" }}
+              >
+                {profileLoading ? (
+                  <Loader className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <Save className="w-3.5 h-3.5" />
+                )}
+                Sačuvaj
+              </button>
+              <button
+                onClick={() => {
+                  setEditing(false);
+                  setProfileForm({ firstName: user.firstName, lastName: user.lastName, phone: user.phone || "" });
+                  setProfileError("");
+                }}
+                className="px-4 py-2 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
+              >
+                Otkaži
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            <div>
+              <span className="text-xs text-gray-400">Ime</span>
+              <div className="font-medium text-gray-900">{profileForm.firstName}</div>
+            </div>
+            <div>
+              <span className="text-xs text-gray-400">Prezime</span>
+              <div className="font-medium text-gray-900">{profileForm.lastName}</div>
+            </div>
+            <div>
+              <span className="text-xs text-gray-400">Telefon</span>
+              <div className="font-medium text-gray-900">{profileForm.phone || "—"}</div>
+            </div>
+            <div>
+              <span className="text-xs text-gray-400">Email</span>
+              <div className="font-medium text-gray-900">{user.email}</div>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Quick actions */}
       <div className="mb-8">
         <Link
@@ -135,21 +291,17 @@ export default function ClientDashboard({ user, upcomingBookings, pastBookings }
                         {formatDate(booking.date)}
                       </div>
                       <div className="flex items-center gap-1.5">
+                        <Banknote className="w-3.5 h-3.5 text-[#9dceb1]" />
+                        {booking.serviceDuration.price.toLocaleString("sr-RS")} RSD
+                      </div>
+                      <div className="flex items-center gap-1.5">
                         <Clock className="w-3.5 h-3.5 text-[#9dceb1]" />
                         {booking.startTime} – {booking.endTime}
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <User className="w-3.5 h-3.5 text-[#9dceb1]" />
-                        {booking.staffUser.firstName} {booking.staffUser.lastName}
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <Phone className="w-3.5 h-3.5 text-[#9dceb1]" />
-                        {booking.serviceDuration.price.toLocaleString("sr-RS")} RSD
                       </div>
                     </div>
                   </div>
                   <button
-                    onClick={() => handleCancel(booking.id)}
+                    onClick={() => setConfirmCancelId(booking.id)}
                     disabled={cancellingId === booking.id}
                     className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-50 text-red-600 text-sm font-medium hover:bg-red-100 transition-colors disabled:opacity-60 shrink-0"
                   >
@@ -194,6 +346,32 @@ export default function ClientDashboard({ user, upcomingBookings, pastBookings }
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+      {/* Cancel confirmation modal */}
+      {confirmCancelId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setConfirmCancelId(null)} />
+          <div className="relative bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Otkazivanje termina</h3>
+            <p className="text-sm text-gray-600 mb-5">
+              Da li ste sigurni da želite da otkažete ovaj termin?
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setConfirmCancelId(null)}
+                className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
+              >
+                Ne, zadrži
+              </button>
+              <button
+                onClick={() => handleCancel(confirmCancelId)}
+                className="flex-1 px-4 py-2.5 rounded-xl bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition-colors"
+              >
+                Da, otkaži
+              </button>
+            </div>
           </div>
         </div>
       )}

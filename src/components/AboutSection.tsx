@@ -49,13 +49,16 @@ export default function AboutSection() {
             </h2>
             <div className="space-y-4 text-gray-600 leading-relaxed">
               <p>
-                Somatic Balans je premium salon masaze posvecen holom pristupu zdravlju i blagostanju. Verujemo da ravnoteza izmedju tela i uma nije luksuz - vec neophodnost modernog zivota.
+                Moj život se deli na period pre i posle prve obuke za masažu. Pre nego što me je masaža privukla bavila sam se administracijom a najveći deo socijalnih veština sam upravo tada izbrusila.
               </p>
               <p>
-                Nasim klijentima nudimo siru lepezu profesionalnih masaznih tehnika, od noznih relaksacionih masaza do intenzivnih terapeutskih tretmana. Svaki terapeut u nasem timu prolazi strogi program sertifikacije i kontinuiranog usavrsavanja.
+                Masaža mi je pomogla da razvijem intuiciju i zahvaljujući njoj prepustim se pozivu duše. Slušajući šta mi srce ište upisujem obuku za telesnog psihoterapeuta u IPD centru i uporedo sa tim i edukaciju Somatic experiencing Pitera Levina. Moj put učenja će trajati dok sam živa jer planiram i studije tradicionalne kineske medicine.
               </p>
               <p>
-                Nase opustajuce okruzenje, uz proverene masazne tehnike i premium prirodne preparate, stvara iskustvo koje obnavlja energiju i vraca unutrasnji mir.
+                Puno je puteva do istine koja je jedna i uvek ista - čovek je izvanredno biće, a priroda je svakom od nas dala potencijale da to i dostignemo.
+              </p>
+              <p>
+                Moje nastojanje je da drugome budem podrška u tom procesu na sve, meni dostupne, načine.
               </p>
             </div>
           </div>

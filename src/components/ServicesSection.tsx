@@ -7,6 +7,7 @@ interface ServiceDuration {
   id: string;
   minutes: number;
   price: number;
+  packageCount: number;
 }
 
 interface Service {
@@ -16,17 +17,24 @@ interface Service {
   description: string;
   image: string | null;
   popular: boolean;
+  bookableOnline: boolean;
   category: { id: string; name: string };
   durations: ServiceDuration[];
 }
 
+import { prisma } from "@/lib/prisma";
+
 async function getServices(): Promise<Service[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/services`, { next: { revalidate: 300 } });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.services || [];
+    const services = await prisma.service.findMany({
+      where: { active: true },
+      include: {
+        category: true,
+        durations: { orderBy: { minutes: "asc" } },
+      },
+      orderBy: [{ category: { sequence: "asc" } }, { sequence: "asc" }],
+    });
+    return services as unknown as Service[];
   } catch {
     return [];
   }
@@ -55,13 +63,14 @@ export default async function ServicesSection() {
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayServices.map((service) => {
-            const minPrice = Math.min(...service.durations.map((d) => d.price));
-            const minDuration = Math.min(...service.durations.map((d) => d.minutes));
+            const hasDurations = service.durations.length > 0;
+            const minPrice = hasDurations ? Math.min(...service.durations.map((d) => d.price)) : 0;
+            const minDuration = hasDurations ? Math.min(...service.durations.map((d) => d.minutes)) : 0;
 
             return (
               <div
                 key={service.id}
-                className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col"
               >
                 {/* Image */}
                 <div className="relative h-48 bg-gradient-to-br overflow-hidden" style={{ background: "linear-gradient(135deg, #d9f0e4, #9dceb1)" }}>
@@ -91,36 +100,44 @@ export default async function ServicesSection() {
                 </div>
 
                 {/* Content */}
-                <div className="p-5">
+                <div className="p-5 flex flex-col flex-1">
                   <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-[#3a8059] transition-colors" style={{ fontFamily: "'Playfair Display', serif" }}>
                     {service.name}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed">
+                  <p className="text-sm text-gray-600 mb-4 line-clamp-3 leading-relaxed min-h-[3.75rem]">
                     {service.description}
                   </p>
 
                   {/* Meta */}
-                  <div className="flex items-center gap-3 mb-4 text-sm text-gray-500">
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-4 h-4" style={{ color: "#9dceb1" }} />
-                      od {minDuration} min
-                    </span>
-                    <span className="text-gray-300">|</span>
-                    <span className="font-semibold" style={{ color: "#3a8059" }}>
-                      od {minPrice.toLocaleString("sr-RS")} RSD
-                    </span>
-                  </div>
+                  {hasDurations && (
+                    <div className="flex items-center gap-3 mb-4 text-sm text-gray-500">
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-4 h-4" style={{ color: "#9dceb1" }} />
+                        od {minDuration} min
+                      </span>
+                      <span className="text-gray-300">|</span>
+                      <span className="font-semibold" style={{ color: "#3a8059" }}>
+                        od {minPrice.toLocaleString("sr-RS")} RSD
+                      </span>
+                    </div>
+                  )}
 
                   {/* Actions */}
-                  <div className="flex items-center gap-2">
-                    <Link
-                      href={`/zakazivanje?service=${service.id}`}
-                      className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full text-white text-sm font-medium transition-all hover:opacity-90"
-                      style={{ backgroundColor: "#5a9e78" }}
-                    >
-                      <Calendar className="w-4 h-4" />
-                      Zakazi
-                    </Link>
+                  <div className="flex items-center gap-2 mt-auto">
+                    {service.bookableOnline ? (
+                      <Link
+                        href={`/zakazivanje?service=${service.id}`}
+                        className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full text-white text-sm font-medium transition-all hover:opacity-90"
+                        style={{ backgroundColor: "#5a9e78" }}
+                      >
+                        <Calendar className="w-4 h-4" />
+                        Zakazi
+                      </Link>
+                    ) : (
+                      <span className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full text-sm font-medium border border-gray-200 text-gray-500">
+                        Kontaktirajte nas
+                      </span>
+                    )}
                     <Link
                       href={`/usluge/${service.slug}`}
                       className="flex items-center justify-center p-2 rounded-full border border-gray-200 hover:border-[#9dceb1] hover:text-[#9dceb1] transition-colors text-gray-500"
