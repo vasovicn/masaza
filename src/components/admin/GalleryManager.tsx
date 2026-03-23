@@ -233,7 +233,8 @@ export default function GalleryManager({ images, onRefresh }: Props) {
                   <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
                     {previews.map((preview, i) => (
                       <div key={i} className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 group">
-                        <img src={preview} alt="" className="w-full h-full object-cover" />
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={preview} alt={`Preview ${i}`} className="w-full h-full object-cover" />
                         <button
                           type="button"
                           onClick={(e) => { e.stopPropagation(); removeFile(i); }}

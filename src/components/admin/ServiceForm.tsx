@@ -190,6 +190,7 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
           />
           {form.image && (
             <div className="mt-2 relative w-full max-w-xs">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={form.image}
                 alt="Preview slike"

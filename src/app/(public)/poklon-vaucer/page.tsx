@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Gift, Phone, Mail, Heart, Star, Sparkles } from "lucide-react";
 import { SALON_PHONE, SALON_EMAIL, SALON_NAME } from "@/lib/constants";
 

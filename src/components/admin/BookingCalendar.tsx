@@ -92,7 +92,7 @@ export default function BookingCalendar({ staff }: Props) {
   const [createError, setCreateError] = useState("");
 
   const dateStr = formatDateStr(selectedDate);
-  const weekDates = useMemo(() => getWeekDates(selectedDate), [dateStr]);
+  const weekDates = useMemo(() => getWeekDates(selectedDate), [selectedDate]);
 
   const fetchBookings = async () => {
     setLoading(true);

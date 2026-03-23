@@ -8,6 +8,7 @@ interface ServiceDurationItem {
   id: string;
   minutes: number;
   price: number;
+  packageCount: number;
 }
 
 interface Service {

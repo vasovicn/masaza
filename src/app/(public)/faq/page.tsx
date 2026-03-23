@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import FaqSection, { faqs } from "@/components/FaqSection";
+import FaqSection from "@/components/FaqSection";
+import { faqs } from "@/lib/faqs";
 import Link from "next/link";
 import { Calendar } from "lucide-react";
 import { SALON_NAME } from "@/lib/constants";

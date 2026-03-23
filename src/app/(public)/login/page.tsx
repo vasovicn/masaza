@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Eye, EyeOff, Leaf, LogIn } from "lucide-react";
+import { Eye, EyeOff, LogIn } from "lucide-react";
 
 function GoogleIcon() {
   return (

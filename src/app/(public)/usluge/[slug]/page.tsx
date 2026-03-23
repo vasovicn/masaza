@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Clock, Calendar, ArrowLeft } from "lucide-react";
+import { Clock, Calendar } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { SALON_NAME } from "@/lib/constants";
 
@@ -69,7 +69,6 @@ export default async function ServicePage({ params }: Props) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
   const hasDurations = service.durations.length > 0;
   const minPrice = hasDurations ? Math.min(...service.durations.map((d) => d.price)) : 0;
-  const maxPrice = hasDurations ? Math.max(...service.durations.map((d) => d.price)) : 0;
 
   const serviceJsonLd = {
     "@context": "https://schema.org",

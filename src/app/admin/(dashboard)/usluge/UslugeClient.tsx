@@ -7,6 +7,7 @@ interface Duration {
   id: string;
   minutes: number;
   price: number;
+  packageCount: number;
 }
 
 interface Service {

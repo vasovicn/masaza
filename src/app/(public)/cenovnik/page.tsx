@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Clock, Calendar, ArrowRight, Tag } from "lucide-react";
+import { Clock, Calendar, ArrowRight } from "lucide-react";
 import { SALON_NAME } from "@/lib/constants";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
@@ -63,9 +63,7 @@ export default async function CenovnikPage() {
     new Map(services.map((s) => [s.category.id, s.category])).values()
   );
 
-  const allPrices = services.flatMap((s) => s.durations.map((d) => d.price));
-  const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
-  const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 0;
+  // minPrice and maxPrice removed because they were unused.
 
   const priceListJsonLd = {
     "@context": "https://schema.org",
