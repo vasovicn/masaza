@@ -94,6 +94,15 @@ export const metadata: Metadata = {
     // Google Search Console verification - replace with actual value
     // google: "your-verification-code",
   },
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: SALON_NAME,
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
 
 const jsonLd = {
@@ -148,6 +157,7 @@ export default function RootLayout({
   return (
     <html lang="sr" className={`${playfair.variable} ${inter.variable}`}>
       <head>
+        <meta name="theme-color" content="#ffffff" />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-V00FNRBND8"
           strategy="afterInteractive"
