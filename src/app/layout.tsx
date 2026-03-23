@@ -149,7 +149,7 @@ export default function RootLayout({
     <html lang="sr" className={`${playfair.variable} ${inter.variable}`}>
       <head>
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-4Z6DQC653C"
+          src="https://www.googletagmanager.com/gtag/js?id=G-V00FNRBND8"
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
@@ -157,7 +157,7 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-4Z6DQC653C');
+            gtag('config', 'G-V00FNRBND8');
           `}
         </Script>
         <script
