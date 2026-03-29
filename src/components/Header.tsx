@@ -127,14 +127,14 @@ export default function Header() {
                   </div>
                 )}
               </div>
-            ) : !user ? (
+            ) : (
               <Link
                 href="/login"
                 className="text-sm font-medium text-gray-600 hover:text-[#9dceb1] transition-colors"
               >
                 Prijava
               </Link>
-            ) : null}
+            )}
 
             <Link
               href="/zakazivanje"
@@ -194,7 +194,7 @@ export default function Header() {
                   Odjavi se
                 </button>
               </>
-            ) : !user ? (
+            ) : (
               <Link
                 href="/login"
                 className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
@@ -202,7 +202,7 @@ export default function Header() {
               >
                 Prijava / Registracija
               </Link>
-            ) : null}
+            )}
             <Link
               href="/zakazivanje"
               className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-full text-white text-sm font-semibold"
