@@ -80,7 +80,7 @@ export async function sendBookingConfirmation(booking: {
 
 export async function sendVerificationEmail(email: string, token: string) {
   const transporter = getTransporter();
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
+  const baseUrl = process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
   const verifyUrl = `${baseUrl}/api/auth/verify?token=${token}`;
 
   const html = `
@@ -90,7 +90,7 @@ export async function sendVerificationEmail(email: string, token: string) {
         <p style="color: white; margin: 5px 0;">Potvrda email adrese</p>
       </div>
       <div style="padding: 30px; background: #f9f9f9; text-align: center;">
-        <h2 style="color: #333;">Dobrodošli u ${SALON_NAME}!</h2>
+        <h2 style="color: #333;">Dobro došli u ${SALON_NAME}!</h2>
         <p style="color: #666;">Kliknite na dugme ispod da potvrdite vašu email adresu i aktivirate nalog.</p>
         <a href="${verifyUrl}" style="display: inline-block; background-color: #5a9e78; color: white; padding: 14px 32px; border-radius: 30px; text-decoration: none; font-weight: bold; margin: 20px 0;">
           Potvrdi email
@@ -115,7 +115,7 @@ export async function sendVerificationEmail(email: string, token: string) {
 
 export async function sendResetPasswordEmail(email: string, token: string) {
   const transporter = getTransporter();
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
+  const baseUrl = process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
   const resetUrl = `${baseUrl}/reset-lozinka?token=${token}`;
 
   const html = `
