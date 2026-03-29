@@ -107,7 +107,7 @@ export default function ClientDashboard({ user, upcomingBookings, pastBookings }
         </div>
         <div>
           <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Dobrodošli, {user.firstName}!
+            Dobro došli, {user.firstName}!
           </h1>
           <p className="text-gray-500 text-sm">{user.email}</p>
         </div>

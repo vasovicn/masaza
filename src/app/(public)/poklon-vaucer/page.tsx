@@ -77,7 +77,7 @@ export default function PouklonVaucerPage() {
               Somatic Balans
             </h2>
             <p className="text-gray-700 mb-1 font-medium">Poklon vaučer za masažu</p>
-            <p className="text-sm text-gray-600">Važeći 6 meseci od datuma kupovine</p>
+            <p className="text-sm text-gray-600">Važi 2 meseca od datuma kupovine</p>
 
             <div className="flex items-center justify-center gap-1 mt-4">
               {[...Array(5)].map((_, i) => (
@@ -153,12 +153,12 @@ export default function PouklonVaucerPage() {
               {
                 step: "2",
                 title: "Preuzmite vaučer",
-                desc: "Lično preuzmite vaučer u salonu ili dogovorite dostavu. Vaučer važi 6 meseci.",
+                desc: "Lično preuzmite vaučer u salonu ili dogovorite dostavu. Vaučer važi 2 meseca.",
               },
               {
                 step: "3",
                 title: "Poklonite iskustvo",
-                desc: "Obradujte nekoga posebnim iskustvom opuštanja i brige o sebi u Somatic Balans.",
+                desc: "Obradujte nekoga posebnim iskustvom opuštanja i brige o sebi u Somatic Balans-u.",
               },
             ].map((item) => (
               <div key={item.step} className="flex gap-4">
@@ -202,7 +202,7 @@ export default function PouklonVaucerPage() {
             </a>
           </div>
           <p className="text-xs text-gray-500 mt-4">
-            Vaučer važi 6 meseci od datuma kupovine · Prenosiv na drugu osobu
+            Vaučer važi 2 meseca od datuma kupovine · Nije prenosiv na drugu osobu
           </p>
         </div>
       </div>

@@ -17,7 +17,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-gray-400 leading-relaxed mb-4">
-              Profesionalni salon masaže u Beogradu. Pronađite ravnotežu tela i duha uz naše stručne terapeute.
+              Profesionalni salon masaže u Zemunu. Uspostavite ravnotežu tela i duha uz naše stručne terapeute.
             </p>
             <a
               href={SALON_INSTAGRAM}

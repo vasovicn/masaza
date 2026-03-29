@@ -15,7 +15,7 @@ interface ServiceDuration {
   id: string;
   minutes: number;
   price: number;
-  packageCount?: number;
+  label?: string | null;
 }
 
 interface Service {

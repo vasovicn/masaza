@@ -6,7 +6,7 @@ interface ServiceDuration {
   id: string;
   minutes: number;
   price: number;
-  packageCount?: number;
+  label?: string | null;
 }
 
 interface Props {
@@ -38,7 +38,7 @@ export default function StepDuration({ serviceName, durations, onSelect, onBack 
                 <Clock className="w-6 h-6" style={{ color: "#4da070" }} />
               </div>
               <div>
-                <div className="font-bold text-gray-900 text-lg">{duration.packageCount && duration.packageCount > 1 ? `${duration.packageCount} x ${duration.minutes} minuta` : `${duration.minutes} minuta`}</div>
+                <div className="font-bold text-gray-900 text-lg">{duration.label || `${duration.minutes} minuta`}</div>
               </div>
             </div>
             <div className="font-bold text-xl" style={{ color: "#3a8059" }}>

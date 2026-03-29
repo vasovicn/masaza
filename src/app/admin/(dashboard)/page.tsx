@@ -60,7 +60,7 @@ export default async function AdminDashboard() {
           Dashboard
         </h1>
         <p className="text-gray-500 mt-1">
-          Dobrodošli, {payload?.firstName as string}! Danas je {todayFormatted}.
+          Dobro došli, {payload?.firstName as string}! Danas je {todayFormatted}.
         </p>
       </div>
 

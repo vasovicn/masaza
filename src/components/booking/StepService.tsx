@@ -85,7 +85,7 @@ export default function StepService({ services, onSelect }: Props) {
             >
               <div className="relative h-36 overflow-hidden" style={{ background: "linear-gradient(135deg, #d9f0e4, #9dceb1)" }}>
                 {service.image ? (
-                  <Image src={service.image} alt={service.name} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <Image src={service.image} alt={service.name} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover group-hover:scale-105 transition-transform duration-300" />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center text-4xl opacity-40">💆</div>
                 )}

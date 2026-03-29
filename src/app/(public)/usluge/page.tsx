@@ -28,7 +28,7 @@ interface ServiceDuration {
   id: string;
   minutes: number;
   price: number;
-  packageCount: number;
+  label: string | null;
 }
 
 interface Service {
@@ -56,7 +56,8 @@ async function getServices(): Promise<Service[]> {
       orderBy: [{ category: { sequence: "asc" } }, { sequence: "asc" }],
     });
     return services as unknown as Service[];
-  } catch {
+  } catch (error) {
+    console.error("getServices error:", error);
     return [];
   }
 }
@@ -120,7 +121,7 @@ export default async function UsluiePage() {
                     >
                       <div className="relative h-48 overflow-hidden" style={{ background: "linear-gradient(135deg, #d9f0e4, #9dceb1)" }}>
                         {service.image ? (
-                          <Image src={service.image} alt={service.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                          <Image src={service.image} alt={service.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-cover group-hover:scale-105 transition-transform duration-500" />
                         ) : (
                           <div className="absolute inset-0 flex items-center justify-center text-5xl opacity-30">💆</div>
                         )}
@@ -148,7 +149,7 @@ export default async function UsluiePage() {
                               <div key={dur.id} className="flex justify-between items-center text-sm">
                                 <span className="flex items-center gap-1.5 text-gray-500">
                                   <Clock className="w-3.5 h-3.5 text-[#9dceb1]" />
-                                  {dur.packageCount > 1 ? `${dur.packageCount} x ${dur.minutes} min` : `${dur.minutes} min`}
+                                  {dur.label || `${dur.minutes} min`}
                                 </span>
                                 <span className="font-semibold" style={{ color: "#3a8059" }}>
                                   {dur.price.toLocaleString("sr-RS")} RSD

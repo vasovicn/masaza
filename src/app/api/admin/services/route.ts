@@ -42,10 +42,10 @@ export async function POST(request: NextRequest) {
         ...(durations && durations.length > 0
           ? {
               durations: {
-                create: durations.map((d: { minutes: number; price: number; packageCount?: number }) => ({
+                create: durations.map((d: { minutes: number; price: number; label?: string }) => ({
                   minutes: Number(d.minutes),
                   price: Number(d.price),
-                  packageCount: Number(d.packageCount || 1),
+                  label: d.label || null,
                 })),
               },
             }

@@ -21,7 +21,7 @@ interface Duration {
   id?: string;
   minutes: number;
   price: number;
-  packageCount: number;
+  label: string;
 }
 
 interface ServiceData {
@@ -57,7 +57,7 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
     popular: initial?.popular !== undefined ? initial.popular : false,
     bookableOnline: initial?.bookableOnline !== undefined ? initial.bookableOnline : true,
     sequence: initial?.sequence || 0,
-    durations: initial?.durations || [{ minutes: 60, price: 3000, packageCount: 1 }],
+    durations: initial?.durations || [{ minutes: 60, price: 3000, label: "" }],
   });
   const [error, setError] = useState("");
 
@@ -73,7 +73,7 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
   const addDuration = () => {
     setForm((prev) => ({
       ...prev,
-      durations: [...prev.durations, { minutes: 60, price: 3000, packageCount: 1 }],
+      durations: [...prev.durations, { minutes: 60, price: 3000, label: "" }],
     }));
   };
 
@@ -85,7 +85,7 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
     }));
   };
 
-  const updateDuration = (index: number, field: "minutes" | "price" | "packageCount", value: number) => {
+  const updateDuration = (index: number, field: "minutes" | "price" | "label", value: number | string) => {
     setForm((prev) => ({
       ...prev,
       durations: prev.durations.map((d, i) => (i === index ? { ...d, [field]: value } : d)),
@@ -293,14 +293,14 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
                   step={100}
                 />
               </div>
-              <div className="w-20">
-                <label className="text-xs text-gray-500 mb-1 block">Paket (kom)</label>
+              <div className="flex-1">
+                <label className="text-xs text-gray-500 mb-1 block">Naziv (opciono)</label>
                 <input
-                  type="number"
-                  value={dur.packageCount}
-                  onChange={(e) => updateDuration(index, "packageCount", Number(e.target.value))}
+                  type="text"
+                  value={dur.label}
+                  onChange={(e) => updateDuration(index, "label", e.target.value)}
                   className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#9dceb1]"
-                  min={1}
+                  placeholder="npr. lice vrat i dekolte"
                 />
               </div>
               <button

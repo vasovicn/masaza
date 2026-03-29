@@ -24,7 +24,7 @@ interface ServiceDuration {
   id: string;
   minutes: number;
   price: number;
-  packageCount: number;
+  label: string | null;
 }
 
 interface Service {
@@ -84,9 +84,7 @@ export default async function CenovnikPage() {
         itemOffered: {
           "@type": "Service",
           name: service.name,
-          description: dur.packageCount > 1
-            ? `${dur.packageCount} x ${dur.minutes} minuta`
-            : `${dur.minutes} minuta`,
+          description: dur.label || `${dur.minutes} minuta`,
         },
         price: dur.price,
         priceCurrency: "RSD",
@@ -200,7 +198,7 @@ export default async function CenovnikPage() {
                               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-100 bg-gray-50"
                             >
                               <Clock className="w-3.5 h-3.5 text-[#9dceb1] shrink-0" />
-                              <span className="text-xs text-gray-500">{dur.packageCount > 1 ? `${dur.packageCount} x ${dur.minutes} min` : `${dur.minutes} min`}</span>
+                              <span className="text-xs text-gray-500">{dur.label || `${dur.minutes} min`}</span>
                               <span className="text-xs font-bold text-gray-900">
                                 {dur.price.toLocaleString("sr-RS")}
                                 <span className="font-normal text-gray-400 ml-0.5">RSD</span>

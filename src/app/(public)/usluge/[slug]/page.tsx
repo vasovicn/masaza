@@ -88,9 +88,7 @@ export default async function ServicePage({ params }: Props) {
         "@type": "Offer",
         price: dur.price,
         priceCurrency: "RSD",
-        description: dur.packageCount > 1
-          ? `${dur.packageCount} x ${dur.minutes} minuta`
-          : `${dur.minutes} minuta`,
+        description: dur.label || `${dur.minutes} minuta`,
         availability: "https://schema.org/InStock",
       })),
     }),
@@ -132,7 +130,7 @@ export default async function ServicePage({ params }: Props) {
           {/* Image */}
           <div className="relative h-72 lg:h-auto rounded-3xl overflow-hidden" style={{ background: "linear-gradient(135deg, #d9f0e4, #9dceb1)", minHeight: "300px" }}>
             {service.image ? (
-              <Image src={service.image} alt={service.name} fill className="object-cover" />
+              <Image src={service.image} alt={service.name} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-8xl opacity-30">💆</div>
             )}
@@ -166,7 +164,7 @@ export default async function ServicePage({ params }: Props) {
                         <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: "#f0f9f4" }}>
                           <Clock className="w-4 h-4" style={{ color: "#4da070" }} />
                         </div>
-                        <span className="font-medium text-gray-900">{dur.packageCount > 1 ? `${dur.packageCount} x ${dur.minutes} min` : `${dur.minutes} minuta`}</span>
+                        <span className="font-medium text-gray-900">{dur.label || `${dur.minutes} minuta`}</span>
                       </div>
                       <span className="font-bold text-xl" style={{ color: "#3a8059" }}>
                         {dur.price.toLocaleString("sr-RS")} RSD

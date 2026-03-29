@@ -59,15 +59,31 @@ export async function PUT(
 
     // Update durations if provided
     if (durations && durations.length > 0) {
-      await prisma.serviceDuration.deleteMany({ where: { serviceId: id } });
-      await prisma.serviceDuration.createMany({
-        data: durations.map((d: { minutes: number; price: number; packageCount?: number }) => ({
-          serviceId: id,
-          minutes: Number(d.minutes),
-          price: Number(d.price),
-          packageCount: Number(d.packageCount || 1),
-        })),
-      });
+      const existingDurations = await prisma.serviceDuration.findMany({ where: { serviceId: id } });
+      const incomingIds = durations.filter((d: { id?: string }) => d.id).map((d: { id: string }) => d.id);
+      // Delete durations that are no longer in the list (only those without bookings)
+      const toDelete = existingDurations.filter((d) => !incomingIds.includes(d.id));
+      for (const d of toDelete) {
+        try {
+          await prisma.serviceDuration.delete({ where: { id: d.id } });
+        } catch {
+          // Has bookings, keep it but it won't be in the response
+        }
+      }
+      // Update existing and create new
+      for (const d of durations) {
+        const dur = d as { id?: string; minutes: number; price: number; label?: string };
+        if (dur.id && existingDurations.some((e) => e.id === dur.id)) {
+          await prisma.serviceDuration.update({
+            where: { id: dur.id },
+            data: { minutes: Number(dur.minutes), price: Number(dur.price), label: dur.label || null },
+          });
+        } else {
+          await prisma.serviceDuration.create({
+            data: { serviceId: id, minutes: Number(dur.minutes), price: Number(dur.price), label: dur.label || null },
+          });
+        }
+      }
     }
 
     const updated = await prisma.service.findUnique({

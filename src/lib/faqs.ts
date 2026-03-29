@@ -8,7 +8,7 @@ export const faqs = [
       },
       {
         question: "Koliko često sme da se ide na masažu?",
-        answer: "Onoliko često koliko vama prija! Ako ste stalno izloženi stresu čak svakodnevno opuštanje pomaže da se oslobodite nakupljene tenzije. Ipak, optimalno je bar jednom nedeljno ili u dve nedelje opustiti svoj nervni sistem a time i mišiće i fasciju.",
+        answer: "Onoliko često koliko vama prija! Ako ste stalno izloženi stresu svakodnevno opuštanje pomaže da se oslobodite nakupljene tenzije. Ipak, optimalno je bar jednom nedeljno ili u dve nedelje opustiti svoj nervni sistem a time i mišiće i fasciju.",
       },
       {
         question: "Koja je razlika između relaks i antistres masaže?",
@@ -25,7 +25,7 @@ export const faqs = [
     items: [
       {
         question: "Da li je potrebna rezervacija?",
-        answer: "Preporučujemo zakazivanje unapred kako bismo osigurali termin koji vam odgovara. Možete zakazati online u bilo koje doba dana ili nas kontaktirati telefonom tokom radnog vremena.",
+        answer: "Zakazivanje unapred je obavezno kako bismo osigurali termin koji vam odgovara. Možete zakazati online u bilo koje doba dana ili nas kontaktirati telefonom tokom radnog vremena.",
       },
       {
         question: "Kako mogu da zakažem termin?",
@@ -46,11 +46,11 @@ export const faqs = [
     items: [
       {
         question: "Koje načine plaćanja prihvatate?",
-        answer: "Prihvatamo gotovinu i kartice (Visa, Mastercard). Plaćanje se vrši u salonu po završetku tretmana.",
+        answer: "Prihvatamo gotovinu i E-banking (prenos na racun). Placanje se vrši u salonu po završetku tretmana.",
       },
       {
         question: "Da li nudite poklon vaučere?",
-        answer: "Da! Poklon vaučeri su dostupni u različitim vrednostima. Kontaktirajte nas telefonom ili emailom za više informacija o kupovini vaučera.",
+        answer: "Da! Poklon vaučeri su dostupni u različitim vrednostima. Kontaktirajte nas telefonom ili emailom za više informacija o kupovini vaučera. Naručivanje, plaćanje i preuzimanje moguće lično u salonu ili online.",
       },
       {
         question: "Da li postoje popusti?",
@@ -66,8 +66,8 @@ export const faqs = [
         answer: "Nalazimo se u Zemunu. Tačnu adresu i uputstvo za dolazak možete pronaći na stranici Kontakt.",
       },
       {
-        question: "Kada ste otvoreni?",
-        answer: "Radimo od ponedeljka do subote, od 08:00 do 22:00 sata. Nedeljom ne radimo.",
+        question: "Koje je radno vreme?",
+        answer: "Radimo od ponedeljka do subote, od 09:00 do 20:00 h. Nedeljom ne radimo.",
       },
       {
         question: "Da li ima parking?",

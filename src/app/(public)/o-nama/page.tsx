@@ -89,7 +89,7 @@ export default function ONamaPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto">
             {[
               { icon: "🌿", title: "Prirodno", desc: "Samo prirodni preparati" },
-              { icon: "🤝", title: "Individualno", desc: "Prilagođen svakome" },
+              { icon: "🤝", title: "Individualno", desc: "Prilagođen tebi" },
               { icon: "✨", title: "Transformativno", desc: "Promena koja traje" },
             ].map((val) => (
               <div key={val.title} className="bg-white/70 rounded-2xl p-6 backdrop-blur-sm">

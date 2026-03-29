@@ -8,7 +8,7 @@ interface ServiceDurationItem {
   id: string;
   minutes: number;
   price: number;
-  packageCount: number;
+  label: string | null;
 }
 
 interface Service {
@@ -109,7 +109,7 @@ export default function ServiceList({ services, categories, onRefresh }: Props) 
             popular: false,
             bookableOnline: editing.bookableOnline,
             sequence: editing.sequence,
-            durations: editing.durations,
+            durations: editing.durations.map((d) => ({ ...d, label: d.label || "" })),
           } : undefined}
           categories={categories}
           // eslint-disable-next-line @typescript-eslint/no-explicit-any

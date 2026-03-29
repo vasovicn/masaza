@@ -85,7 +85,7 @@ export default function ContactSection() {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Ponedeljak – Subota</span>
-                  <span className="font-semibold text-gray-900">08:00 – 22:00</span>
+                  <span className="font-semibold text-gray-900">09:00 – 20:00</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-400">Nedelja</span>
