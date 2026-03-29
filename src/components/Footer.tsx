@@ -87,7 +87,7 @@ export default function Footer() {
                 <Clock className="w-4 h-4 mt-0.5 shrink-0 text-[#9dceb1]" />
                 <div>
                   <p className="text-gray-300">Ponedeljak – Subota</p>
-                  <p className="text-white font-medium">08:00 – 22:00</p>
+                  <p className="text-white font-medium">09:00 – 20:00</p>
                 </div>
               </li>
               <li className="flex items-start gap-2">

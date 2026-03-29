@@ -6,8 +6,8 @@ export const SALON_INSTAGRAM = "https://www.instagram.com/masaza_balans/";
 export const ADMIN_EMAIL = "info@masazabalans.rs";
 
 export const WORKING_HOURS = {
-  start: 8,   // 8:00
-  end: 22,    // 22:00
+  start: 9,   // 09:00
+  end: 20,    // 20:00
   workDays: [1, 2, 3, 4, 5, 6], // Mon-Sat (0=Sun, 6=Sat)
 };
 

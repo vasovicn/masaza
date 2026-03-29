@@ -57,23 +57,23 @@ function isSlotAvailable(
 describe("timeToMinutes", () => {
   it("converts HH:MM to minutes from midnight", () => {
     expect(timeToMinutes("00:00")).toBe(0);
-    expect(timeToMinutes("08:00")).toBe(480);
+    expect(timeToMinutes("09:00")).toBe(540);
     expect(timeToMinutes("14:30")).toBe(870);
-    expect(timeToMinutes("22:00")).toBe(1320);
+    expect(timeToMinutes("20:00")).toBe(1200);
   });
 });
 
 describe("addMinutes", () => {
   it("adds minutes to a time string", () => {
-    expect(addMinutes("08:00", 30)).toBe("08:30");
-    expect(addMinutes("08:00", 60)).toBe("09:00");
+    expect(addMinutes("09:00", 30)).toBe("09:30");
+    expect(addMinutes("09:00", 60)).toBe("10:00");
     expect(addMinutes("14:30", 90)).toBe("16:00");
-    expect(addMinutes("21:00", 60)).toBe("22:00");
+    expect(addMinutes("19:00", 60)).toBe("20:00");
   });
 
   it("handles crossing hour boundaries", () => {
-    expect(addMinutes("08:45", 30)).toBe("09:15");
-    // addMinutes does not wrap around midnight (not needed for 08:00-22:00 salon hours)
+    expect(addMinutes("09:45", 30)).toBe("10:15");
+    // addMinutes does not wrap around midnight (not needed for 09:00-20:00 salon hours)
     expect(addMinutes("23:30", 60)).toBe("24:30");
   });
 });
@@ -83,18 +83,18 @@ describe("roundUpToSlot", () => {
     expect(roundUpToSlot(870)).toBe(870);  // 14:30 → 14:30 (already on boundary)
     expect(roundUpToSlot(880)).toBe(900);  // 14:40 → 15:00
     expect(roundUpToSlot(900)).toBe(900);  // 15:00 → 15:00 (already on boundary)
-    expect(roundUpToSlot(481)).toBe(510);  // 08:01 → 08:30
-    expect(roundUpToSlot(480)).toBe(480);  // 08:00 → 08:00
+    expect(roundUpToSlot(541)).toBe(570);  // 09:01 → 09:30
+    expect(roundUpToSlot(540)).toBe(540);  // 09:00 → 09:00
   });
 });
 
 describe("generateSlots", () => {
-  it("generates 30-minute slots from 08:00 to 21:30 on a workday", () => {
+  it("generates 30-minute slots from 09:00 to 19:30 on a workday", () => {
     // 2026-03-23 is Monday
     const slots = generateSlots("2026-03-23");
-    expect(slots[0]).toBe("08:00");
-    expect(slots[slots.length - 1]).toBe("21:30");
-    expect(slots.length).toBe(28); // 14 hours * 2 slots
+    expect(slots[0]).toBe("09:00");
+    expect(slots[slots.length - 1]).toBe("19:30");
+    expect(slots.length).toBe(22); // 11 hours * 2 slots
   });
 
   it("returns empty array for Sunday", () => {
@@ -106,7 +106,7 @@ describe("generateSlots", () => {
   it("returns slots for Saturday", () => {
     // 2026-03-28 is Saturday
     const slots = generateSlots("2026-03-28");
-    expect(slots.length).toBe(28);
+    expect(slots.length).toBe(22);
   });
 });
 
@@ -182,13 +182,13 @@ describe("hasOverlap – two bookings", () => {
 
 describe("conflictsWithAny – multiple existing bookings", () => {
   const schedule: Booking[] = [
-    { startTime: "08:00", endTime: "09:00" },
+    { startTime: "09:00", endTime: "10:00" },
     { startTime: "10:00", endTime: "11:30" },
     { startTime: "14:00", endTime: "15:00" },
   ];
 
   it("detects conflict with first booking", () => {
-    expect(conflictsWithAny({ startTime: "08:00", endTime: "09:00" }, schedule)).toBe(true);
+    expect(conflictsWithAny({ startTime: "09:00", endTime: "10:00" }, schedule)).toBe(true);
   });
 
   it("detects conflict with middle booking", () => {
@@ -200,7 +200,10 @@ describe("conflictsWithAny – multiple existing bookings", () => {
   });
 
   it("allows booking in gap between first and second", () => {
-    expect(conflictsWithAny({ startTime: "09:00", endTime: "10:00" }, schedule)).toBe(false);
+    // First ends at 10:00, second starts at 10:00 – no gap, but test a time before
+    expect(conflictsWithAny({ startTime: "09:00", endTime: "10:00" }, [
+      { startTime: "10:00", endTime: "11:00" },
+    ])).toBe(false);
   });
 
   it("allows booking in gap between second and third", () => {
@@ -213,13 +216,13 @@ describe("conflictsWithAny – multiple existing bookings", () => {
   });
 
   it("rejects booking that spans two existing bookings", () => {
-    expect(conflictsWithAny({ startTime: "08:30", endTime: "10:30" }, schedule)).toBe(true);
+    expect(conflictsWithAny({ startTime: "09:30", endTime: "10:30" }, schedule)).toBe(true);
   });
 });
 
-// ──────────────────────────────────
+// ──────────────────────────────────────────────
 // isSlotAvailable – slot-level check
-// ──────────────────────────────────
+// ──────────────────────────────────────────────
 
 describe("isSlotAvailable", () => {
   const staffBookings: Booking[] = [
@@ -263,9 +266,9 @@ describe("isSlotAvailable", () => {
   });
 
   it("handles 30-minute service correctly", () => {
-    expect(isSlotAvailable("08:00", 30, staffBookings)).toBe(true);
-    expect(isSlotAvailable("08:30", 30, staffBookings)).toBe(true);
     expect(isSlotAvailable("09:00", 30, staffBookings)).toBe(false);
+    expect(isSlotAvailable("09:30", 30, staffBookings)).toBe(false);
+    expect(isSlotAvailable("10:00", 30, staffBookings)).toBe(true);
   });
 });
 
@@ -276,7 +279,7 @@ describe("isSlotAvailable", () => {
 describe("full day scenario – no overlaps allowed", () => {
   it("sequential 60-minute bookings never overlap", () => {
     const bookings: Booking[] = [];
-    const times = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00"];
+    const times = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00"];
 
     for (const time of times) {
       const newBooking: Booking = {
@@ -298,12 +301,12 @@ describe("full day scenario – no overlaps allowed", () => {
 
   it("mixed-duration bookings never overlap when placed in sequence", () => {
     const schedule: { start: string; duration: number }[] = [
-      { start: "08:00", duration: 90 },  // 08:00-09:30
-      { start: "09:30", duration: 60 },  // 09:30-10:30
-      { start: "10:30", duration: 45 },  // 10:30-11:15 → rounded to 11:30
-      { start: "11:30", duration: 30 },  // 11:30-12:00
-      { start: "12:00", duration: 120 }, // 12:00-14:00
-      { start: "14:00", duration: 60 },  // 14:00-15:00
+      { start: "09:00", duration: 90 },  // 09:00-10:30
+      { start: "10:30", duration: 60 },  // 10:30-11:30
+      { start: "11:30", duration: 45 },  // 11:30-12:15 → rounded to 12:30
+      { start: "12:30", duration: 30 },  // 12:30-13:00
+      { start: "13:00", duration: 120 }, // 13:00-15:00
+      { start: "15:00", duration: 60 },  // 15:00-16:00
     ];
 
     const bookings: Booking[] = schedule.map((s) => ({
@@ -321,17 +324,17 @@ describe("full day scenario – no overlaps allowed", () => {
 
   it("rejects any attempt to double-book within a fully packed schedule", () => {
     const bookings: Booking[] = [
-      { startTime: "08:00", endTime: "09:00" },
       { startTime: "09:00", endTime: "10:00" },
       { startTime: "10:00", endTime: "11:00" },
       { startTime: "11:00", endTime: "12:00" },
       { startTime: "12:00", endTime: "13:00" },
+      { startTime: "13:00", endTime: "14:00" },
     ];
 
     // Try every 30-min slot within the packed range
     const allSlots = generateSlots("2026-03-23"); // Monday
     const packedSlots = allSlots.filter(
-      (s) => timeToMinutes(s) >= 480 && timeToMinutes(s) < 780
+      (s) => timeToMinutes(s) >= 540 && timeToMinutes(s) < 840
     );
 
     for (const slot of packedSlots) {
@@ -403,17 +406,17 @@ describe("multi-staff – bookings are per-staff", () => {
 
   it("each staff has independent schedule", () => {
     const staff1Bookings: Booking[] = [
-      { startTime: "08:00", endTime: "09:00" },
+      { startTime: "09:00", endTime: "10:00" },
       { startTime: "11:00", endTime: "12:00" },
     ];
     const staff2Bookings: Booking[] = [
-      { startTime: "09:00", endTime: "10:00" },
+      { startTime: "10:00", endTime: "11:00" },
       { startTime: "13:00", endTime: "14:00" },
     ];
 
-    // Staff 1 free at 09:00, Staff 2 busy
-    expect(isSlotAvailable("09:00", 60, staff1Bookings)).toBe(true);
-    expect(isSlotAvailable("09:00", 60, staff2Bookings)).toBe(false);
+    // Staff 1 free at 10:00, Staff 2 busy
+    expect(isSlotAvailable("10:00", 60, staff1Bookings)).toBe(true);
+    expect(isSlotAvailable("10:00", 60, staff2Bookings)).toBe(false);
 
     // Staff 1 busy at 11:00, Staff 2 free
     expect(isSlotAvailable("11:00", 60, staff1Bookings)).toBe(false);
@@ -426,28 +429,28 @@ describe("multi-staff – bookings are per-staff", () => {
 // ──────────────────────────────────────────
 
 describe("boundary tests", () => {
-  it("booking at very start of day (08:00)", () => {
-    const bookings: Booking[] = [{ startTime: "08:00", endTime: "09:00" }];
-    expect(isSlotAvailable("08:00", 30, bookings)).toBe(false);
-    expect(isSlotAvailable("07:30", 60, bookings)).toBe(false); // extends into 08:00
+  it("booking at very start of day (09:00)", () => {
+    const bookings: Booking[] = [{ startTime: "09:00", endTime: "10:00" }];
+    expect(isSlotAvailable("09:00", 30, bookings)).toBe(false);
+    expect(isSlotAvailable("08:30", 60, bookings)).toBe(false); // extends into 09:00
   });
 
-  it("booking at very end of day (21:00-22:00)", () => {
-    const bookings: Booking[] = [{ startTime: "21:00", endTime: "22:00" }];
-    expect(isSlotAvailable("21:00", 60, bookings)).toBe(false);
-    expect(isSlotAvailable("21:30", 30, bookings)).toBe(false);
+  it("booking at very end of day (19:00-20:00)", () => {
+    const bookings: Booking[] = [{ startTime: "19:00", endTime: "20:00" }];
+    expect(isSlotAvailable("19:00", 60, bookings)).toBe(false);
+    expect(isSlotAvailable("19:30", 30, bookings)).toBe(false);
   });
 
   it("back-to-back bookings fill the entire day without gaps", () => {
     const bookings: Booking[] = [];
-    for (let hour = 8; hour < 22; hour++) {
+    for (let hour = 9; hour < 20; hour++) {
       bookings.push({
         startTime: `${String(hour).padStart(2, "0")}:00`,
         endTime: `${String(hour + 1).padStart(2, "0")}:00`,
       });
     }
 
-    // 14 bookings, no pair should overlap
+    // 11 bookings, no pair should overlap
     for (let i = 0; i < bookings.length; i++) {
       for (let j = i + 1; j < bookings.length; j++) {
         expect(hasOverlap(bookings[i], bookings[j])).toBe(false);
