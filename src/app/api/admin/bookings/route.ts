@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ bookings });
   } catch (error) {
     console.error("Admin bookings GET error:", error);
-    return NextResponse.json({ error: "Greska pri ucitavanju rezervacija" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri učitavanju rezervacija" }, { status: 500 });
   }
 }
 
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
 
     const duration = await prisma.serviceDuration.findUnique({ where: { id: serviceDurationId } });
     if (!duration) {
-      return NextResponse.json({ error: "Trajanje nije pronadjeno" }, { status: 404 });
+      return NextResponse.json({ error: "Trajanje nije pronađeno" }, { status: 404 });
     }
 
     const endTime = addMinutes(startTime, duration.minutes);
@@ -111,6 +111,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ booking }, { status: 201 });
   } catch (error) {
     console.error("Admin bookings POST error:", error);
-    return NextResponse.json({ error: "Greska pri kreiranju rezervacije" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri kreiranju rezervacije" }, { status: 500 });
   }
 }

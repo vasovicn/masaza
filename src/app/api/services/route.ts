@@ -17,6 +17,6 @@ export async function GET() {
     return NextResponse.json({ services });
   } catch (error) {
     console.error("Services error:", error);
-    return NextResponse.json({ error: "Greska pri ucitavanju usluga" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri učitavanju usluga" }, { status: 500 });
   }
 }

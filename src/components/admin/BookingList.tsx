@@ -89,9 +89,9 @@ export default function BookingList({ staff }: Props) {
   };
 
   const statusLabels: Record<string, string> = {
-    confirmed: "Potvrdjena",
+    confirmed: "Potvrđena",
     cancelled: "Otkazana",
-    completed: "Zavrsena",
+    completed: "Završena",
   };
 
   return (
@@ -142,9 +142,9 @@ export default function BookingList({ staff }: Props) {
               className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#9dceb1]"
             >
               <option value="">Svi statusi</option>
-              <option value="confirmed">Potvrdjena</option>
+              <option value="confirmed">Potvrđena</option>
               <option value="cancelled">Otkazana</option>
-              <option value="completed">Zavrsena</option>
+              <option value="completed">Završena</option>
             </select>
           </div>
         </div>
@@ -171,7 +171,7 @@ export default function BookingList({ staff }: Props) {
       <div className="flex items-center gap-2 mb-4">
         <Calendar className="w-4 h-4 text-gray-400" />
         <span className="text-sm text-gray-500">
-          {loading ? "Ucitavanje..." : `${bookings.length} rezervacija`}
+          {loading ? "Učitavanje..." : `${bookings.length} rezervacija`}
         </span>
       </div>
 

@@ -36,12 +36,12 @@ export default function LoginPage() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Greska pri prijavi");
+      if (!res.ok) throw new Error(data.error || "Greška pri prijavi");
 
       router.push("/moj-nalog");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Greska pri prijavi");
+      setError(err instanceof Error ? err.message : "Greška pri prijavi");
     } finally {
       setLoading(false);
     }
@@ -52,8 +52,8 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Dobrodosli nazad</h1>
-          <p className="text-gray-500 mt-1">Prijavite se na vas nalog</p>
+          <h1 className="text-2xl font-bold text-gray-900">Dobrodošli nazad</h1>
+          <p className="text-gray-500 mt-1">Prijavite se na vaš nalog</p>
         </div>
 
         {/* Form */}

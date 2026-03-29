@@ -5,6 +5,8 @@ import Image from "next/image";
 import { Clock, ArrowRight, Calendar, Sparkles } from "lucide-react";
 import { SALON_NAME } from "@/lib/constants";
 
+export const revalidate = 60;
+
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
 
 export const metadata: Metadata = {
@@ -91,10 +93,10 @@ export default async function UsluiePage() {
       >
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Naše Usluge
+            Naše usluge
           </h1>
           <p className="text-lg text-gray-600 max-w-xl mx-auto">
-            Biramo iz bogatog spektra masaznih tehnika za opustanje, terapiju i oporavak.
+            Biramo iz bogatog spektra masažnih tehnika za opuštanje, terapiju i oporavak.
           </p>
         </div>
       </div>
@@ -175,7 +177,7 @@ export default async function UsluiePage() {
                             href={`/usluge/${service.slug}`}
                             className="flex items-center justify-center gap-1 px-3 py-2 rounded-full border border-gray-200 text-gray-600 hover:border-[#9dceb1] hover:text-[#3a8059] text-sm transition-colors"
                           >
-                            Vise
+                            Više
                             <ArrowRight className="w-3.5 h-3.5" />
                           </Link>
                         </div>
@@ -190,7 +192,7 @@ export default async function UsluiePage() {
 
         {services.length === 0 && (
           <div className="text-center py-16 text-gray-400">
-            <p>Usluge se ucitavaju...</p>
+            <p>Usluge se učitavaju...</p>
           </div>
         )}
       </div>

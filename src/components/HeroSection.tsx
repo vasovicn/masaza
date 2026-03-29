@@ -16,11 +16,11 @@ export default function HeroSection() {
       <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full opacity-15 z-0" style={{ background: "#4da070", transform: "translate(-30%, 30%)" }} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
-        <div className="max-w-2xl">
+        <div>
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6" style={{ backgroundColor: "rgba(157,206,177,0.3)", color: "#2e6345" }}>
             <Leaf className="w-4 h-4" />
-            Profesionalna masaža u Beogradu
+            Profesionalna masaža u Zemunu
           </div>
 
           {/* Headline */}
@@ -28,12 +28,12 @@ export default function HeroSection() {
             className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            Pronadjite ravnotezu{" "}
+            Uspostavite ravnotežu{" "}
             <span style={{ color: "#4da070" }}>tela i duha</span>
           </h1>
 
           <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-            Dozivite duboko opustanje i oporavak uz nase strucne masazne terapeute. Prilagodjavamo svaki tretman vasim individualnim potrebama.
+            Doživite duboko opuštanje i oporavak uz naše stručne masažne terapeute. Prilagođavamo svaki tretman vašim individualnim potrebama.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
@@ -43,13 +43,13 @@ export default function HeroSection() {
               style={{ backgroundColor: "#5a9e78" }}
             >
               <Calendar className="w-5 h-5" />
-              Zakazi termin
+              Zakaži termin
             </Link>
             <Link
               href="/usluge"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-gray-800 text-base font-semibold border-2 border-gray-300 hover:border-[#9dceb1] hover:text-[#4da070] transition-all bg-white"
             >
-              Nase usluge
+              Naše usluge
               <ChevronRight className="w-5 h-5" />
             </Link>
           </div>
@@ -57,8 +57,8 @@ export default function HeroSection() {
           {/* Stats */}
           <div className="mt-12 grid grid-cols-3 gap-6 max-w-sm">
             {[
-              { value: "500+", label: "Zadovoljnih klijenata" },
-              { value: "10+", label: "Vrsta masaza" },
+              { value: "1000+", label: "Zadovoljnih klijenata" },
+              { value: "10+", label: "Vrsta masaža" },
               { value: "5+", label: "God. iskustva" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">

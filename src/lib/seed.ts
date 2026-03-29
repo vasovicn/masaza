@@ -47,7 +47,7 @@ async function main() {
       lastName: "Jovanovic",
       role: "maser",
       phone: "+381 60 111 2222",
-      bio: "Ana je sertifikovani maser sa vise od 5 godina iskustva u relaksacionim i terapeutskim masazama. Specijalizovana je za sportsku masazu i rad sa hronicnim bolovima.",
+      bio: "Ana je sertifikovani maser sa više od 5 godina iskustva u relaksacionim i terapeutskim masažama. Specijalizovana je za sportsku masažu i rad sa hroničnim bolovima.",
       active: true,
       sequence: 1,
     },
@@ -61,7 +61,7 @@ async function main() {
       lastName: "Petrovic",
       role: "maser",
       phone: "+381 60 333 4444",
-      bio: "Marko je diplomirao fizioterapiju i ima 7 godina iskustva u radu sa sportistima i osobama sa povredama. Specijalista za duboku tkivnu masazu i limfnu drazu.",
+      bio: "Marko je diplomirao fizioterapiju i ima 7 godina iskustva u radu sa sportistima i osobama sa povredama. Specijalista za duboku tkivnu masažu i limfnu drenažu.",
       active: true,
       sequence: 2,
     },
@@ -70,8 +70,8 @@ async function main() {
   // Categories
   const relaksacionaKat = await prisma.serviceCategory.create({
     data: {
-      name: "Relaksacione masaze",
-      description: "Opustajuce masaze koje smanjuju stres i napetost misica",
+      name: "Relaksacione masaže",
+      description: "Opuštajuće masaže koje smanjuju stres i napetost mišića",
       sequence: 1,
       active: true,
     },
@@ -79,8 +79,8 @@ async function main() {
 
   const terapeutskakKat = await prisma.serviceCategory.create({
     data: {
-      name: "Terapeutske masaze",
-      description: "Ciljane terapeutske tehnike za tretman specificnih tegoba",
+      name: "Terapeutske masaže",
+      description: "Ciljane terapeutske tehnike za tretman specifičnih tegoba",
       sequence: 2,
       active: true,
     },
@@ -89,10 +89,10 @@ async function main() {
   // Services
   await prisma.service.create({
     data: {
-      name: "Klasicna relaksaciona masaza",
+      name: "Klasična relaksaciona masaža",
       slug: "klasicna-relaksaciona-masaza",
       description:
-        "Klasicna svedska masaza kombinuje nozne i srednje jake poteze koji opustaju misice, poboljsavaju cirkulaciju i smanjuju stres. Idealna za prvu masazu ili svakodnevno opustanje.",
+        "Klasična švedska masaža kombinuje nežne i srednje jake poteze koji opuštaju mišiće, poboljšavaju cirkulaciju i smanjuju stres. Idealna za prvu masažu ili svakodnevno opuštanje.",
       categoryId: relaksacionaKat.id,
       image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80",
       active: true,
@@ -109,10 +109,10 @@ async function main() {
 
   await prisma.service.create({
     data: {
-      name: "Aromaterapijska masaza",
+      name: "Aromaterapijska masaža",
       slug: "aromaterapijska-masaza",
       description:
-        "Kombinacija masaze sa etericknim uljima koja deluju na telo i um. Koristimo premium etericna ulja lavande, eukaliptusa i bergamota koji pojacavaju efekat opustanja i podsticu regeneraciju.",
+        "Kombinacija masaže sa eteričnim uljima koja deluju na telo i um. Koristimo premium eterična ulja lavande, eukaliptusa i bergamota koji pojačavaju efekat opuštanja i podstiču regeneraciju.",
       categoryId: relaksacionaKat.id,
       image: "https://images.unsplash.com/photo-1591343395082-e120087004b4?w=800&q=80",
       active: true,
@@ -128,10 +128,10 @@ async function main() {
 
   await prisma.service.create({
     data: {
-      name: "Hot stone masaza",
+      name: "Hot stone masaža",
       slug: "hot-stone-masaza",
       description:
-        "Terapija toplim kamenim oblucima koji se postavljaju na kljucne tacke tela. Toplota prodire duboko u misice, opusta napete i bolne partije i poboljsava protok energije kroz telo.",
+        "Terapija toplim kamenim oblucima koji se postavljaju na ključne tačke tela. Toplota prodire duboko u mišiće, opušta napete i bolne partije i poboljšava protok energije kroz telo.",
       categoryId: relaksacionaKat.id,
       image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80",
       active: true,
@@ -147,10 +147,10 @@ async function main() {
 
   await prisma.service.create({
     data: {
-      name: "Duboka tkivna masaza",
+      name: "Duboka tkivna masaža",
       slug: "duboka-tkivna-masaza",
       description:
-        "Intenzivna masaza usmerena na dublje slojeve misicnog tkiva. Korisna za hronicne bolove, napetost misica i ogranicenu pokretljivost. Posebno preporucena za sportiste i fizicki aktivne osobe.",
+        "Intenzivna masaža usmerena na dublje slojeve mišičnog tkiva. Korisna za hronične bolove, napetost mišića i ograničenu pokretljivost. Posebno preporučena za sportiste i fizički aktivne osobe.",
       categoryId: terapeutskakKat.id,
       image: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&q=80",
       active: true,
@@ -170,7 +170,7 @@ async function main() {
       name: "Sportska masaza",
       slug: "sportska-masaza",
       description:
-        "Specijalizovana masaza za sportiste i fizicki aktivne osobe. Kombinuje tehnike istezanja, kompresije i trljanja za brzi oporavak od treninga, prevenciju povreda i poboljsanje performansi.",
+        "Specijalizovana masaža za sportiste i fizički aktivne osobe. Kombinuje tehnike istezanja, kompresije i trljanja za brzi oporavak od treninga, prevenciju povreda i poboljšanje performansi.",
       categoryId: terapeutskakKat.id,
       image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80",
       active: true,
@@ -186,10 +186,10 @@ async function main() {
 
   await prisma.service.create({
     data: {
-      name: "Limfna draza",
+      name: "Limfna drenaža",
       slug: "limfna-draza",
       description:
-        "Nozna manuelna limfna draza stimulise limfni sistem, pomaze u eliminaciji toksina i visaka tecnosti iz tela. Idealna za osobe sa otokom, celuliton ili oslabljenim imunim sistemom.",
+        "Nežna manuelna limfna drenaža stimuliše limfni sistem, pomaže u eliminaciji toksina i viška tečnosti iz tela. Idealna za osobe sa otokom, celulitom ili oslabljenim imunim sistemom.",
       categoryId: terapeutskakKat.id,
       image: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=800&q=80",
       active: true,
@@ -205,12 +205,12 @@ async function main() {
 
   // Gallery images
   const galleryImages = [
-    { url: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80", alt: "Relaksaciona masaza" },
+    { url: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80", alt: "Relaksaciona masaža" },
     { url: "https://images.unsplash.com/photo-1591343395082-e120087004b4?w=800&q=80", alt: "Aromaterapija" },
     { url: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80", alt: "Hot stone terapija" },
-    { url: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&q=80", alt: "Terapeutska masaza" },
-    { url: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80", alt: "Sportska masaza" },
-    { url: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=800&q=80", alt: "Limfna draza" },
+    { url: "https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&q=80", alt: "Terapeutska masaža" },
+    { url: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80", alt: "Sportska masaža" },
+    { url: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=800&q=80", alt: "Limfna drenaža" },
     { url: "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=800&q=80", alt: "Enterijer salona" },
     { url: "https://images.unsplash.com/photo-1567602805638-1b069bcecd7e?w=800&q=80", alt: "Opremljeni kabinet" },
   ];

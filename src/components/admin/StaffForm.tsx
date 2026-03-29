@@ -52,7 +52,7 @@ export default function StaffForm({ initial, isNew, onSave, onCancel, loading }:
       return;
     }
     if (isNew && !form.password) {
-      setError("Lozinka je obavezna za novog clana osoblja");
+      setError("Lozinka je obavezna za novog člana osoblja");
       return;
     }
 
@@ -62,7 +62,7 @@ export default function StaffForm({ initial, isNew, onSave, onCancel, loading }:
     try {
       await onSave(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Greska pri cuvanju");
+      setError(err instanceof Error ? err.message : "Greška pri čuvanju");
     }
   };
 
@@ -224,7 +224,7 @@ export default function StaffForm({ initial, isNew, onSave, onCancel, loading }:
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
         >
           <X className="w-4 h-4" />
-          Otkazi
+          Otkaži
         </button>
         <button
           type="submit"
@@ -237,7 +237,7 @@ export default function StaffForm({ initial, isNew, onSave, onCancel, loading }:
           ) : (
             <Save className="w-4 h-4" />
           )}
-          Sacuvaj
+          Sačuvaj
         </button>
       </div>
     </form>

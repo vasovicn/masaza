@@ -108,7 +108,7 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
     try {
       await onSave(form);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Greska pri cuvanju");
+      setError(err instanceof Error ? err.message : "Greška pri čuvanju");
     }
   };
 
@@ -131,7 +131,7 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
             value={form.name}
             onChange={(e) => handleNameChange(e.target.value)}
             className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#9dceb1] text-sm"
-            placeholder="npr. Klasicna relaksaciona masaza"
+            placeholder="npr. Klasična relaksaciona masaža"
           />
         </div>
 
@@ -324,7 +324,7 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
         >
           <X className="w-4 h-4" />
-          Otkazi
+          Otkaži
         </button>
         <button
           type="submit"
@@ -337,7 +337,7 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
           ) : (
             <Save className="w-4 h-4" />
           )}
-          Sacuvaj
+          Sačuvaj
         </button>
       </div>
     </form>

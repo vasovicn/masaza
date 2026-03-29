@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
 
     const client = await prisma.clientUser.findUnique({ where: { email } });
     if (!client) {
-      return NextResponse.json({ error: "Pogresni podaci za prijavu" }, { status: 401 });
+      return NextResponse.json({ error: "Pogrešni podaci za prijavu" }, { status: 401 });
     }
 
     if (!client.password) {
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
     const valid = await verifyPassword(password, client.password);
     if (!valid) {
-      return NextResponse.json({ error: "Pogresni podaci za prijavu" }, { status: 401 });
+      return NextResponse.json({ error: "Pogrešni podaci za prijavu" }, { status: 401 });
     }
 
     if (!client.emailVerified) {
@@ -55,6 +55,6 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (error) {
     console.error("Client login error:", error);
-    return NextResponse.json({ error: "Greska pri prijavi" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri prijavi" }, { status: 500 });
   }
 }

@@ -60,7 +60,7 @@ export default async function AdminDashboard() {
           Dashboard
         </h1>
         <p className="text-gray-500 mt-1">
-          Dobrodosli, {payload?.firstName as string}! Danas je {todayFormatted}.
+          Dobrodošli, {payload?.firstName as string}! Danas je {todayFormatted}.
         </p>
       </div>
 
@@ -69,7 +69,7 @@ export default async function AdminDashboard() {
         {[
           { label: "Danas", value: todayCount, icon: Calendar, color: "#9dceb1", href: "/admin/rezervacije" },
           { label: "Ova nedelja", value: weekCount, icon: TrendingUp, color: "#4da070", href: "/admin/rezervacije" },
-          { label: "Ukupno potvrdjenih", value: totalCount, icon: Users, color: "#3a8059", href: "/admin/rezervacije" },
+          { label: "Ukupno potvrđenih", value: totalCount, icon: Users, color: "#3a8059", href: "/admin/rezervacije" },
         ].map((stat) => (
           <Link
             key={stat.label}

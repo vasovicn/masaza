@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
@@ -14,7 +15,7 @@ export async function GET() {
     return NextResponse.json({ services });
   } catch (error) {
     console.error("Admin services GET error:", error);
-    return NextResponse.json({ error: "Greska pri ucitavanju usluga" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri učitavanju usluga" }, { status: 500 });
   }
 }
 
@@ -56,9 +57,11 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    revalidatePath("/usluge");
+    revalidatePath("/cenovnik");
     return NextResponse.json({ service }, { status: 201 });
   } catch (error) {
     console.error("Admin services POST error:", error);
-    return NextResponse.json({ error: "Greska pri kreiranju usluge" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri kreiranju usluge" }, { status: 500 });
   }
 }

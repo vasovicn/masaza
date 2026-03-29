@@ -10,7 +10,7 @@ export async function GET() {
     return NextResponse.json({ images });
   } catch (error) {
     console.error("Admin gallery GET error:", error);
-    return NextResponse.json({ error: "Greska pri ucitavanju galerije" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri učitavanju galerije" }, { status: 500 });
   }
 }
 
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ image }, { status: 201 });
   } catch (error) {
     console.error("Admin gallery POST error:", error);
-    return NextResponse.json({ error: "Greska pri dodavanju slike" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri dodavanju slike" }, { status: 500 });
   }
 }
 
@@ -49,6 +49,6 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Admin gallery DELETE error:", error);
-    return NextResponse.json({ error: "Greska pri brisanju slike" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri brisanju slike" }, { status: 500 });
   }
 }

@@ -20,7 +20,7 @@ export async function POST(
 
     const booking = await prisma.booking.findUnique({ where: { id } });
     if (!booking) {
-      return NextResponse.json({ error: "Rezervacija nije pronadjena" }, { status: 404 });
+      return NextResponse.json({ error: "Rezervacija nije pronađena" }, { status: 404 });
     }
 
     if (booking.clientUserId !== payload.id) {
@@ -28,12 +28,12 @@ export async function POST(
     }
 
     if (booking.status === "cancelled") {
-      return NextResponse.json({ error: "Rezervacija je vec otkazana" }, { status: 400 });
+      return NextResponse.json({ error: "Rezervacija je već otkazana" }, { status: 400 });
     }
 
     const today = new Date().toISOString().split("T")[0];
     if (booking.date < today) {
-      return NextResponse.json({ error: "Ne mozete otkazati prosle rezervacije" }, { status: 400 });
+      return NextResponse.json({ error: "Ne možete otkazati prošle rezervacije" }, { status: 400 });
     }
 
     const updated = await prisma.booking.update({
@@ -44,6 +44,6 @@ export async function POST(
     return NextResponse.json({ booking: updated });
   } catch (error) {
     console.error("Cancel booking error:", error);
-    return NextResponse.json({ error: "Greska pri otkazivanju rezervacije" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri otkazivanju rezervacije" }, { status: 500 });
   }
 }

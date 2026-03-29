@@ -93,9 +93,9 @@ export default function ClientDashboard({ user, upcomingBookings, pastBookings }
   };
 
   const statusLabels: Record<string, string> = {
-    confirmed: "Potvrdjena",
+    confirmed: "Potvrđena",
     cancelled: "Otkazana",
-    completed: "Zavrsena",
+    completed: "Završena",
   };
 
   return (
@@ -107,7 +107,7 @@ export default function ClientDashboard({ user, upcomingBookings, pastBookings }
         </div>
         <div>
           <h1 className="text-2xl font-bold text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Dobrodosli, {user.firstName}!
+            Dobrodošli, {user.firstName}!
           </h1>
           <p className="text-gray-500 text-sm">{user.email}</p>
         </div>
@@ -116,7 +116,7 @@ export default function ClientDashboard({ user, upcomingBookings, pastBookings }
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-8">
         {[
-          { label: "Predstojeciih", value: upcoming.length, icon: Calendar, color: "#9dceb1" },
+          { label: "Predstojeći", value: upcoming.length, icon: Calendar, color: "#9dceb1" },
           { label: "Ukupno", value: upcoming.length + pastBookings.length, icon: CheckCircle, color: "#4da070" },
           { label: "Proteklih", value: pastBookings.length, icon: Clock, color: "#6b7280" },
         ].map((stat) => (
@@ -254,19 +254,19 @@ export default function ClientDashboard({ user, upcomingBookings, pastBookings }
           style={{ backgroundColor: "#5a9e78" }}
         >
           <Calendar className="w-4 h-4" />
-          Zakazi novi termin
+          Zakaži novi termin
         </Link>
       </div>
 
       {/* Upcoming bookings */}
       <div className="mb-10">
         <h2 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-          Predstojecihi termini
+          Predstojeći termini
         </h2>
         {upcoming.length === 0 ? (
           <div className="text-center py-10 bg-gray-50 rounded-2xl">
             <Calendar className="w-10 h-10 mx-auto text-gray-300 mb-3" />
-            <p className="text-gray-500">Nemate predstojeciih termina</p>
+            <p className="text-gray-500">Nemate predstojećih termina</p>
             <Link href="/zakazivanje" className="inline-block mt-3 text-sm font-medium" style={{ color: "#3a8059" }}>
               Zakazite termin →
             </Link>

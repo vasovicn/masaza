@@ -42,7 +42,7 @@ export default function ONamaPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Nasa prica
+                Naša priča
               </h2>
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
@@ -61,10 +61,10 @@ export default function ONamaPage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { icon: Heart, title: "Strast", desc: "Svaki tretman radimo sa punom posvacenoscu i ljubavlju prema poslu" },
-                { icon: Shield, title: "Profesionalnost", desc: "Sertifikovani terapeuti sa godinama iskustva u masaznim tehnikama" },
-                { icon: Sparkles, title: "Kvalitet", desc: "Koristimo iskljucivo premium prirodne preparate i etericna ulja" },
-                { icon: Award, title: "Iskustvo", desc: "Vise od 500 zadovoljnih klijenata govori o nasem poslu" },
+                { icon: Heart, title: "Strast", desc: "Svaki tretman radimo sa punom posvećenošću i ljubavlju prema poslu" },
+                { icon: Shield, title: "Profesionalnost", desc: "Sertifikovani terapeuti sa godinama iskustva u masažnim tehnikama" },
+                { icon: Sparkles, title: "Kvalitet", desc: "Koristimo isključivo premium prirodne preparate i eterična ulja" },
+                { icon: Award, title: "Iskustvo", desc: "Više od 1000 zadovoljnih klijenata govori o našem poslu" },
               ].map((item) => (
                 <div key={item.title} className="bg-white rounded-2xl p-5 border border-gray-100">
                   <item.icon className="w-8 h-8 mb-3" style={{ color: "#4da070" }} />
@@ -81,15 +81,15 @@ export default function ONamaPage() {
       <div className="py-16" style={{ background: "linear-gradient(135deg, #f0f9f4, #d9f0e4)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Nasa filosofija
+            Naša filozofija
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-10">
-            Verujemo da svaka osoba zasluzuje da se oseca bolje - u svom telu, u svom umu, u svom zivotu.
+            Verujemo da svaka osoba zaslužuje da se oseća bolje - u svom telu, u svom umu, u svom životu.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto">
             {[
               { icon: "🌿", title: "Prirodno", desc: "Samo prirodni preparati" },
-              { icon: "🤝", title: "Individualno", desc: "Prilagodjen svakome" },
+              { icon: "🤝", title: "Individualno", desc: "Prilagođen svakome" },
               { icon: "✨", title: "Transformativno", desc: "Promena koja traje" },
             ].map((val) => (
               <div key={val.title} className="bg-white/70 rounded-2xl p-6 backdrop-blur-sm">

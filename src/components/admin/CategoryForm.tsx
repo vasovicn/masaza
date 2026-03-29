@@ -35,7 +35,7 @@ export default function CategoryForm({ initial, onSave, onCancel, loading }: Pro
     try {
       await onSave(form);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Greska pri cuvanju");
+      setError(err instanceof Error ? err.message : "Greška pri čuvanju");
     }
   };
 
@@ -57,7 +57,7 @@ export default function CategoryForm({ initial, onSave, onCancel, loading }: Pro
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
           className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#9dceb1] text-sm"
-          placeholder="npr. Relaksacione masaze"
+          placeholder="npr. Relaksacione masaže"
         />
       </div>
 
@@ -90,7 +90,7 @@ export default function CategoryForm({ initial, onSave, onCancel, loading }: Pro
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
         >
           <X className="w-4 h-4" />
-          Otkazi
+          Otkaži
         </button>
         <button
           type="submit"
@@ -103,7 +103,7 @@ export default function CategoryForm({ initial, onSave, onCancel, loading }: Pro
           ) : (
             <Save className="w-4 h-4" />
           )}
-          Sacuvaj
+          Sačuvaj
         </button>
       </div>
     </form>

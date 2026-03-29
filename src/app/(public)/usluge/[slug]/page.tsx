@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Clock, Calendar } from "lucide-react";
+export const revalidate = 60;
+
 import { prisma } from "@/lib/prisma";
 import { SALON_NAME } from "@/lib/constants";
 
@@ -39,7 +41,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const service = await getService(slug);
-  if (!service) return { title: "Usluga nije pronadjena" };
+  if (!service) return { title: "Usluga nije pronađena" };
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
   const url = `${baseUrl}/usluge/${service.slug}`;
@@ -183,11 +185,11 @@ export default async function ServicePage({ params }: Props) {
                 style={{ backgroundColor: "#5a9e78" }}
               >
                 <Calendar className="w-5 h-5" />
-                Zakazi termin{hasDurations ? ` – od ${minPrice.toLocaleString("sr-RS")} RSD` : ""}
+                Zakaži termin{hasDurations ? ` – od ${minPrice.toLocaleString("sr-RS")} RSD` : ""}
               </Link>
             ) : (
               <div className="flex items-center justify-center gap-2 w-full py-4 rounded-full text-base font-semibold border-2 border-gray-200 text-gray-500">
-                Kontaktirajte nas za vise informacija
+                Kontaktirajte nas za više informacija
               </div>
             )}
           </div>

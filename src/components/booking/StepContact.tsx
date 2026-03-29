@@ -48,7 +48,7 @@ export default function StepContact({ onSubmit, onBack, loading, prefill }: Prop
   return (
     <div>
       <h2 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
-        Vasi podaci
+        Vaši podaci
       </h2>
       <p className="text-gray-500 mb-6">Unesite kontakt informacije za potvrdu rezervacije</p>
 
@@ -65,7 +65,7 @@ export default function StepContact({ onSubmit, onBack, loading, prefill }: Prop
               className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-[#9dceb1] ${
                 errors.firstName ? "border-red-300" : "border-gray-200"
               }`}
-              placeholder="Vase ime"
+              placeholder="Vaše ime"
             />
             {errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
           </div>
@@ -80,7 +80,7 @@ export default function StepContact({ onSubmit, onBack, loading, prefill }: Prop
               className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-[#9dceb1] ${
                 errors.lastName ? "border-red-300" : "border-gray-200"
               }`}
-              placeholder="Vase prezime"
+              placeholder="Vaše prezime"
             />
             {errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
           </div>

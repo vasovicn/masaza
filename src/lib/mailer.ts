@@ -35,7 +35,7 @@ export async function sendBookingConfirmation(booking: {
         <p style="color: white; margin: 5px 0;">Potvrda rezervacije</p>
       </div>
       <div style="padding: 30px; background: #f9f9f9;">
-        <h2 style="color: #333;">Vasa rezervacija je potvrdjena!</h2>
+        <h2 style="color: #333;">Vaša rezervacija je potvrđena!</h2>
         <table style="width: 100%; border-collapse: collapse;">
           <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Ime i prezime:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.customerName}</td></tr>
           <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Telefon:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.customerPhone}</td></tr>

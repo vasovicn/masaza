@@ -29,6 +29,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ bookings });
   } catch (error) {
     console.error("Client bookings error:", error);
-    return NextResponse.json({ error: "Greska pri ucitavanju rezervacija" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri učitavanju rezervacija" }, { status: 500 });
   }
 }

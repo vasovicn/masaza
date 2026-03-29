@@ -55,11 +55,11 @@ export async function GET(request: NextRequest) {
     });
     tokens = await tokenRes.json();
   } catch {
-    return errorRedirect("Greska pri komunikaciji sa Google servisom");
+    return errorRedirect("Greška pri komunikaciji sa Google servisom");
   }
 
   if (tokens.error || !tokens.access_token) {
-    return errorRedirect("Nije moguce dobiti Google token");
+    return errorRedirect("Nije moguće dobiti Google token");
   }
 
   // Get user profile
@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
     });
     googleUser = await userRes.json();
   } catch {
-    return errorRedirect("Nije moguce ucitati Google profil");
+    return errorRedirect("Nije moguće učitati Google profil");
   }
 
   if (!googleUser.email || !googleUser.verified_email) {

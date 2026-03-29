@@ -38,6 +38,8 @@ interface Service {
   durations: ServiceDuration[];
 }
 
+export const revalidate = 60;
+
 import { prisma } from "@/lib/prisma";
 
 async function getServices(): Promise<Service[]> {
@@ -112,7 +114,7 @@ export default async function CenovnikPage() {
             Cenovnik usluga
           </h1>
           <p className="text-lg text-gray-600 max-w-xl mx-auto">
-            Sve cene masaznih usluga na jednom mestu. Bez skrivenih troskova.
+            Sve cene masažnih usluga na jednom mestu. Bez skrivenih troškova.
           </p>
         </div>
       </div>
@@ -120,7 +122,7 @@ export default async function CenovnikPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         {services.length === 0 && (
           <div className="text-center py-16 text-gray-400">
-            <p>Usluge se ucitavaju...</p>
+            <p>Usluge se učitavaju...</p>
           </div>
         )}
 
@@ -180,7 +182,7 @@ export default async function CenovnikPage() {
                             <Link
                               href={`/usluge/${service.slug}`}
                               className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-200 text-gray-400 hover:border-[#9dceb1] hover:text-[#3a8059] transition-colors shrink-0"
-                              title="Vise informacija"
+                              title="Više informacija"
                             >
                               <ArrowRight className="w-4 h-4" />
                             </Link>
@@ -225,7 +227,7 @@ export default async function CenovnikPage() {
               Niste sigurni koja usluga je prava za vas?
             </h2>
             <p className="text-gray-700 mb-6 text-sm max-w-md mx-auto">
-              Kontaktirajte nas i pomoci cemo vam da izaberete masazu koja ce vam najvise odgovarati.
+              Kontaktirajte nas i pomoći ćemo vam da izaberete masažu koja će vam najviše odgovarati.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
@@ -233,7 +235,7 @@ export default async function CenovnikPage() {
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white text-gray-900 font-semibold text-sm hover:shadow-md transition-all"
               >
                 <Calendar className="w-4 h-4" style={{ color: "#3a8059" }} />
-                Zakazi termin
+                Zakaži termin
               </Link>
               <Link
                 href="/kontakt"

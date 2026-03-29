@@ -47,7 +47,7 @@ export default function RegistracijaPage() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Greska pri registraciji");
+      if (!res.ok) throw new Error(data.error || "Greška pri registraciji");
 
       if (data.needsVerification) {
         setSuccess(true);
@@ -57,7 +57,7 @@ export default function RegistracijaPage() {
       router.push("/moj-nalog");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Greska pri registraciji");
+      setError(err instanceof Error ? err.message : "Greška pri registraciji");
     } finally {
       setLoading(false);
     }
@@ -109,7 +109,7 @@ export default function RegistracijaPage() {
                   value={form.firstName}
                   onChange={(e) => setForm({ ...form, firstName: e.target.value })}
                   className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#9dceb1] text-sm"
-                  placeholder="Vase ime"
+                  placeholder="Vaše ime"
                 />
               </div>
               <div>

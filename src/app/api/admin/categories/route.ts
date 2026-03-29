@@ -13,7 +13,7 @@ export async function GET() {
     return NextResponse.json({ categories });
   } catch (error) {
     console.error("Admin categories GET error:", error);
-    return NextResponse.json({ error: "Greska pri ucitavanju kategorija" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri učitavanju kategorija" }, { status: 500 });
   }
 }
 
@@ -37,6 +37,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ category }, { status: 201 });
   } catch (error) {
     console.error("Admin categories POST error:", error);
-    return NextResponse.json({ error: "Greska pri kreiranju kategorije" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri kreiranju kategorije" }, { status: 500 });
   }
 }

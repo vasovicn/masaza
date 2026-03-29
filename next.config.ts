@@ -36,6 +36,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/privacy-policy",
+        destination: "/politika-privatnosti",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

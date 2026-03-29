@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (!duration) {
-      return NextResponse.json({ error: "Trajanje nije pronadjeno" }, { status: 404 });
+      return NextResponse.json({ error: "Trajanje nije pronađeno" }, { status: 404 });
     }
 
     const endTime = addMinutes(startTime, duration.minutes);
@@ -149,6 +149,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ booking, success: true }, { status: 201 });
   } catch (error) {
     console.error("Booking error:", error);
-    return NextResponse.json({ error: "Greska pri kreiranju rezervacije" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri kreiranju rezervacije" }, { status: 500 });
   }
 }

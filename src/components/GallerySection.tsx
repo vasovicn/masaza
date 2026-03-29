@@ -34,13 +34,13 @@ export default async function GallerySection() {
         {/* Header */}
         <div className="text-center mb-12">
           <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: "#f0f9f4", color: "#3a8059" }}>
-            Nasa galerija
+            Naša galerija
           </span>
           <h2 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Pogledajte nas salon
+            Pogledajte naš salon
           </h2>
           <p className="text-lg text-gray-600">
-            Opustajuca atmosfera i profesionalno opremljeni kabineti cekaju vas.
+            Opuštajuća atmosfera i profesionalno opremljeni kabineti čekaju vas.
           </p>
         </div>
 

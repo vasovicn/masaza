@@ -17,13 +17,13 @@ export async function GET(request: NextRequest) {
     });
 
     if (!duration) {
-      return NextResponse.json({ error: "Trajanje nije pronadjeno" }, { status: 404 });
+      return NextResponse.json({ error: "Trajanje nije pronađeno" }, { status: 404 });
     }
 
     const slots = await getAvailableTimeSlotsAggregated(date, duration.minutes);
     return NextResponse.json({ slots });
   } catch (error) {
     console.error("Slots error:", error);
-    return NextResponse.json({ error: "Greska pri ucitavanju termina" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri učitavanju termina" }, { status: 500 });
   }
 }

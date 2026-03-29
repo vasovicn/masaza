@@ -3,21 +3,21 @@ import { Star } from "lucide-react";
 const testimonials = [
   {
     name: "Milica Stankovic",
-    role: "Marketing menadzer",
-    text: "Neverovatno iskustvo! Relaks masaza u Somatic Balansu je potpuno promenila moj pogled na relaksaciju. Dolazim svake dve nedelje i ne mogu zamisliti zivot bez toga.",
+    role: "Marketing menadžer",
+    text: "Neverovatno iskustvo! Relaks masaža u Somatic Balansu je potpuno promenila moj pogled na relaksaciju. Dolazim svake dve nedelje i ne mogu zamisliti život bez toga.",
     rating: 5,
     initials: "MS",
   },
   {
     name: "Stefan Nikolic",
     role: "Sportista",
-    text: "Kao aktivni sportista, redovno koristim terapeutsku masazu. Olja je pravi strucnjak - tacno zna gde je problem i kako da pomogne. Oporavak posle treninga je sada duplo brzi.",
+    text: "Kao aktivni sportista, redovno koristim terapeutsku masažu. Olja je pravi stručnjak - tačno zna gde je problem i kako da pomogne. Oporavak posle treninga je sada duplo brži.",
     rating: 5,
     initials: "SN",
   },
   {
     name: "Jelena Popovic",
-    role: "IT inzenjer",
+    role: "IT inženjer",
     text: "Antistres masaža me potpuno resetuje nakon naporne radne nedelje. Posle svakog tretmana osećam se kao nova osoba - nestanu napetost i glavobolje od stresa. Ovo je postala moja obavezna rutina!",
     rating: 5,
     initials: "JP",
@@ -34,10 +34,10 @@ export default function TestimonialsSection() {
             Utisci klijenata
           </span>
           <h2 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Sta kazu nasi klijenti
+            Šta kažu naši klijenti
           </h2>
           <p className="text-lg text-gray-600">
-            Zadovoljstvo nasih klijenata je nase najvece postignuce.
+            Zadovoljstvo naših klijenata je naše najveće postignuće.
           </p>
         </div>
 

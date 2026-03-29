@@ -25,7 +25,7 @@ export async function GET() {
     return NextResponse.json({ staff });
   } catch (error) {
     console.error("Admin staff GET error:", error);
-    return NextResponse.json({ error: "Greska pri ucitavanju masera" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri učitavanju masera" }, { status: 500 });
   }
 }
 
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
 
     const existing = await prisma.staffUser.findUnique({ where: { email } });
     if (existing) {
-      return NextResponse.json({ error: "Email adresa je vec registrovana" }, { status: 409 });
+      return NextResponse.json({ error: "Email adresa je već registrovana" }, { status: 409 });
     }
 
     const hashedPassword = await hashPassword(password);
@@ -78,6 +78,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ staff }, { status: 201 });
   } catch (error) {
     console.error("Admin staff POST error:", error);
-    return NextResponse.json({ error: "Greska pri kreiranju masera" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri kreiranju masera" }, { status: 500 });
   }
 }

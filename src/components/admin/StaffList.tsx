@@ -43,7 +43,7 @@ export default function StaffList({ staff, onRefresh }: Props) {
 
       if (!res.ok) {
         const d = await res.json();
-        throw new Error(d.error || "Greska");
+        throw new Error(d.error || "Greška");
       }
 
       setShowForm(false);
@@ -180,7 +180,7 @@ export default function StaffList({ staff, onRefresh }: Props) {
             {staff.length === 0 && (
               <tr>
                 <td colSpan={7} className="px-4 py-12 text-center text-gray-400">
-                  Nema clanova osoblja.
+                  Nema članova osoblja.
                 </td>
               </tr>
             )}

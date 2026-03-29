@@ -19,13 +19,13 @@ export async function GET(
     });
 
     if (!booking) {
-      return NextResponse.json({ error: "Rezervacija nije pronadjena" }, { status: 404 });
+      return NextResponse.json({ error: "Rezervacija nije pronađena" }, { status: 404 });
     }
 
     return NextResponse.json({ booking });
   } catch (error) {
     console.error("Admin booking GET error:", error);
-    return NextResponse.json({ error: "Greska pri ucitavanju rezervacije" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri učitavanju rezervacije" }, { status: 500 });
   }
 }
 
@@ -39,7 +39,7 @@ export async function PUT(
 
     const existing = await prisma.booking.findUnique({ where: { id } });
     if (!existing) {
-      return NextResponse.json({ error: "Rezervacija nije pronadjena" }, { status: 404 });
+      return NextResponse.json({ error: "Rezervacija nije pronađena" }, { status: 404 });
     }
 
     let endTime = existing.endTime;
@@ -75,7 +75,7 @@ export async function PUT(
     return NextResponse.json({ booking });
   } catch (error) {
     console.error("Admin booking PUT error:", error);
-    return NextResponse.json({ error: "Greska pri azuriranju rezervacije" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri ažuriranju rezervacije" }, { status: 500 });
   }
 }
 
@@ -93,6 +93,6 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Admin booking DELETE error:", error);
-    return NextResponse.json({ error: "Greska pri otkazivanju rezervacije" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri otkazivanju rezervacije" }, { status: 500 });
   }
 }

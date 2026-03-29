@@ -14,6 +14,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Contact error:", error);
-    return NextResponse.json({ error: "Greska pri slanju poruke. Pokusajte ponovo ili nas kontaktirajte telefonom." }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri slanju poruke. Pokušajte ponovo ili nas kontaktirajte telefonom." }, { status: 500 });
   }
 }

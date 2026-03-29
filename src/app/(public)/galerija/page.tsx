@@ -41,7 +41,7 @@ export default async function GalerijaPage() {
             Galerija
           </h1>
           <p className="text-lg text-gray-600 max-w-xl mx-auto">
-            Dodjite i licno osetite atmosferu Somatic Balans salona.
+            Dođite i lično osetite atmosferu Somatic Balans salona.
           </p>
         </div>
       </div>
@@ -68,7 +68,7 @@ export default async function GalerijaPage() {
           </div>
         ) : (
           <div className="text-center py-16 text-gray-400">
-            <p>Galerija se ucitava...</p>
+            <p>Galerija se učitava...</p>
           </div>
         )}
       </div>

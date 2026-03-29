@@ -24,13 +24,13 @@ export default function ContactSection() {
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || "Greska pri slanju poruke");
+        throw new Error(data.error || "Greška pri slanju poruke");
       }
 
       setSuccess(true);
       setForm({ name: "", email: "", phone: "", message: "" });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Greska pri slanju poruke");
+      setError(err instanceof Error ? err.message : "Greška pri slanju poruke");
     } finally {
       setLoading(false);
     }
@@ -116,22 +116,22 @@ export default function ContactSection() {
                   <CheckCircle className="w-8 h-8" style={{ color: "#4da070" }} />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Poruka je poslata!</h3>
-                <p className="text-gray-600 mb-6">Odgovoriti cemo vam u najkracem mogucem roku.</p>
+                <p className="text-gray-600 mb-6">Odgovorićemo vam u najkraćem mogućem roku.</p>
                 <button
                   onClick={() => setSuccess(false)}
                   className="px-6 py-2.5 rounded-full text-white text-sm font-medium"
                   style={{ backgroundColor: "#5a9e78" }}
                 >
-                  Posalji novu poruku
+                  Pošalji novu poruku
                 </button>
               </div>
             ) : (
               <>
-                <h3 className="font-bold text-gray-900 text-xl mb-6">Posaljite nam poruku</h3>
+                <h3 className="font-bold text-gray-900 text-xl mb-6">Pošaljite nam poruku</h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Vase ime <span className="text-red-500">*</span>
+                      Vaše ime <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -177,7 +177,7 @@ export default function ContactSection() {
                       value={form.message}
                       onChange={(e) => setForm({ ...form, message: e.target.value })}
                       className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#9dceb1] focus:border-transparent text-sm resize-none"
-                      placeholder="Vasa poruka..."
+                      placeholder="Vaša poruka..."
                     />
                   </div>
 
@@ -198,7 +198,7 @@ export default function ContactSection() {
                     ) : (
                       <>
                         <Send className="w-4 h-4" />
-                        Posalji poruku
+                        Pošalji poruku
                       </>
                     )}
                   </button>

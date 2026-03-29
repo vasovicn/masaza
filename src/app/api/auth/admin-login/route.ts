@@ -12,12 +12,12 @@ export async function POST(request: NextRequest) {
 
     const staff = await prisma.staffUser.findUnique({ where: { email } });
     if (!staff || !staff.active) {
-      return NextResponse.json({ error: "Pogresni podaci za prijavu" }, { status: 401 });
+      return NextResponse.json({ error: "Pogrešni podaci za prijavu" }, { status: 401 });
     }
 
     const valid = await verifyPassword(password, staff.password);
     if (!valid) {
-      return NextResponse.json({ error: "Pogresni podaci za prijavu" }, { status: 401 });
+      return NextResponse.json({ error: "Pogrešni podaci za prijavu" }, { status: 401 });
     }
 
     const token = await signAdminToken({
@@ -51,6 +51,6 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (error) {
     console.error("Admin login error:", error);
-    return NextResponse.json({ error: "Greska pri prijavi" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri prijavi" }, { status: 500 });
   }
 }

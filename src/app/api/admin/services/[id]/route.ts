@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(
@@ -16,13 +17,13 @@ export async function GET(
     });
 
     if (!service) {
-      return NextResponse.json({ error: "Usluga nije pronadjena" }, { status: 404 });
+      return NextResponse.json({ error: "Usluga nije pronađena" }, { status: 404 });
     }
 
     return NextResponse.json({ service });
   } catch (error) {
     console.error("Admin service GET error:", error);
-    return NextResponse.json({ error: "Greska pri ucitavanju usluge" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri učitavanju usluge" }, { status: 500 });
   }
 }
 
@@ -37,7 +38,7 @@ export async function PUT(
 
     const existing = await prisma.service.findUnique({ where: { id } });
     if (!existing) {
-      return NextResponse.json({ error: "Usluga nije pronadjena" }, { status: 404 });
+      return NextResponse.json({ error: "Usluga nije pronađena" }, { status: 404 });
     }
 
     // Update service basic info
@@ -77,10 +78,13 @@ export async function PUT(
       },
     });
 
+    revalidatePath("/usluge");
+    revalidatePath("/cenovnik");
+    if (updated?.slug) revalidatePath(`/usluge/${updated.slug}`);
     return NextResponse.json({ service: updated });
   } catch (error) {
     console.error("Admin service PUT error:", error);
-    return NextResponse.json({ error: "Greska pri azuriranju usluge" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri ažuriranju usluge" }, { status: 500 });
   }
 }
 
@@ -95,9 +99,11 @@ export async function DELETE(
       data: { active: false },
     });
 
+    revalidatePath("/usluge");
+    revalidatePath("/cenovnik");
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Admin service DELETE error:", error);
-    return NextResponse.json({ error: "Greska pri deaktiviranju usluge" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri deaktiviranju usluge" }, { status: 500 });
   }
 }

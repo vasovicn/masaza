@@ -3,32 +3,32 @@ import { Heart, Shield, Sparkles, Users, Award, Leaf } from "lucide-react";
 const benefits = [
   {
     icon: Heart,
-    title: "Holisticki pristup",
-    description: "Tretiramo celog cloveka - telo i um zajedno, za dugorocne rezultate.",
+    title: "Holistički pristup",
+    description: "Tretiramo celog čoveka - telo i um zajedno, za dugoročne rezultate.",
   },
   {
     icon: Shield,
-    title: "Strucni terapeuti",
-    description: "Svi nasi masazni terapeuti su sertifikovani i imaju vise godina iskustva.",
+    title: "Stručni terapeuti",
+    description: "Svi naši terapeuti su sertifikovani i imaju više godina iskustva.",
   },
   {
     icon: Sparkles,
     title: "Premium proizvodi",
-    description: "Koristimo samo prirodna etericna ulja i premium masazne kreme.",
+    description: "Koristimo samo prirodna eterična ulja i premium masažne kreme.",
   },
   {
     icon: Users,
     title: "Individualni tretman",
-    description: "Svaki tretman prilagodjavamo vasim specificnim potrebama i zdravstvenom stanju.",
+    description: "Svaki tretman prilagođavamo vašim specifičnim potrebama i zdravstvenom stanju.",
   },
   {
     icon: Award,
     title: "Proverena kvaliteta",
-    description: "Vise od 500 zadovoljnih klijenata koji nam se redovno vracaju.",
+    description: "Više od 1000 zadovoljnih klijenata koji nam se redovno vraćaju.",
   },
   {
     icon: Leaf,
-    title: "Opustajuca atmosfera",
+    title: "Opuštajuća atmosfera",
     description: "Nasmijani kabineti su opremljeni za maksimalan komfor i privatnost.",
   },
 ];
@@ -45,7 +45,7 @@ export default function AboutSection() {
             </span>
             <h2 className="text-4xl font-bold text-gray-900 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
               Somatic Balans – <br />
-              <span style={{ color: "#4da070" }}>Vasa oaza mira u Beogradu</span>
+              <span style={{ color: "#4da070" }}>Vaša oaza mira u Beogradu</span>
             </h2>
             <div className="space-y-4 text-gray-600 leading-relaxed">
               <p>
@@ -69,10 +69,10 @@ export default function AboutSection() {
               <div className="p-12 text-center text-white">
                 <div className="text-8xl mb-6">🌿</div>
                 <h3 className="text-2xl font-bold mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-                  Vise od masaze
+                  Više od masaže
                 </h3>
                 <p className="opacity-90 text-lg">
-                  Dozivite potpuno ozivljavanje tela i duha kroz nasu strucnu njegu
+                  Doživite potpuno oživljavanje tela i duha kroz našu stručnu njegu
                 </p>
               </div>
             </div>

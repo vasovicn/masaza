@@ -66,7 +66,7 @@ export default function ServiceList({ services, categories, onRefresh }: Props) 
 
       if (!res.ok) {
         const d = await res.json();
-        throw new Error(d.error || "Greska");
+        throw new Error(d.error || "Greška");
       }
 
       setShowForm(false);

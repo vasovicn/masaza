@@ -39,7 +39,7 @@ export default function CategoryList({ categories, onRefresh }: Props) {
 
       if (!res.ok) {
         const d = await res.json();
-        throw new Error(d.error || "Greska");
+        throw new Error(d.error || "Greška");
       }
 
       setShowForm(false);
@@ -52,7 +52,7 @@ export default function CategoryList({ categories, onRefresh }: Props) {
 
   const handleDelete = async (category: Category) => {
     if (category._count.services > 0) {
-      setDeleteError(`Kategorija "${category.name}" ima ${category._count.services} uslug(e) i ne moze biti obrisana.`);
+      setDeleteError(`Kategorija "${category.name}" ima ${category._count.services} uslug(e) i ne može biti obrisana.`);
       return;
     }
     if (!confirm(`Obrisati kategoriju "${category.name}"?`)) return;
@@ -63,7 +63,7 @@ export default function CategoryList({ categories, onRefresh }: Props) {
       const res = await fetch(`/api/admin/categories/${category.id}`, { method: "DELETE" });
       if (!res.ok) {
         const d = await res.json();
-        setDeleteError(d.error || "Greska pri brisanju");
+        setDeleteError(d.error || "Greška pri brisanju");
         return;
       }
       onRefresh();

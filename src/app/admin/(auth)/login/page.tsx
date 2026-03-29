@@ -24,7 +24,7 @@ export default function AdminLoginPage() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Pogresni podaci");
+      if (!res.ok) throw new Error(data.error || "Pogrešni podaci");
 
       if (data.user?.isAdmin) {
         router.push("/admin");
@@ -33,7 +33,7 @@ export default function AdminLoginPage() {
       }
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Greska pri prijavi");
+      setError(err instanceof Error ? err.message : "Greška pri prijavi");
     } finally {
       setLoading(false);
     }

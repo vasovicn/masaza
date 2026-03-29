@@ -60,7 +60,7 @@ export default function StepTime({ date, durationId, durationMinutes, onSelect, 
         <div className="text-center py-12 bg-gray-50 rounded-2xl">
           <Clock className="w-12 h-12 mx-auto mb-3 text-gray-300" />
           <p className="text-gray-600 font-medium">Nema dostupnih termina za ovaj datum</p>
-          <p className="text-sm text-gray-400 mt-1">Pokusajte sa drugim datumom</p>
+          <p className="text-sm text-gray-400 mt-1">Pokušajte sa drugim datumom</p>
         </div>
       )}
 

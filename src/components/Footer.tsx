@@ -17,7 +17,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-gray-400 leading-relaxed mb-4">
-              Profesionalni salon masaze u Beogradu. Pronađite ravnotezu tela i duha uz nase strucne terapeute.
+              Profesionalni salon masaže u Beogradu. Pronađite ravnotežu tela i duha uz naše stručne terapeute.
             </p>
             <a
               href={SALON_INSTAGRAM}
@@ -102,8 +102,8 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-          <p>&copy; {new Date().getFullYear()} {SALON_NAME}. Sva prava zadrzana.</p>
-          <Link href="/politika-privatnosti" className="hover:text-[#9dceb1] transition-colors">
+          <p>&copy; {new Date().getFullYear()} {SALON_NAME}. Sva prava zadržana.</p>
+          <Link href="/privacy-policy" className="hover:text-[#9dceb1] transition-colors">
             Politika privatnosti
           </Link>
         </div>

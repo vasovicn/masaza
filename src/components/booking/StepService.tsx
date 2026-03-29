@@ -39,7 +39,7 @@ export default function StepService({ services, onSelect }: Props) {
       <h2 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
         Izaberite uslugu
       </h2>
-      <p className="text-gray-500 mb-6">Odaberite masazu koja odgovara vasim potrebama</p>
+      <p className="text-gray-500 mb-6">Odaberite masažu koja odgovara vašim potrebama</p>
 
       {/* Category filter */}
       <div className="flex flex-wrap gap-2 mb-6">

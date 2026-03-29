@@ -22,7 +22,7 @@ export async function PUT(
     return NextResponse.json({ category });
   } catch (error) {
     console.error("Admin categories PUT error:", error);
-    return NextResponse.json({ error: "Greska pri azuriranju kategorije" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri ažuriranju kategorije" }, { status: 500 });
   }
 }
 
@@ -37,7 +37,7 @@ export async function DELETE(
     const serviceCount = await prisma.service.count({ where: { categoryId: id } });
     if (serviceCount > 0) {
       return NextResponse.json(
-        { error: "Kategorija ima usluge i ne moze biti obrisana. Najpre obrisite ili premestite sve usluge." },
+        { error: "Kategorija ima usluge i ne može biti obrisana. Najpre obrišite ili premestite sve usluge." },
         { status: 400 }
       );
     }
@@ -47,6 +47,6 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Admin categories DELETE error:", error);
-    return NextResponse.json({ error: "Greska pri brisanju kategorije" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri brisanju kategorije" }, { status: 500 });
   }
 }

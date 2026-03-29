@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
     const existing = await prisma.clientUser.findUnique({ where: { email } });
     if (existing) {
-      return NextResponse.json({ error: "Email adresa je vec registrovana" }, { status: 409 });
+      return NextResponse.json({ error: "Email adresa je već registrovana" }, { status: 409 });
     }
 
     const hashedPassword = await hashPassword(password);
@@ -48,6 +48,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("Register error:", error);
-    return NextResponse.json({ error: "Greska pri registraciji" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri registraciji" }, { status: 500 });
   }
 }

@@ -46,7 +46,7 @@ export default function Header() {
   };
 
   const navLinks = [
-    { href: "/", label: "Pocetna" },
+    { href: "/", label: "Početna" },
     { href: "/usluge", label: "Usluge" },
     { href: "/cenovnik", label: "Cenovnik" },
     { href: "/o-nama", label: "O nama" },
@@ -142,7 +142,7 @@ export default function Header() {
               style={{ backgroundColor: "#5a9e78" }}
             >
               <Calendar className="w-4 h-4" />
-              Zakazi termin
+              Zakaži termin
             </Link>
           </div>
 
@@ -210,7 +210,7 @@ export default function Header() {
               onClick={() => setMobileOpen(false)}
             >
               <Calendar className="w-4 h-4" />
-              Zakazi termin
+              Zakaži termin
             </Link>
           </div>
         </div>

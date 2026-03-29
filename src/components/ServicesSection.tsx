@@ -50,13 +50,13 @@ export default async function ServicesSection() {
         {/* Header */}
         <div className="text-center mb-12">
           <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-4" style={{ backgroundColor: "#f0f9f4", color: "#3a8059" }}>
-            Sta nudimo
+            Šta nudimo
           </span>
           <h2 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Nase usluge
+            Naše usluge
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Izaberite izmedju razlicitih vrsta masaza, prilagodjenih vasim potrebama za opustanjem i terapijom.
+            Izaberite između različitih vrsta masaža, prilagođenih vašim potrebama za opuštanjem i terapijom.
           </p>
         </div>
 

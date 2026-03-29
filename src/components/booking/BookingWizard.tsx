@@ -148,12 +148,12 @@ export default function BookingWizard() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Greska pri kreiranju rezervacije");
+      if (!res.ok) throw new Error(data.error || "Greška pri kreiranju rezervacije");
 
       setState((prev) => ({ ...prev, contact }));
       setStep(5);
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : "Greska");
+      setSubmitError(err instanceof Error ? err.message : "Greška");
     } finally {
       setSubmitLoading(false);
     }

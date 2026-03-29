@@ -13,7 +13,7 @@ export async function PUT(
 
     const existing = await prisma.staffUser.findUnique({ where: { id } });
     if (!existing) {
-      return NextResponse.json({ error: "Maser nije pronadjen" }, { status: 404 });
+      return NextResponse.json({ error: "Maser nije pronađen" }, { status: 404 });
     }
 
     const updateData: Record<string, unknown> = {};
@@ -54,7 +54,7 @@ export async function PUT(
     return NextResponse.json({ staff });
   } catch (error) {
     console.error("Admin staff PUT error:", error);
-    return NextResponse.json({ error: "Greska pri azuriranju masera" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri ažuriranju masera" }, { status: 500 });
   }
 }
 
@@ -72,6 +72,6 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Admin staff DELETE error:", error);
-    return NextResponse.json({ error: "Greska pri deaktiviranju masera" }, { status: 500 });
+    return NextResponse.json({ error: "Greška pri deaktiviranju masera" }, { status: 500 });
   }
 }

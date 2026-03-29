@@ -41,10 +41,10 @@ export default function StepSuccess({ booking, isLoggedIn, onNewBooking }: Props
       </div>
 
       <h2 className="text-3xl font-bold text-gray-900 mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>
-        Rezervacija potvrdjena!
+        Rezervacija potvrđena!
       </h2>
       <p className="text-gray-500 mb-8">
-        Vas termin je uspesno zakazan. Vidimo se uskoro!
+        Vaš termin je uspešno zakazan. Vidimo se uskoro!
         {booking.contact.email && (
           <span className="block mt-1 text-sm">
             Potvrda je poslata na <span className="font-medium">{booking.contact.email}</span>
@@ -98,7 +98,7 @@ export default function StepSuccess({ booking, isLoggedIn, onNewBooking }: Props
           style={{ backgroundColor: "#5a9e78" }}
         >
           <Home className="w-4 h-4" />
-          Pocetna
+          Početna
         </Link>
       </div>
     </div>
