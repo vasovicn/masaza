@@ -45,7 +45,7 @@ export default function AboutSection() {
             </span>
             <h2 className="text-4xl font-bold text-gray-900 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
               Somatic Balans – <br />
-              <span style={{ color: "#4da070" }}>Vaša oaza mira u Beogradu</span>
+              <span style={{ color: "#4da070" }}>Vaša oaza mira u Zemunu</span>
             </h2>
             <div className="space-y-4 text-gray-600 leading-relaxed">
               <p>
@@ -83,7 +83,7 @@ export default function AboutSection() {
                   <Award className="w-6 h-6" style={{ color: "#4da070" }} />
                 </div>
                 <div>
-                  <div className="font-bold text-gray-900">500+ klijenata</div>
+                  <div className="font-bold text-gray-900">1000+ klijenata</div>
                   <div className="text-sm text-gray-500">Zadovoljnih korisnika</div>
                 </div>
               </div>

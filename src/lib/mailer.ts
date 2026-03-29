@@ -46,7 +46,7 @@ export async function sendBookingConfirmation(booking: {
           <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Vreme:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.startTime} - ${booking.endTime}</td></tr>
           <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Maser:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.staffName}</td></tr>
         </table>
-        <p style="color: #666; margin-top: 20px;">Za otkazivanje ili promenu termina kontaktirajte nas na ${SALON_EMAIL} ili pozovite ${"+381 65 443 231"}.</p>
+        <p style="color: #666; margin-top: 20px;">Za otkazivanje ili promenu termina kontaktirajte nas na ${SALON_EMAIL} ili pozovite ${"+381 66 283 777"}.</p>
       </div>
     </div>
   `;
