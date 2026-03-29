@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Clock, Calendar, ArrowRight } from "lucide-react";
-import { SALON_NAME } from "@/lib/constants";
+import { SALON_NAME, SALON_PHONE } from "@/lib/constants";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
 
@@ -175,9 +175,12 @@ export default async function CenovnikPage() {
                                 Zakazi
                               </Link>
                             ) : (
-                              <span className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-200 text-gray-500 whitespace-nowrap">
+                              <a
+                                href={`tel:${SALON_PHONE}`}
+                                className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border border-gray-200 text-gray-500 hover:border-[#9dceb1] hover:text-[#3a8059] whitespace-nowrap transition-colors"
+                              >
                                 Kontaktirajte nas
-                              </span>
+                              </a>
                             )}
                             <Link
                               href={`/usluge/${service.slug}`}
@@ -237,12 +240,12 @@ export default async function CenovnikPage() {
                 <Calendar className="w-4 h-4" style={{ color: "#3a8059" }} />
                 Zakaži termin
               </Link>
-              <Link
-                href="/kontakt"
+              <a
+                href={`tel:${SALON_PHONE}`}
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border-2 border-white text-gray-900 font-semibold text-sm hover:bg-white transition-all"
               >
                 Kontaktirajte nas
-              </Link>
+              </a>
             </div>
           </div>
         )}
