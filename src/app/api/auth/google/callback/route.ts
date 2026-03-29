@@ -18,7 +18,7 @@ interface GoogleUserInfo {
 }
 
 export async function GET(request: NextRequest) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
+  const baseUrl = process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
   const errorRedirect = (msg: string) =>
     NextResponse.redirect(`${baseUrl}/login?error=${encodeURIComponent(msg)}`);
 

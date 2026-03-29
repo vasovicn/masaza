@@ -2,11 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { signClientToken } from "@/lib/auth";
 
+function getSiteUrl() {
+  return process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";
+}
+
 export async function GET(request: NextRequest) {
+  const baseUrl = getSiteUrl();
   const token = request.nextUrl.searchParams.get("token");
 
   if (!token) {
-    return NextResponse.redirect(new URL("/login?error=invalid-token", request.url));
+    return NextResponse.redirect(`${baseUrl}/login?error=invalid-token`);
   }
 
   const user = await prisma.clientUser.findFirst({
@@ -14,7 +19,7 @@ export async function GET(request: NextRequest) {
   });
 
   if (!user) {
-    return NextResponse.redirect(new URL("/login?error=invalid-token", request.url));
+    return NextResponse.redirect(`${baseUrl}/login?error=invalid-token`);
   }
 
   await prisma.clientUser.update({
@@ -29,7 +34,7 @@ export async function GET(request: NextRequest) {
     lastName: user.lastName,
   });
 
-  const response = NextResponse.redirect(new URL("/moj-nalog?verified=1", request.url));
+  const response = NextResponse.redirect(`${baseUrl}/moj-nalog?verified=1`);
   response.cookies.set("client_token", jwt, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
