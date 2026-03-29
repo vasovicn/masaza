@@ -35,8 +35,8 @@ export default async function MojNalogPage() {
   });
 
   const today = new Date().toISOString().split("T")[0];
-  const upcoming = bookings.filter((b) => b.date >= today && b.status === "confirmed");
-  const past = bookings.filter((b) => b.date < today || b.status !== "confirmed");
+  const upcoming = bookings.filter((b) => b.date >= today && (b.status === "confirmed" || b.status === "inquiry"));
+  const past = bookings.filter((b) => b.date < today || (b.status !== "confirmed" && b.status !== "inquiry"));
 
   return (
     <ClientDashboard

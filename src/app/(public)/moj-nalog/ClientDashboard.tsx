@@ -88,12 +88,14 @@ export default function ClientDashboard({ user, upcomingBookings, pastBookings }
 
   const statusColors: Record<string, string> = {
     confirmed: "bg-green-100 text-green-700",
+    inquiry: "bg-amber-100 text-amber-700",
     cancelled: "bg-red-100 text-red-700",
     completed: "bg-blue-100 text-blue-700",
   };
 
   const statusLabels: Record<string, string> = {
     confirmed: "Potvrđena",
+    inquiry: "Čeka potvrdu",
     cancelled: "Otkazana",
     completed: "Završena",
   };
@@ -300,18 +302,20 @@ export default function ClientDashboard({ user, upcomingBookings, pastBookings }
                       </div>
                     </div>
                   </div>
-                  <button
-                    onClick={() => setConfirmCancelId(booking.id)}
-                    disabled={cancellingId === booking.id}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-50 text-red-600 text-sm font-medium hover:bg-red-100 transition-colors disabled:opacity-60 shrink-0"
-                  >
-                    {cancellingId === booking.id ? (
-                      <Loader className="w-3.5 h-3.5 animate-spin" />
-                    ) : (
-                      <XCircle className="w-3.5 h-3.5" />
-                    )}
-                    Otkaži
-                  </button>
+                  {booking.status === "confirmed" && (
+                    <button
+                      onClick={() => setConfirmCancelId(booking.id)}
+                      disabled={cancellingId === booking.id}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-50 text-red-600 text-sm font-medium hover:bg-red-100 transition-colors disabled:opacity-60 shrink-0"
+                    >
+                      {cancellingId === booking.id ? (
+                        <Loader className="w-3.5 h-3.5 animate-spin" />
+                      ) : (
+                        <XCircle className="w-3.5 h-3.5" />
+                      )}
+                      Otkaži
+                    </button>
+                  )}
                 </div>
               </div>
             ))}
