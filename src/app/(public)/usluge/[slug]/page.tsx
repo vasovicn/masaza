@@ -6,7 +6,7 @@ import { Clock, Calendar } from "lucide-react";
 export const revalidate = 60;
 
 import { prisma } from "@/lib/prisma";
-import { SALON_NAME } from "@/lib/constants";
+import { SALON_NAME, SALON_PHONE } from "@/lib/constants";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -188,9 +188,12 @@ export default async function ServicePage({ params }: Props) {
                 Zakaži termin{hasDurations ? ` – od ${minPrice.toLocaleString("sr-RS")} RSD` : ""}
               </Link>
             ) : (
-              <div className="flex items-center justify-center gap-2 w-full py-4 rounded-full text-base font-semibold border-2 border-gray-200 text-gray-500">
+              <a
+                href={`tel:${SALON_PHONE}`}
+                className="flex items-center justify-center gap-2 w-full py-4 rounded-full text-base font-semibold border-2 border-gray-200 text-gray-500 hover:border-[#9dceb1] hover:text-[#3a8059] transition-colors"
+              >
                 Kontaktirajte nas za više informacija
-              </div>
+              </a>
             )}
           </div>
         </div>
