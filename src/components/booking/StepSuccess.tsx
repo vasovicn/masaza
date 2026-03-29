@@ -20,10 +20,11 @@ interface BookingData {
 interface Props {
   booking: BookingData;
   isLoggedIn: boolean;
+  isInquiry: boolean;
   onNewBooking: () => void;
 }
 
-export default function StepSuccess({ booking, isLoggedIn, onNewBooking }: Props) {
+export default function StepSuccess({ booking, isLoggedIn, isInquiry, onNewBooking }: Props) {
   const displayDate = new Date(booking.date + "T12:00:00").toLocaleDateString("sr-Latn-RS", {
     weekday: "long",
     day: "numeric",
@@ -41,13 +42,16 @@ export default function StepSuccess({ booking, isLoggedIn, onNewBooking }: Props
       </div>
 
       <h2 className="text-3xl font-bold text-gray-900 mb-3" style={{ fontFamily: "'Playfair Display', serif" }}>
-        Rezervacija potvrđena!
+        {isInquiry ? "Upit je uspešno poslat!" : "Rezervacija potvrđena!"}
       </h2>
       <p className="text-gray-500 mb-8">
-        Vaš termin je uspešno zakazan. Vidimo se uskoro!
+        {isInquiry
+          ? "Dobićete potvrdu termina u najkraćem mogućem roku."
+          : "Vaš termin je uspešno zakazan. Vidimo se uskoro!"}
         {booking.contact.email && (
           <span className="block mt-1 text-sm">
-            Potvrda je poslata na <span className="font-medium">{booking.contact.email}</span>
+            {isInquiry ? "Obaveštenje je poslato na" : "Potvrda je poslata na"}{" "}
+            <span className="font-medium">{booking.contact.email}</span>
           </span>
         )}
       </p>

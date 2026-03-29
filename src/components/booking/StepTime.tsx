@@ -1,17 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Clock } from "lucide-react";
+import { Clock, Send } from "lucide-react";
+import { DIRECT_BOOKING_TIMES } from "@/lib/constants";
 
 interface Props {
   date: string;
   durationId: string;
   durationMinutes: number;
-  onSelect: (time: string) => void;
+  isToday: boolean;
+  onSelect: (time: string, isInquiry: boolean) => void;
   onBack: () => void;
 }
 
-export default function StepTime({ date, durationId, durationMinutes, onSelect, onBack }: Props) {
+export default function StepTime({ date, durationId, durationMinutes, isToday, onSelect, onBack }: Props) {
   const [slots, setSlots] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -36,6 +38,8 @@ export default function StepTime({ date, durationId, durationMinutes, onSelect, 
     month: "long",
   });
 
+  const isDirectSlot = (slot: string) => !isToday && DIRECT_BOOKING_TIMES.includes(slot);
+
   return (
     <div>
       <h2 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -45,6 +49,12 @@ export default function StepTime({ date, durationId, durationMinutes, onSelect, 
         Dostupni termini za <span className="font-medium text-gray-700">{displayDate}</span>
         {" "}· trajanje: {durationMinutes} min
       </p>
+
+      {isToday && (
+        <div className="mb-4 p-3 rounded-xl text-sm" style={{ backgroundColor: "#fef9e7", color: "#92700c" }}>
+          Za danas je moguće samo slanje upita. Potvrdu termina dobićete u najkraćem mogućem roku.
+        </div>
+      )}
 
       {loading && (
         <div className="flex items-center justify-center py-16">
@@ -65,25 +75,43 @@ export default function StepTime({ date, durationId, durationMinutes, onSelect, 
       )}
 
       {!loading && slots.length > 0 && (
-        <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
           {slots.map((slot) => {
+            const isDirect = isDirectSlot(slot);
             const isSelected = selected === slot;
             return (
               <button
                 key={slot}
                 onClick={() => {
                   setSelected(slot);
-                  onSelect(slot);
+                  onSelect(slot, !isDirect);
                 }}
-                className={`py-2.5 rounded-xl text-sm font-medium transition-all hover:scale-105 ${
-                  isSelected ? "text-white shadow-md" : "bg-gray-50 text-gray-700 hover:bg-[#f0f9f4] hover:text-[#3a8059] border border-gray-100"
+                className={`py-2.5 rounded-xl text-sm font-medium transition-all hover:scale-105 flex flex-col items-center gap-0.5 ${
+                  isSelected
+                    ? "text-white shadow-md"
+                    : isDirect
+                    ? "text-[#3a8059] hover:bg-[#e0f2e8] border border-[#c3e4cf]"
+                    : "bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200"
                 }`}
-                style={isSelected ? { backgroundColor: "#5a9e78" } : {}}
+                style={isSelected ? { backgroundColor: isDirect ? "#5a9e78" : "#b8860b" } : isDirect && !isSelected ? { backgroundColor: "#f0f9f4" } : {}}
               >
-                {slot}
+                <span>{slot}</span>
+                {!isDirect && !isSelected && (
+                  <span className="text-[10px] flex items-center gap-0.5 opacity-80">
+                    <Send className="w-2.5 h-2.5" />
+                    upit
+                  </span>
+                )}
               </button>
             );
           })}
+        </div>
+      )}
+
+      {!loading && slots.length > 0 && !isToday && (
+        <div className="mt-4 p-3 rounded-xl text-xs text-gray-500 bg-gray-50">
+          Termini u <span className="font-medium" style={{ color: "#3a8059" }}>zelenom</span> su dostupni za direktno zakazivanje.
+          Za termine označene sa <span className="font-medium text-amber-700">"upit"</span> potrebna je potvrda salona.
         </div>
       )}
 

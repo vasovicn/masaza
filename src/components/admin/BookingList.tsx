@@ -82,16 +82,34 @@ export default function BookingList({ staff }: Props) {
     });
   };
 
+  const [confirmingId, setConfirmingId] = useState<string | null>(null);
+
+  const handleConfirmInquiry = async (id: string) => {
+    setConfirmingId(id);
+    try {
+      await fetch(`/api/admin/bookings/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "confirmed" }),
+      });
+      fetchBookings();
+    } finally {
+      setConfirmingId(null);
+    }
+  };
+
   const statusColors: Record<string, string> = {
     confirmed: "bg-green-100 text-green-700",
     cancelled: "bg-red-100 text-red-700",
     completed: "bg-blue-100 text-blue-700",
+    inquiry: "bg-amber-100 text-amber-700",
   };
 
   const statusLabels: Record<string, string> = {
     confirmed: "Potvrđena",
     cancelled: "Otkazana",
     completed: "Završena",
+    inquiry: "Upit",
   };
 
   return (
@@ -143,6 +161,7 @@ export default function BookingList({ staff }: Props) {
             >
               <option value="">Svi statusi</option>
               <option value="confirmed">Potvrđena</option>
+              <option value="inquiry">Upit</option>
               <option value="cancelled">Otkazana</option>
               <option value="completed">Završena</option>
             </select>
@@ -220,6 +239,33 @@ export default function BookingList({ staff }: Props) {
                     </span>
                   </td>
                   <td className="px-4 py-3 text-right">
+                    {booking.status === "inquiry" && (
+                      <div className="inline-flex gap-1">
+                        <button
+                          onClick={() => handleConfirmInquiry(booking.id)}
+                          disabled={confirmingId === booking.id}
+                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium text-white hover:opacity-90 transition-colors disabled:opacity-60"
+                          style={{ backgroundColor: "#5a9e78" }}
+                        >
+                          {confirmingId === booking.id ? (
+                            <Loader className="w-3 h-3 animate-spin" />
+                          ) : (
+                            "Potvrdi"
+                          )}
+                        </button>
+                        <button
+                          onClick={() => handleCancel(booking.id)}
+                          disabled={cancellingId === booking.id}
+                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-red-50 text-red-600 hover:bg-red-100 transition-colors disabled:opacity-60"
+                        >
+                          {cancellingId === booking.id ? (
+                            <Loader className="w-3 h-3 animate-spin" />
+                          ) : (
+                            "Odbij"
+                          )}
+                        </button>
+                      </div>
+                    )}
                     {booking.status === "confirmed" && (
                       <button
                         onClick={() => handleCancel(booking.id)}

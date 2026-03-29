@@ -76,6 +76,7 @@ export default function BookingCalendar({ staff }: Props) {
   const [loading, setLoading] = useState(true);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
+  const [confirmingId, setConfirmingId] = useState<string | null>(null);
 
   // Create booking state
   const [createModal, setCreateModal] = useState<{ staffId: string; time: string } | null>(null);
@@ -139,6 +140,21 @@ export default function BookingCalendar({ staff }: Props) {
       fetchBookings();
     } finally {
       setCancellingId(null);
+    }
+  };
+
+  const handleConfirmInquiry = async (id: string) => {
+    setConfirmingId(id);
+    try {
+      await fetch(`/api/admin/bookings/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "confirmed" }),
+      });
+      setSelectedBooking(null);
+      fetchBookings();
+    } finally {
+      setConfirmingId(null);
     }
   };
 
@@ -356,6 +372,10 @@ export default function BookingCalendar({ staff }: Props) {
                   {/* Bookings */}
                   {staffBookings.map((booking) => {
                     const style = getBookingStyle(booking);
+                    const isInquiry = booking.status === "inquiry";
+                    const bookingColor = isInquiry
+                      ? { bg: "#f3f4f6", border: "#9ca3af", text: "#4b5563" }
+                      : color;
                     return (
                       <div
                         key={booking.id}
@@ -363,18 +383,20 @@ export default function BookingCalendar({ staff }: Props) {
                         className="absolute left-0.5 right-0.5 rounded px-1 py-0.5 cursor-pointer overflow-hidden hover:opacity-90 transition-opacity"
                         style={{
                           ...style,
-                          backgroundColor: color.bg,
-                          borderLeft: `2px solid ${color.border}`,
+                          backgroundColor: bookingColor.bg,
+                          borderLeft: `2px solid ${bookingColor.border}`,
+                          borderStyle: isInquiry ? "dashed" : "solid",
                           zIndex: 5,
                         }}
                       >
-                        <div className="text-[10px] font-semibold truncate leading-tight" style={{ color: color.text }}>
+                        <div className="text-[10px] font-semibold truncate leading-tight" style={{ color: bookingColor.text }}>
+                          {isInquiry && <span className="text-[8px] font-normal">[UPIT] </span>}
                           {booking.customerName}
                         </div>
-                        <div className="text-[9px] truncate leading-tight" style={{ color: color.text, opacity: 0.8 }}>
+                        <div className="text-[9px] truncate leading-tight" style={{ color: bookingColor.text, opacity: 0.8 }}>
                           {booking.service.name}
                         </div>
-                        <div className="text-[8px] leading-tight" style={{ color: color.text, opacity: 0.7 }}>
+                        <div className="text-[8px] leading-tight" style={{ color: bookingColor.text, opacity: 0.7 }}>
                           {booking.startTime}–{booking.endTime}
                         </div>
                       </div>
@@ -404,7 +426,14 @@ export default function BookingCalendar({ staff }: Props) {
             <button onClick={() => setSelectedBooking(null)} className="absolute top-3 right-3 p-1 rounded-lg hover:bg-gray-100 text-gray-400">
               <X className="w-4 h-4" />
             </button>
-            <h3 className="font-bold text-gray-900 text-lg mb-4">Detalji rezervacije</h3>
+            <h3 className="font-bold text-gray-900 text-lg mb-4">
+              {selectedBooking.status === "inquiry" ? "Detalji upita" : "Detalji rezervacije"}
+            </h3>
+            {selectedBooking.status === "inquiry" && (
+              <div className="mb-4 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium">
+                Upit — čeka potvrdu
+              </div>
+            )}
             <div className="space-y-2.5 text-sm">
               <div className="flex justify-between"><span className="text-gray-500">Klijent</span><span className="font-medium text-gray-900">{selectedBooking.customerName}</span></div>
               <div className="flex justify-between"><span className="text-gray-500">Telefon</span><span className="font-medium text-gray-900">{selectedBooking.customerPhone}</span></div>
@@ -416,6 +445,25 @@ export default function BookingCalendar({ staff }: Props) {
               <div className="flex justify-between"><span className="text-gray-500">Maser</span><span className="font-medium text-gray-900">{selectedBooking.staffUser.firstName} {selectedBooking.staffUser.lastName}</span></div>
               {selectedBooking.notes && <div><span className="text-gray-500 block mb-1">Napomena</span><p className="text-gray-900 bg-gray-50 rounded-lg p-2 text-xs">{selectedBooking.notes}</p></div>}
             </div>
+            {selectedBooking.status === "inquiry" && (
+              <div className="mt-5 flex gap-2">
+                <button
+                  onClick={() => handleConfirmInquiry(selectedBooking.id)}
+                  disabled={confirmingId === selectedBooking.id}
+                  className="flex-1 py-2.5 rounded-xl text-white text-sm font-medium hover:opacity-90 transition-colors disabled:opacity-60"
+                  style={{ backgroundColor: "#5a9e78" }}
+                >
+                  {confirmingId === selectedBooking.id ? <Loader className="w-4 h-4 animate-spin mx-auto" /> : "Potvrdi termin"}
+                </button>
+                <button
+                  onClick={() => handleCancel(selectedBooking.id)}
+                  disabled={cancellingId === selectedBooking.id}
+                  className="flex-1 py-2.5 rounded-xl bg-red-50 text-red-600 text-sm font-medium hover:bg-red-100 transition-colors disabled:opacity-60"
+                >
+                  {cancellingId === selectedBooking.id ? <Loader className="w-4 h-4 animate-spin mx-auto" /> : "Odbij"}
+                </button>
+              </div>
+            )}
             {selectedBooking.status === "confirmed" && (
               <button onClick={() => handleCancel(selectedBooking.id)} disabled={cancellingId === selectedBooking.id} className="mt-5 w-full py-2.5 rounded-xl bg-red-50 text-red-600 text-sm font-medium hover:bg-red-100 transition-colors disabled:opacity-60">
                 {cancellingId === selectedBooking.id ? <Loader className="w-4 h-4 animate-spin mx-auto" /> : "Otkaži rezervaciju"}

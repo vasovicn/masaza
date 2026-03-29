@@ -78,6 +78,89 @@ export async function sendBookingConfirmation(booking: {
   }
 }
 
+export async function sendBookingInquiry(booking: {
+  customerName: string;
+  customerPhone: string;
+  customerEmail?: string | null;
+  serviceName: string;
+  durationMinutes: number;
+  price: number;
+  date: string;
+  startTime: string;
+  endTime: string;
+}) {
+  const transporter = getTransporter();
+
+  const adminHtml = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background-color: #b8860b; padding: 20px; text-align: center;">
+        <h1 style="color: white; margin: 0;">${SALON_NAME}</h1>
+        <p style="color: white; margin: 5px 0;">Nov upit za termin</p>
+      </div>
+      <div style="padding: 30px; background: #f9f9f9;">
+        <h2 style="color: #333;">Nov upit za termin</h2>
+        <p style="color: #666;">Klijent je poslao upit za termin koji zahteva vašu potvrdu.</p>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Ime i prezime:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.customerName}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Telefon:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.customerPhone}</td></tr>
+          ${booking.customerEmail ? `<tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Email:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.customerEmail}</td></tr>` : ""}
+          <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Usluga:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.serviceName}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Trajanje:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.durationMinutes} min</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Cena:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.price.toLocaleString("sr-RS")} RSD</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Željeni datum:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.date}</td></tr>
+          <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Željeno vreme:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.startTime} - ${booking.endTime}</td></tr>
+        </table>
+      </div>
+    </div>
+  `;
+
+  // Send to admin
+  try {
+    await transporter.sendMail({
+      from: `"${SALON_NAME}" <${process.env.SMTP_USER || SALON_EMAIL}>`,
+      to: ADMIN_EMAIL,
+      subject: `Nov upit za termin - ${booking.customerName} - ${booking.date} ${booking.startTime}`,
+      html: adminHtml,
+    });
+  } catch (e) {
+    console.error("Failed to send admin inquiry email:", e);
+  }
+
+  // Send to client if email provided
+  if (booking.customerEmail) {
+    const clientHtml = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background-color: #9dceb1; padding: 20px; text-align: center;">
+          <h1 style="color: white; margin: 0;">${SALON_NAME}</h1>
+          <p style="color: white; margin: 5px 0;">Vaš upit je primljen</p>
+        </div>
+        <div style="padding: 30px; background: #f9f9f9;">
+          <h2 style="color: #333;">Vaš upit je primljen!</h2>
+          <p style="color: #666;">Javićemo vam u najkraćem mogućem roku sa potvrdom termina.</p>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Usluga:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.serviceName}</td></tr>
+            <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Trajanje:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.durationMinutes} min</td></tr>
+            <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Željeni datum:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.date}</td></tr>
+            <tr><td style="padding: 8px; border-bottom: 1px solid #eee; color: #666;">Željeno vreme:</td><td style="padding: 8px; border-bottom: 1px solid #eee; font-weight: bold;">${booking.startTime} - ${booking.endTime}</td></tr>
+          </table>
+          <p style="color: #666; margin-top: 20px;">Za sva pitanja kontaktirajte nas na ${SALON_EMAIL}.</p>
+        </div>
+      </div>
+    `;
+
+    try {
+      await transporter.sendMail({
+        from: `"${SALON_NAME}" <${process.env.SMTP_USER || SALON_EMAIL}>`,
+        to: booking.customerEmail,
+        subject: `Vaš upit je primljen - ${SALON_NAME}`,
+        html: clientHtml,
+      });
+    } catch (e) {
+      console.error("Failed to send client inquiry email:", e);
+    }
+  }
+}
+
 export async function sendVerificationEmail(email: string, token: string) {
   const transporter = getTransporter();
   const baseUrl = process.env.SITE_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://masazabalans.rs";

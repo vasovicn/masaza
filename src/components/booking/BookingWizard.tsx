@@ -34,6 +34,7 @@ interface BookingState {
   date: string;
   time: string;
   endTime: string;
+  isInquiry: boolean;
   contact: {
     firstName: string;
     lastName: string;
@@ -61,6 +62,7 @@ export default function BookingWizard() {
     date: "",
     time: "",
     endTime: "",
+    isInquiry: false,
     contact: null,
   });
 
@@ -119,9 +121,9 @@ export default function BookingWizard() {
     setStep(3);
   };
 
-  const handleTimeSelect = (time: string) => {
+  const handleTimeSelect = (time: string, isInquiry: boolean) => {
     const endTime = state.duration ? addMinutes(time, state.duration.minutes) : "";
-    setState((prev) => ({ ...prev, time, endTime }));
+    setState((prev) => ({ ...prev, time, endTime, isInquiry }));
     setStep(4);
   };
 
@@ -144,6 +146,7 @@ export default function BookingWizard() {
           customerPhone: contact.phone,
           customerEmail: contact.email || undefined,
           notes: contact.notes || undefined,
+          ...(state.isInquiry ? { status: "inquiry" } : {}),
         }),
       });
 
@@ -166,6 +169,7 @@ export default function BookingWizard() {
       date: "",
       time: "",
       endTime: "",
+      isInquiry: false,
       contact: null,
     });
     setStep(0);
@@ -254,6 +258,7 @@ export default function BookingWizard() {
             date={state.date}
             durationId={state.duration.id}
             durationMinutes={state.duration.minutes}
+            isToday={state.date === new Date().toISOString().split("T")[0]}
             onSelect={handleTimeSelect}
             onBack={() => setStep(2)}
           />
@@ -270,6 +275,7 @@ export default function BookingWizard() {
               onBack={() => setStep(3)}
               loading={submitLoading}
               prefill={user || undefined}
+              isInquiry={state.isInquiry}
             />
           </>
         )}
@@ -284,6 +290,7 @@ export default function BookingWizard() {
               contact: state.contact,
             }}
             isLoggedIn={!!user}
+            isInquiry={state.isInquiry}
             onNewBooking={handleNewBooking}
           />
         )}

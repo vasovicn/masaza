@@ -12,4 +12,5 @@ export const WORKING_HOURS = {
 };
 
 export const SLOT_INTERVAL = 30; // minutes
+export const DIRECT_BOOKING_TIMES = ["11:00", "15:00", "16:30"];
 export const BRAND_COLOR = "#5a9e78";

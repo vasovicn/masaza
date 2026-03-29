@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { addMinutes, timeToMinutes, roundUpToSlot, createBookingSafe } from "@/lib/slots";
-import { sendBookingConfirmation } from "@/lib/mailer";
+import { sendBookingConfirmation, sendBookingInquiry } from "@/lib/mailer";
 import { verifyClientToken } from "@/lib/auth";
 import { WORKING_HOURS } from "@/lib/constants";
 
@@ -18,7 +18,10 @@ export async function POST(request: NextRequest) {
       customerPhone,
       customerEmail,
       notes,
+      status: requestedStatus,
     } = body;
+
+    const isInquiry = requestedStatus === "inquiry";
 
     // Validate required fields
     if (!serviceId || !serviceDurationId || !date || !startTime || !customerName || !customerPhone) {
@@ -47,11 +50,79 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Termin je van radnog vremena" }, { status: 400 });
     }
 
-    // Determine staff
+    // Get client user if logged in
+    let clientUserId: string | null = null;
+    const clientToken = request.cookies.get("client_token")?.value;
+    if (clientToken) {
+      const payload = await verifyClientToken(clientToken);
+      if (payload) {
+        clientUserId = payload.id as string;
+
+        // Save phone number to profile if the user doesn't have one yet
+        if (customerPhone) {
+          const client = await prisma.clientUser.findUnique({
+            where: { id: clientUserId },
+            select: { phone: true },
+          });
+          if (client && !client.phone) {
+            await prisma.clientUser.update({
+              where: { id: clientUserId },
+              data: { phone: customerPhone },
+            });
+          }
+        }
+      }
+    }
+
+    if (isInquiry) {
+      // For inquiries: assign first active staff as placeholder, no conflict check
+      const firstStaff = await prisma.staffUser.findFirst({
+        where: { active: true, role: "maser" },
+        orderBy: { sequence: "asc" },
+      });
+
+      if (!firstStaff) {
+        return NextResponse.json({ error: "Nema aktivnih masera" }, { status: 500 });
+      }
+
+      const booking = await prisma.booking.create({
+        data: {
+          customerName,
+          customerPhone,
+          customerEmail: customerEmail || null,
+          clientUserId,
+          serviceId,
+          serviceDurationId,
+          date,
+          startTime,
+          endTime,
+          staffUserId: firstStaff.id,
+          notes: notes || null,
+          status: "inquiry",
+        },
+        include: { service: true, serviceDuration: true, staffUser: true },
+      });
+
+      // Send inquiry email (non-blocking)
+      sendBookingInquiry({
+        customerName: booking.customerName,
+        customerPhone: booking.customerPhone,
+        customerEmail: booking.customerEmail,
+        serviceName: booking.service.name,
+        durationMinutes: booking.serviceDuration.minutes,
+        price: booking.serviceDuration.price,
+        date: booking.date,
+        startTime: booking.startTime,
+        endTime: booking.endTime,
+      }).catch(console.error);
+
+      return NextResponse.json({ booking, success: true }, { status: 201 });
+    }
+
+    // Regular booking flow: determine staff
     let selectedStaffId = staffUserId;
 
     if (!selectedStaffId) {
-      // Auto-assign: find first available staff
       const allStaff = await prisma.staffUser.findMany({
         where: { active: true, role: "maser" },
         orderBy: { sequence: "asc" },
@@ -79,30 +150,6 @@ export async function POST(request: NextRequest) {
 
       if (!selectedStaffId) {
         return NextResponse.json({ error: "Nema dostupnih masera za izabrani termin" }, { status: 409 });
-      }
-    }
-
-    // Get client user if logged in
-    let clientUserId: string | null = null;
-    const clientToken = request.cookies.get("client_token")?.value;
-    if (clientToken) {
-      const payload = await verifyClientToken(clientToken);
-      if (payload) {
-        clientUserId = payload.id as string;
-
-        // Save phone number to profile if the user doesn't have one yet
-        if (customerPhone) {
-          const client = await prisma.clientUser.findUnique({
-            where: { id: clientUserId },
-            select: { phone: true },
-          });
-          if (client && !client.phone) {
-            await prisma.clientUser.update({
-              where: { id: clientUserId },
-              data: { phone: customerPhone },
-            });
-          }
-        }
       }
     }
 

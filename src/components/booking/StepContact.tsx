@@ -16,9 +16,10 @@ interface Props {
   onBack: () => void;
   loading: boolean;
   prefill?: { firstName?: string; lastName?: string; email?: string; phone?: string };
+  isInquiry?: boolean;
 }
 
-export default function StepContact({ onSubmit, onBack, loading, prefill }: Props) {
+export default function StepContact({ onSubmit, onBack, loading, prefill, isInquiry }: Props) {
   const [form, setForm] = useState<ContactInfo>({
     firstName: prefill?.firstName || "",
     lastName: prefill?.lastName || "",
@@ -150,7 +151,7 @@ export default function StepContact({ onSubmit, onBack, loading, prefill }: Prop
             ) : (
               <>
                 <Send className="w-4 h-4" />
-                Potvrdi rezervaciju
+                {isInquiry ? "Pošalji upit" : "Potvrdi rezervaciju"}
               </>
             )}
           </button>
