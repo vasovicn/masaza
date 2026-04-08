@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Plus, Trash2, Save, X } from "lucide-react";
+import { useState, useRef } from "react";
+import { Plus, Trash2, Save, X, Upload, Link } from "lucide-react";
 
 function generateSlug(name: string): string {
   return name
@@ -60,6 +60,9 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
     durations: initial?.durations || [{ minutes: 60, price: 3000, label: "" }],
   });
   const [error, setError] = useState("");
+  const [imageMode, setImageMode] = useState<"url" | "upload">("url");
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Auto-generate slug when name changes (only for new services)
   const handleNameChange = (name: string) => {
@@ -90,6 +93,26 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
       ...prev,
       durations: prev.durations.map((d, i) => (i === index ? { ...d, [field]: value } : d)),
     }));
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    setError("");
+    try {
+      const formData = new FormData();
+      formData.append("files", file);
+      const res = await fetch("/api/admin/upload?folder=services", { method: "POST", body: formData });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Greška pri uploadu");
+      setForm((prev) => ({ ...prev, image: data.urls[0] }));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Greška pri uploadu slike");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -180,14 +203,56 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
         </div>
 
         <div className="sm:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">URL slike</label>
-          <input
-            type="url"
-            value={form.image}
-            onChange={(e) => setForm({ ...form, image: e.target.value })}
-            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#9dceb1] text-sm"
-            placeholder="https://..."
-          />
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">Slika</label>
+          <div className="flex gap-2 mb-2">
+            <button
+              type="button"
+              onClick={() => setImageMode("upload")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${imageMode === "upload" ? "bg-[#9dceb1] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+            >
+              <Upload className="w-3.5 h-3.5" />
+              Upload
+            </button>
+            <button
+              type="button"
+              onClick={() => setImageMode("url")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${imageMode === "url" ? "bg-[#9dceb1] text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+            >
+              <Link className="w-3.5 h-3.5" />
+              URL
+            </button>
+          </div>
+          {imageMode === "upload" ? (
+            <div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/avif"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+                className="w-full px-4 py-3 rounded-xl border-2 border-dashed border-gray-200 text-sm text-gray-500 hover:border-[#9dceb1] hover:text-[#5a9e78] transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
+              >
+                {uploading ? (
+                  <><div className="w-4 h-4 border-2 border-[#9dceb1] border-t-transparent rounded-full animate-spin" />Uploading...</>
+                ) : (
+                  <><Upload className="w-4 h-4" />Izaberi sliku sa računara</>
+                )}
+              </button>
+            </div>
+          ) : (
+            <input
+              type="url"
+              value={form.image}
+              onChange={(e) => setForm({ ...form, image: e.target.value })}
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#9dceb1] text-sm"
+              placeholder="https://..."
+            />
+          )}
           {form.image && (
             <div className="mt-2 relative w-full max-w-xs">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -197,6 +262,13 @@ export default function ServiceForm({ initial, categories, onSave, onCancel, loa
                 className="w-full h-40 object-cover rounded-xl border border-gray-200"
                 onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
               />
+              <button
+                type="button"
+                onClick={() => setForm((prev) => ({ ...prev, image: "" }))}
+                className="absolute top-1.5 right-1.5 p-1 bg-white rounded-full shadow text-gray-500 hover:text-red-500 transition-colors"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
             </div>
           )}
         </div>

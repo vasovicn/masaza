@@ -34,13 +34,15 @@ export async function POST(request: NextRequest) {
 
       const ext = path.extname(file.name) || ".jpg";
       const uniqueName = `${Date.now()}-${crypto.randomBytes(6).toString("hex")}${ext}`;
-      const uploadDir = path.join(process.cwd(), "public", "uploads", "gallery");
+      const folderParam = request.nextUrl.searchParams.get("folder");
+      const folder = folderParam === "services" ? "services" : "gallery";
+      const uploadDir = path.join(process.cwd(), "public", "uploads", folder);
       const filePath = path.join(uploadDir, uniqueName);
 
       const buffer = Buffer.from(await file.arrayBuffer());
       await writeFile(filePath, buffer);
 
-      urls.push(`/uploads/gallery/${uniqueName}`);
+      urls.push(`/uploads/${folder}/${uniqueName}`);
     }
 
     return NextResponse.json({ urls });
