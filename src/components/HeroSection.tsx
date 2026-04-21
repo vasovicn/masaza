@@ -59,7 +59,7 @@ export default function HeroSection() {
             {[
               { value: "1000+", label: "Zadovoljnih klijenata" },
               { value: "10+", label: "Vrsta masaža" },
-              { value: "5+", label: "God. iskustva" },
+              { value: "9+", label: "God. iskustva" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="text-2xl font-bold" style={{ color: "#3a8059" }}>

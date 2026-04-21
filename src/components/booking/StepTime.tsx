@@ -56,6 +56,15 @@ export default function StepTime({ date, durationId, durationMinutes, isToday, o
         </div>
       )}
 
+      {!isToday && !loading && slots.length > 0 && !slots.some(isDirectSlot) && (
+        <div className="mb-4 p-3 rounded-xl text-sm flex items-start gap-2" style={{ backgroundColor: "#fef9e7", color: "#92700c" }}>
+          <Send className="w-4 h-4 mt-0.5 flex-shrink-0" />
+          <span>
+            Svi termini su trenutno <span className="font-semibold">na upit</span> — ne rezerviše se direktno. Potvrdu termina dobićete od salona u najkraćem mogućem roku.
+          </span>
+        </div>
+      )}
+
       {loading && (
         <div className="flex items-center justify-center py-16">
           <div className="w-8 h-8 border-3 border-[#9dceb1] border-t-transparent rounded-full animate-spin" style={{ borderWidth: 3 }} />
@@ -108,7 +117,7 @@ export default function StepTime({ date, durationId, durationMinutes, isToday, o
         </div>
       )}
 
-      {!loading && slots.length > 0 && !isToday && (
+      {!loading && slots.length > 0 && !isToday && slots.some(isDirectSlot) && (
         <div className="mt-4 p-3 rounded-xl text-xs text-gray-500 bg-gray-50">
           Termini u <span className="font-medium" style={{ color: "#3a8059" }}>zelenom</span> su dostupni za direktno zakazivanje.
           Za termine označene sa <span className="font-medium text-amber-700">"upit"</span> potrebna je potvrda salona.
